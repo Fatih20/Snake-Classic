@@ -1,4 +1,4 @@
-import { cellCoordinate, makePossibleCoordinate } from "./types";
+import { cellCoordinate, makePossibleCoordinate, oppositeDirectionDictionaryType } from "./types";
 import { gridSize } from "../config";
 import { possibleDirection, directionsPropertyType,
     possibleDirectionKey,
@@ -35,3 +35,10 @@ export const directionsProperty: directionsPropertyType = {
       vectorValue: possibleDirectionVector[3],
     },
   };
+
+export const oppositeDirectionDictionary : oppositeDirectionDictionaryType = {
+    "Up" : "Down",
+    "Down" : "Up",
+    "Left" : "Right",
+    "Right" : "Left"
+}

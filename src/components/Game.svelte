@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { xlink_attr } from "svelte/internal";
-
   import { gridSize, refreshTime } from "../config";
   import {
     cellCoordinate,
@@ -13,6 +11,7 @@
     randomCoordinate,
     randomDirection,
     directionsProperty,
+    oppositeDirectionDictionary,
   } from "../utilities/utilities";
 
   const cellSize = "10px";
@@ -27,6 +26,7 @@
   let headCoordinate: cellCoordinate = randomCoordinate();
 
   let direction = randomDirection();
+  $: oppositeDirection = oppositeDirectionDictionary[direction];
   $: directionVector = directionsProperty[direction].vectorValue;
 
   function mover(
@@ -56,9 +56,13 @@
   }
 
   function handleKeydown(e) {
-    const { key: keyPressed } = e;
+    const { key } = e;
+    const keyPressed = key.toUpperCase();
     Object.values(directionsProperty).forEach(({ key }, index) => {
-      if (keyPressed === key.toLowerCase()) {
+      if (
+        keyPressed === key &&
+        keyPressed !== directionsProperty[oppositeDirection].key
+      ) {
         direction = possibleDirection[index];
       }
     });
