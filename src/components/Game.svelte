@@ -39,11 +39,23 @@
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
 
-  $: randomUniqueCoordinateList = randomUniqueCoordinateGenerator(
+  let allFruitEaten = false;
+  let fruitCoordinateList = randomUniqueCoordinateGenerator(
     wholeSnakeCoordinateList,
     allCoordinateList,
     3
   );
+  $: allFruitEaten = fruitCoordinateList.length === 0;
+  $: {
+    if (allFruitEaten) {
+      fruitCoordinateList = randomUniqueCoordinateGenerator(
+        wholeSnakeCoordinateList,
+        allCoordinateList,
+        3
+      );
+      allFruitEaten = false;
+    }
+  }
 
   function bodyAndTailCoordinateInitialGenerator(
     headCoordinate: cellCoordinate
@@ -121,13 +133,15 @@
       bodyAndTailCoordinateList
     );
     headCoordinate = mover(headCoordinate, directionVector);
-    console.log(
-      randomUniqueCoordinateGenerator(
-        wholeSnakeCoordinateList,
-        allCoordinateList,
-        3
-      )
-    );
+    fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
+      if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
+        fruitCoordinateList = fruitCoordinateList.filter(
+          (fruitCoordinate, indexInner) => {
+            return indexInner !== indexOuter;
+          }
+        );
+      }
+    });
   }, refreshTime);
 </script>
 
@@ -153,13 +167,13 @@
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
     {/each}
-    <!-- {#each randomUniqueCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="cell"
+        class="fruit"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
-    {/each} -->
+    {/each}
   </div>
 </main>
 
@@ -179,5 +193,9 @@
 
   .snake-body {
     background-color: red;
+  }
+
+  .fruit {
+    background-color: green;
   }
 </style>
