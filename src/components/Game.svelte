@@ -166,23 +166,16 @@
     headCoordinate: cellCoordinate,
     bodyAndTailCoordinateList: cellCoordinate[]
   ) {
-    // const { x: referenceX, y: referenceY } = headCoordinate;
-    const headCoordinateStringified = JSON.stringify(headCoordinate);
+    const { x: referenceX, y: referenceY } = headCoordinate;
     let headBiteBody = false;
-    for (const bodyAndTailCoordinate of bodyAndTailCoordinateList) {
-      // const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
-      const bodyAndTailCoordinateStringified = JSON.stringify(
-        bodyAndTailCoordinate
-      );
-      if (
-        JSON.stringify(headCoordinate) === JSON.stringify(bodyAndTailCoordinate)
-      ) {
-        console.log("You lost");
+    bodyAndTailCoordinateList.forEach((bodyAndTailCoordinate) => {
+      const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
+      if (referenceX === comparedX && referenceY === comparedY) {
         headBiteBody = true;
-        break;
+        console.log("You lost");
       }
-      return headBiteBody;
-    }
+    });
+    return headBiteBody;
   }
 
   const mainEventLoop = setInterval(() => {
@@ -207,6 +200,7 @@
     if (allFruitEaten) {
       nthTurnReference += 1;
     }
+
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
       gameOver = true;
     }
@@ -214,9 +208,8 @@
     if (gameOver) {
       clearInterval(mainEventLoop);
     }
-    // console.log(gameOver);
-    // console.log("Game is running");
-    // console.log(wholeSnakeCoordinateList);
+
+    console.log("Game is running");
   }, refreshTime);
 </script>
 
