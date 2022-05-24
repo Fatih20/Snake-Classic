@@ -30,19 +30,35 @@ export function makePossibleVectorValue (candidateVectorValue : number) : direct
 
 export type directionVectorValue = number & {_type_ : "directionVectorValue"}
 
+export type directionVectorTemplateType = {
+  x : directionVectorValue,
+  y : directionVectorValue
+}
 
 export const possibleDirectionVector = [
-  [makePossibleVectorValue(0), makePossibleVectorValue(1)],
-  [makePossibleVectorValue(0), makePossibleVectorValue(-1)],
-  [makePossibleVectorValue(1), makePossibleVectorValue(0)],
-  [makePossibleVectorValue(-1), makePossibleVectorValue(0)],
+  {
+    x : makePossibleVectorValue(0),
+    y : makePossibleVectorValue(1)
+  },
+  {
+    x : makePossibleVectorValue(0),
+    y : makePossibleVectorValue(-1)
+  },
+  {
+    x : makePossibleVectorValue(1),
+    y : makePossibleVectorValue(0)
+  },
+  {
+    x : makePossibleVectorValue(-1),
+    y : makePossibleVectorValue(0)
+  },
  ] as const
 
-export type directionVector = typeof possibleDirectionVector[number];
+export type directionVectorType = typeof possibleDirectionVector[number];
 
 interface directionPropertyType {
   key: directionKey,
-  vectorValue : directionVector
+  vectorValue : directionVectorType
 }
 
 export type directionsPropertyType = Record<direction, directionPropertyType>
