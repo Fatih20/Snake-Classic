@@ -149,7 +149,9 @@
       const bodyAndTailCoordinateStringified = JSON.stringify(
         bodyAndTailCoordinate
       );
-      if (headCoordinateStringified === bodyAndTailCoordinateStringified) {
+      if (
+        JSON.stringify(headCoordinate) === JSON.stringify(bodyAndTailCoordinate)
+      ) {
         console.log("You lost");
         headBiteBody = true;
         break;
@@ -184,9 +186,9 @@
     if (gameOver) {
       clearInterval(mainEventLoop);
     }
-    // console.log(gameOver);
-    // console.log("Game is running");
-    // console.log(wholeSnakeCoordinateList);
+    console.log(gameOver);
+    console.log("Game is running");
+    console.log(wholeSnakeCoordinateList);
   }, refreshTime);
 </script>
 
