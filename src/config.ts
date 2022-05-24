@@ -1,2 +1,2 @@
-export const gridSize = 10;
+export const gridSize = 20;
 export const refreshTime = 1000;

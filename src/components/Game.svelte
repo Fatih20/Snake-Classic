@@ -18,11 +18,6 @@
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
 
-  // const arrayOfCoordinate: cellCoordinate[] = Array.from(
-  //   { length: 1 },
-  //   (_, i) => randomCoordinate()
-  // );
-
   let direction = randomDirection();
   let oppositeDirection = oppositeDirectionDictionary[direction];
   let directionVector = directionsProperty[direction].vectorValue;
@@ -35,7 +30,7 @@
     directionsProperty[oppositeDirection].vectorValue;
 
   let headCoordinate: cellCoordinate = randomCoordinate();
-  let length = 4;
+  let length = 7;
   let bodyAndTailCoordinateList =
     bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
