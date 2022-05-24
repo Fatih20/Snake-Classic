@@ -221,9 +221,9 @@
     style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
-    {#each [headCoordinate] as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="snake-head"
+        class="fruit"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -235,9 +235,9 @@
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
     {/each}
-    {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each [headCoordinate] as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="fruit"
+        class="snake-head"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
