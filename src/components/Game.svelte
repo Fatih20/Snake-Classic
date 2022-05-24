@@ -1,9 +1,15 @@
 <script lang="ts">
   import { gridSize } from "../config";
+  import { cellCoordinate, makePossibleCoordinate } from "../utilities/types";
 
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
+
+  const oneCoordinate: cellCoordinate = [
+    makePossibleCoordinate(1),
+    makePossibleCoordinate(1),
+  ];
 </script>
 
 <main>
