@@ -14,3 +14,7 @@ export type cellCoordinate = {
     x: possibleCoordinateType,
     y : possibleCoordinateType
 };
+
+export const possibleDirection = ["w", "s", "d", "a"] as const;
+
+export type direction = typeof possibleDirection[number]
