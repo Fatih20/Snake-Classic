@@ -1,21 +1,22 @@
 <script lang="ts">
   import { gridSize } from "../config";
-  import {
+  import type {
     cellCoordinate,
     makePossibleCoordinate,
     possibleCoordinateType,
   } from "../utilities/types";
+  import { randomCoordinate } from "../utilities/utilities";
 
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
 
-  const arrayOfCoordinate: cellCoordinate[] = [
-    { x: makePossibleCoordinate(1), y: makePossibleCoordinate(2) },
-    { x: makePossibleCoordinate(3), y: makePossibleCoordinate(9) },
-    { x: makePossibleCoordinate(4), y: makePossibleCoordinate(5) },
-    { x: makePossibleCoordinate(6), y: makePossibleCoordinate(7) },
-  ];
+  const arrayOfCoordinate: cellCoordinate[] = Array.from(
+    { length: 11 },
+    (_, i) => randomCoordinate()
+  );
+
+  console.log(arrayOfCoordinate);
 </script>
 
 <main>
