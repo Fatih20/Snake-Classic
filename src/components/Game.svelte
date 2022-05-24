@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { gridSize, numberOfFoodSpawned, refreshTime } from "../config";
+  import {
+    gridSize,
+    numberOfFruitSpawned,
+    refreshTime,
+    turnIntervalBetweenFruitSpawn,
+  } from "../config";
   import {
     cellCoordinate,
     directionVectorType,
@@ -43,19 +48,22 @@
   let fruitCoordinateList = randomUniqueCoordinateGenerator(
     wholeSnakeCoordinateList,
     allCoordinateList,
-    numberOfFoodSpawned
+    numberOfFruitSpawned
   );
   $: allFruitEaten = fruitCoordinateList.length === 0;
   $: {
-    if (allFruitEaten) {
+    if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
       fruitCoordinateList = randomUniqueCoordinateGenerator(
         wholeSnakeCoordinateList,
         allCoordinateList,
-        numberOfFoodSpawned
+        numberOfFruitSpawned
       );
+      nthTurnReference = 0;
       allFruitEaten = false;
     }
   }
+
+  let nthTurnReference = 0;
 
   let gameOver = false;
 
@@ -165,6 +173,10 @@
         );
       }
     });
+
+    if (allFruitEaten) {
+      nthTurnReference += 1;
+    }
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
       gameOver = true;
     }
@@ -172,9 +184,9 @@
     if (gameOver) {
       clearInterval(mainEventLoop);
     }
-    console.log(gameOver);
-    console.log("Game is running");
-    console.log(wholeSnakeCoordinateList);
+    // console.log(gameOver);
+    // console.log("Game is running");
+    // console.log(wholeSnakeCoordinateList);
   }, refreshTime);
 </script>
 
