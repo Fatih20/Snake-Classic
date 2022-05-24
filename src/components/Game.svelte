@@ -23,11 +23,54 @@
   //   (_, i) => randomCoordinate()
   // );
 
-  let headCoordinate: cellCoordinate = randomCoordinate();
-
   let direction = randomDirection();
+  let oppositeDirection = oppositeDirectionDictionary[direction];
+  let directionVector = directionsProperty[direction].vectorValue;
+  let oppositeDirectionVector =
+    directionsProperty[oppositeDirection].vectorValue;
+
   $: oppositeDirection = oppositeDirectionDictionary[direction];
   $: directionVector = directionsProperty[direction].vectorValue;
+  $: oppositeDirectionVector =
+    directionsProperty[oppositeDirection].vectorValue;
+
+  let headCoordinate: cellCoordinate = randomCoordinate();
+  let length = 4;
+  let bodyAndTailCoordinateList =
+    bodyAndTailCoordinateInitialGenerator(headCoordinate);
+  let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
+  $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
+
+  function bodyAndTailCoordinateInitialGenerator(
+    headCoordinate: cellCoordinate
+  ) {
+    let bodyAndTailCoordinateList: cellCoordinate[] = [];
+    let referenceCoordinate = headCoordinate;
+    for (let i = 0; i < length; i++) {
+      if (i !== 0) {
+        referenceCoordinate = bodyAndTailCoordinateList[i - 1];
+      }
+
+      bodyAndTailCoordinateList.push(
+        mover(referenceCoordinate, oppositeDirectionVector)
+      );
+    }
+
+    return bodyAndTailCoordinateList;
+  }
+
+  function bodyAndTailCoordinateUpdater(
+    headCoordinate: cellCoordinate,
+    bodyAndTailCoordinateList: cellCoordinate[]
+  ) {
+    return bodyAndTailCoordinateList.map((coordinate, index) => {
+      if (index === 0) {
+        return headCoordinate;
+      } else {
+        return bodyAndTailCoordinateList[index - 1];
+      }
+    });
+  }
 
   function mover(
     movedCoordinate: cellCoordinate,
@@ -69,7 +112,12 @@
   }
 
   setInterval(() => {
+    bodyAndTailCoordinateList = bodyAndTailCoordinateUpdater(
+      headCoordinate,
+      bodyAndTailCoordinateList
+    );
     headCoordinate = mover(headCoordinate, directionVector);
+    console.log(wholeSnakeCoordinateList);
   }, refreshTime);
 </script>
 
@@ -81,19 +129,19 @@
     style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
-    <div
+    <!-- <div
       class="cell"
       style:grid-column={`${headCoordinate.x}/${headCoordinate.x + 1}`}
       style:grid-row={`${headCoordinate.y}/${headCoordinate.y + 1}`}
-    />
+    /> -->
 
-    <!-- {#each arrayOfCoordinate as coordinate}
+    {#each wholeSnakeCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class="cell"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
-    {/each} -->
+    {/each}
   </div>
 </main>
 
