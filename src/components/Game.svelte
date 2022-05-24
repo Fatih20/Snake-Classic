@@ -57,6 +57,8 @@
     }
   }
 
+  let gameOver = false;
+
   function bodyAndTailCoordinateInitialGenerator(
     headCoordinate: cellCoordinate
   ) {
@@ -127,7 +129,28 @@
     });
   }
 
-  setInterval(() => {
+  function checkIfHeadBiteBody(
+    headCoordinate: cellCoordinate,
+    bodyAndTailCoordinateList: cellCoordinate[]
+  ) {
+    // const { x: referenceX, y: referenceY } = headCoordinate;
+    const headCoordinateStringified = JSON.stringify(headCoordinate);
+    let headBiteBody = false;
+    for (const bodyAndTailCoordinate of bodyAndTailCoordinateList) {
+      // const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
+      const bodyAndTailCoordinateStringified = JSON.stringify(
+        bodyAndTailCoordinate
+      );
+      if (headCoordinateStringified === bodyAndTailCoordinateStringified) {
+        console.log("You lost");
+        headBiteBody = true;
+        break;
+      }
+      return headBiteBody;
+    }
+  }
+
+  const mainEventLoop = setInterval(() => {
     bodyAndTailCoordinateList = bodyAndTailCoordinateUpdater(
       headCoordinate,
       bodyAndTailCoordinateList
@@ -142,6 +165,16 @@
         );
       }
     });
+    if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
+      gameOver = true;
+    }
+
+    if (gameOver) {
+      clearInterval(mainEventLoop);
+    }
+    console.log(gameOver);
+    console.log("Game is running");
+    console.log(wholeSnakeCoordinateList);
   }, refreshTime);
 </script>
 
