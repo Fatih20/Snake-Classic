@@ -10,7 +10,7 @@ export function makePossibleCoordinate(
     }
   }
 export type possibleCoordinateType = number & { _type_: "possibleCoordinateType" };
-export type cellCoordinate = readonly [
-    possibleCoordinateType,
-    possibleCoordinateType
-  ];
+export type cellCoordinate = {
+    x: possibleCoordinateType,
+    y : possibleCoordinateType
+};
