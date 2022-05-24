@@ -38,11 +38,11 @@ export type directionVectorTemplateType = {
 export const possibleDirectionVector = [
   {
     x : makePossibleVectorValue(0),
-    y : makePossibleVectorValue(1)
+    y : makePossibleVectorValue(-1)
   },
   {
     x : makePossibleVectorValue(0),
-    y : makePossibleVectorValue(-1)
+    y : makePossibleVectorValue(1)
   },
   {
     x : makePossibleVectorValue(1),
@@ -66,3 +66,5 @@ export type directionsPropertyType = Record<direction, directionPropertyType>
 // Direction is Up, Down, Right, Left
 // DirectionVector is the element in possibleDirectionVector
 // Direction key is "W", "S", "D", "A"
+
+export type oppositeDirectionDictionaryType = Record<direction, direction>
