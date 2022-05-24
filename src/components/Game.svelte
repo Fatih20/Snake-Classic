@@ -7,6 +7,7 @@
     directionVectorType,
     makePossibleCoordinate,
     possibleCoordinateType,
+    possibleDirection,
   } from "../utilities/types";
   import {
     randomCoordinate,
@@ -55,7 +56,12 @@
   }
 
   function handleKeydown(e) {
-    console.log(e);
+    const { key: keyPressed } = e;
+    Object.values(directionsProperty).forEach(({ key }, index) => {
+      if (keyPressed === key.toLowerCase()) {
+        direction = possibleDirection[index];
+      }
+    });
   }
 
   setInterval(() => {
