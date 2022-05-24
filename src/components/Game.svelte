@@ -1,14 +1,20 @@
 <script lang="ts">
   import { gridSize } from "../config";
-  import { cellCoordinate, makePossibleCoordinate } from "../utilities/types";
+  import {
+    cellCoordinate,
+    makePossibleCoordinate,
+    possibleCoordinateType,
+  } from "../utilities/types";
 
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
 
-  const oneCoordinate: cellCoordinate = [
-    makePossibleCoordinate(1),
-    makePossibleCoordinate(1),
+  const arrayOfCoordinate: cellCoordinate[] = [
+    { x: makePossibleCoordinate(1), y: makePossibleCoordinate(2) },
+    { x: makePossibleCoordinate(3), y: makePossibleCoordinate(9) },
+    { x: makePossibleCoordinate(4), y: makePossibleCoordinate(5) },
+    { x: makePossibleCoordinate(6), y: makePossibleCoordinate(7) },
   ];
 </script>
 
@@ -18,9 +24,13 @@
     style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
-    <div class="mock-item first" />
-    <div class="mock-item second" />
-    <div class="mock-item third" />
+    {#each arrayOfCoordinate as coordinate}
+      <div
+        class="cell"
+        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
+        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
+      />
+    {/each}
   </div>
 </main>
 
@@ -34,23 +44,8 @@
     gap: 0;
   }
 
-  .mock-item {
+  .cell {
     background-color: yellow;
     border: solid 1px black;
-  }
-
-  .first {
-    grid-column: 1/2;
-    grid-row: 2/3;
-  }
-
-  .second {
-    grid-row: 1/2;
-    grid-column: 3/4;
-  }
-
-  .third {
-    grid-column: 9/10;
-    grid-row: 3/4;
   }
 </style>
