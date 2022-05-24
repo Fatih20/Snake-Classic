@@ -2,6 +2,7 @@
   import {
     gridSize,
     numberOfFruitSpawned,
+    numberOfTailAddedAfterEating,
     refreshTime,
     turnIntervalBetweenFruitSpawn,
   } from "../config";
@@ -19,6 +20,7 @@
     oppositeDirectionDictionary,
     allCoordinateMaker,
     randomUniqueCoordinateGenerator,
+    positionRelativeTo,
   } from "../utilities/utilities";
 
   const cellSize = "10px";
@@ -86,16 +88,39 @@
   }
 
   function bodyAndTailCoordinateUpdater(
-    headCoordinate: cellCoordinate,
-    bodyAndTailCoordinateList: cellCoordinate[]
+    wholeSnakeCoordinateList: cellCoordinate[],
+    addNewTail: boolean,
+    howManyTail: number = 0
   ) {
-    return bodyAndTailCoordinateList.map((coordinate, index) => {
-      if (index === 0) {
-        return headCoordinate;
-      } else {
-        return bodyAndTailCoordinateList[index - 1];
+    let newBodyAndTailCoordinateList = wholeSnakeCoordinateList
+      .slice(1)
+      .map((coordinate, index) => {
+        if (index === 0) {
+          return headCoordinate;
+        } else {
+          return bodyAndTailCoordinateList[index - 1];
+        }
+      });
+
+    let newTailCoordinateList = [] as cellCoordinate[];
+    if (addNewTail) {
+      const tailDirection = positionRelativeTo(
+        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
+        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
+      );
+      const directionVectorFromLastTail =
+        directionsProperty[tailDirection].vectorValue;
+      console.log(tailDirection);
+      let lastTail =
+        newBodyAndTailCoordinateList[newBodyAndTailCoordinateList.length - 1];
+      for (let i = 0; i < howManyTail; i++) {
+        let newTail = mover(lastTail, directionVectorFromLastTail);
+        newTailCoordinateList.push(newTail);
+        lastTail = newTailCoordinateList[newTailCoordinateList.length - 1];
       }
-    });
+    }
+
+    return [...newBodyAndTailCoordinateList, ...newTailCoordinateList];
   }
 
   function mover(
@@ -161,13 +186,10 @@
   }
 
   const mainEventLoop = setInterval(() => {
-    bodyAndTailCoordinateList = bodyAndTailCoordinateUpdater(
-      headCoordinate,
-      bodyAndTailCoordinateList
-    );
-    headCoordinate = mover(headCoordinate, directionVector);
+    let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
+        justAteFruit = true;
         fruitCoordinateList = fruitCoordinateList.filter(
           (fruitCoordinate, indexInner) => {
             return indexInner !== indexOuter;
@@ -175,6 +197,12 @@
         );
       }
     });
+    bodyAndTailCoordinateList = bodyAndTailCoordinateUpdater(
+      wholeSnakeCoordinateList,
+      justAteFruit,
+      numberOfTailAddedAfterEating
+    );
+    headCoordinate = mover(headCoordinate, directionVector);
 
     if (allFruitEaten) {
       nthTurnReference += 1;
@@ -186,9 +214,9 @@
     if (gameOver) {
       clearInterval(mainEventLoop);
     }
-    console.log(gameOver);
-    console.log("Game is running");
-    console.log(wholeSnakeCoordinateList);
+    // console.log(gameOver);
+    // console.log("Game is running");
+    // console.log(wholeSnakeCoordinateList);
   }, refreshTime);
 </script>
 

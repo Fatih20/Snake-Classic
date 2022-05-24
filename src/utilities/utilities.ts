@@ -1,4 +1,4 @@
-import { cellCoordinate, makePossibleCoordinate, oppositeDirectionDictionaryType } from "./types";
+import { cellCoordinate, direction, directionVectorType, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
 import { gridSize } from "../config";
 import { possibleDirection, directionsPropertyType,
     possibleDirectionKey,
@@ -47,19 +47,6 @@ export const oppositeDirectionDictionary : oppositeDirectionDictionaryType = {
     "Right" : "Left"
 }
 
-function setDifference (set1 : Set<any>, set2 : Set<any>){
-    let differenceSet = new Set()
-    set1.forEach((element) => 
-    {
-        if (!set2.has(element)) {
-            differenceSet.add(element)
-        }
-    }
-    )
-
-    return differenceSet;
-}
-
 export function allCoordinateMaker (gridSize : number) {
     let allCoordinateList = [] as cellCoordinate[];
     for (let i = 1; i <= gridSize; i++) {
@@ -95,5 +82,27 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
         }
         return randomUniqueCoordinateList;
     }
+}
+
+export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : cellCoordinate) {
+    const {x : x1, y : y1} = coordinate1;
+    const {x : x2, y : y2} = coordinate2;
+    const incrementX = makePossibleVectorValue(x2 - x1);
+    const incrementY = makePossibleVectorValue(y2 - y1);
+    const directionVectorOneToTwo = <directionVectorType>{x : incrementX, y : incrementY};
+    console.log(directionVectorOneToTwo);
+    let returnedDirection : direction = "Up";
+    Object.keys(directionsProperty).forEach((directionName : direction) => {
+        const candidatedirectionVector = directionsProperty[directionName].vectorValue
+        console.log(candidatedirectionVector);
+        const {x : referenceX, y : referenceY} = candidatedirectionVector;
+        if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
+            console.log(directionVectorOneToTwo.x === referenceX)
+            console.log(directionVectorOneToTwo.y === referenceY)
+            returnedDirection = directionName;
+        }
+    })
+
+    return returnedDirection;
 }
 
