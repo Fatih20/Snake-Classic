@@ -5,17 +5,23 @@
     makePossibleCoordinate,
     possibleCoordinateType,
   } from "../utilities/types";
-  import { randomCoordinate } from "../utilities/utilities";
+  import {
+    randomCoordinate,
+    randomDirection,
+    directionsProperty,
+  } from "../utilities/utilities";
 
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
 
   const arrayOfCoordinate: cellCoordinate[] = Array.from(
-    { length: 11 },
+    { length: 1 },
     (_, i) => randomCoordinate()
   );
 
+  let direction = randomDirection();
+  $: directionVectorValue = directionsProperty[direction].vectorValue;
   console.log(arrayOfCoordinate);
 </script>
 

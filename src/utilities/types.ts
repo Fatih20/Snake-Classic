@@ -15,6 +15,38 @@ export type cellCoordinate = {
     y : possibleCoordinateType
 };
 
-export const possibleDirection = ["w", "s", "d", "a"] as const;
+export const possibleDirection = ["Up", "Down", "Right", "Left"] as const;
+export const possibleDirectionKey = ["W", "S", "D", "A"] as const;
+export type direction = typeof possibleDirection[number];
+export type directionKey = typeof possibleDirectionKey[number];
 
-export type direction = typeof possibleDirection[number]
+export function makePossibleVectorValue (candidateVectorValue : number) : directionVectorValue{
+  if (candidateVectorValue >= -1 && candidateVectorValue <= 1) {
+    return candidateVectorValue as directionVectorValue
+  } else {
+    throw new Error("This is not a valid direction vector value");
+  }
+}
+
+export type directionVectorValue = number & {_type_ : "directionVectorValue"}
+
+
+export const possibleDirectionVector = [
+  [makePossibleVectorValue(0), makePossibleVectorValue(1)],
+  [makePossibleVectorValue(0), makePossibleVectorValue(-1)],
+  [makePossibleVectorValue(1), makePossibleVectorValue(0)],
+  [makePossibleVectorValue(-1), makePossibleVectorValue(0)],
+ ] as const
+
+export type directionVector = typeof possibleDirectionVector[number];
+
+interface directionPropertyType {
+  key: directionKey,
+  vectorValue : directionVector
+}
+
+export type directionsPropertyType = Record<direction, directionPropertyType>
+
+// Direction is Up, Down, Right, Left
+// DirectionVector is the element in possibleDirectionVector
+// Direction key is "W", "S", "D", "A"
