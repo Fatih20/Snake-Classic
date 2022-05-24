@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gridSize, refreshTime } from "../config";
+  import { gridSize, numberOfFoodSpawned, refreshTime } from "../config";
   import {
     cellCoordinate,
     directionVectorType,
@@ -43,7 +43,7 @@
   let fruitCoordinateList = randomUniqueCoordinateGenerator(
     wholeSnakeCoordinateList,
     allCoordinateList,
-    3
+    numberOfFoodSpawned
   );
   $: allFruitEaten = fruitCoordinateList.length === 0;
   $: {
@@ -51,7 +51,7 @@
       fruitCoordinateList = randomUniqueCoordinateGenerator(
         wholeSnakeCoordinateList,
         allCoordinateList,
-        3
+        numberOfFoodSpawned
       );
       allFruitEaten = false;
     }
