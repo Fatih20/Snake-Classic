@@ -139,20 +139,27 @@
     style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
-    {#each wholeSnakeCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each [headCoordinate] as coordinate (`${coordinate.x} ${coordinate.y}`)}
+      <div
+        class="snake-head"
+        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
+        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
+      />
+    {/each}
+    {#each bodyAndTailCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+      <div
+        class="snake-body"
+        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
+        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
+      />
+    {/each}
+    <!-- {#each randomUniqueCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class="cell"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
-    {/each}
-    {#each randomUniqueCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
-      <div
-        class="cell"
-        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
-        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
-      />
-    {/each}
+    {/each} -->
   </div>
 </main>
 
@@ -166,8 +173,11 @@
     gap: 0;
   }
 
-  .cell {
-    background-color: yellow;
-    border: solid 1px black;
+  .snake-head {
+    background-color: black;
+  }
+
+  .snake-body {
+    background-color: red;
   }
 </style>
