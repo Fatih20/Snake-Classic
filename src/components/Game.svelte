@@ -12,12 +12,15 @@
     randomDirection,
     directionsProperty,
     oppositeDirectionDictionary,
+    allCoordinateMaker,
+    randomUniqueCoordinateGenerator,
   } from "../utilities/utilities";
 
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
 
+  let allCoordinateList = allCoordinateMaker(gridSize);
   let direction = randomDirection();
   let oppositeDirection = oppositeDirectionDictionary[direction];
   let directionVector = directionsProperty[direction].vectorValue;
@@ -35,6 +38,12 @@
     bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
+
+  $: randomUniqueCoordinateList = randomUniqueCoordinateGenerator(
+    wholeSnakeCoordinateList,
+    allCoordinateList,
+    3
+  );
 
   function bodyAndTailCoordinateInitialGenerator(
     headCoordinate: cellCoordinate
@@ -112,7 +121,13 @@
       bodyAndTailCoordinateList
     );
     headCoordinate = mover(headCoordinate, directionVector);
-    console.log(wholeSnakeCoordinateList);
+    console.log(
+      randomUniqueCoordinateGenerator(
+        wholeSnakeCoordinateList,
+        allCoordinateList,
+        3
+      )
+    );
   }, refreshTime);
 </script>
 
@@ -124,13 +139,14 @@
     style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
-    <!-- <div
-      class="cell"
-      style:grid-column={`${headCoordinate.x}/${headCoordinate.x + 1}`}
-      style:grid-row={`${headCoordinate.y}/${headCoordinate.y + 1}`}
-    /> -->
-
     {#each wholeSnakeCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+      <div
+        class="cell"
+        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
+        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
+      />
+    {/each}
+    {#each randomUniqueCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class="cell"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
