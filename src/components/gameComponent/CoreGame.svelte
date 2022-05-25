@@ -291,15 +291,12 @@
     width: 100%;
   }
 
+  .snake-body,
   .snake-head {
-    background-color: black;
-  }
-
-  .snake-body {
-    background-color: red;
+    background-color: #ed5353;
   }
 
   .fruit {
-    background-color: green;
+    background-color: #68b723;
   }
 </style>
