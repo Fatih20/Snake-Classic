@@ -41,7 +41,6 @@
   let directionVector = directionsProperty[direction].vectorValue;
   let oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
-  let keyJustPressed: string;
 
   $: oppositeDirection = oppositeDirectionDictionary[direction];
   $: oppositePreviousDirection = oppositeDirectionDictionary[previousDirection];
