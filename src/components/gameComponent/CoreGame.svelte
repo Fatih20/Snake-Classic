@@ -9,6 +9,7 @@
   } from "../../config";
   import {
     cellCoordinate,
+    direction,
     directionVectorType,
     makePossibleCoordinate,
     possibleCoordinateType,
@@ -34,6 +35,8 @@
 
   let allCoordinateList = allCoordinateMaker(gridSize);
   let direction = randomDirection();
+  let candidateDirection = direction;
+  let previousDirection: direction;
   let oppositeDirection = oppositeDirectionDictionary[direction];
   let directionVector = directionsProperty[direction].vectorValue;
   let oppositeDirectionVector =
@@ -41,6 +44,7 @@
   let keyJustPressed: string;
 
   $: oppositeDirection = oppositeDirectionDictionary[direction];
+  $: oppositePreviousDirection = oppositeDirectionDictionary[previousDirection];
   $: directionVector = directionsProperty[direction].vectorValue;
   $: oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
@@ -158,7 +162,14 @@
   function handleKeydown(e) {
     const { key } = e;
     const keyPressed = key.toUpperCase();
-    keyJustPressed = keyPressed;
+    Object.values(directionsProperty).forEach(({ key }, index) => {
+      if (keyPressed === key) {
+        candidateDirection = possibleDirection[index];
+      }
+    });
+    if (candidateDirection !== oppositePreviousDirection) {
+      direction = candidateDirection;
+    }
   }
 
   function checkIfHeadBiteBody(
@@ -196,14 +207,7 @@
   }
 
   const mainEventLoop = setInterval(() => {
-    Object.values(directionsProperty).forEach(({ key }, index) => {
-      if (
-        keyJustPressed === key &&
-        keyJustPressed !== directionsProperty[oppositeDirection].key
-      ) {
-        direction = possibleDirection[index];
-      }
-    });
+    previousDirection = direction;
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
