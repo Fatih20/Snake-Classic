@@ -248,6 +248,10 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main>
+  <div class="game-over-container" class:shown={true}>
+    <h2>Game Over!</h2>
+    <button id="restart-button">Play Again</button>
+  </div>
   <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
@@ -276,6 +280,41 @@
 <style>
   main {
     width: 100%;
+    position: relative;
+  }
+
+  .game-over-container {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .game-over-container h2 {
+    border-radius: 10px;
+    background-color: #000000;
+    color: white;
+    display: inline-block;
+    padding: 0.4em;
+  }
+
+  .shown {
+    display: flex;
+  }
+  #restart-button {
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: black;
+    padding: 0.5em;
   }
 
   .grid-container {
