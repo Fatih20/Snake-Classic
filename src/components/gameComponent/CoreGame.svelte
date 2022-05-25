@@ -248,11 +248,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main>
-  <div
-    class="grid-container"
-    style:grid-template-rows={gridRowColumnString}
-    style:grid-template-columns={gridRowColumnString}
-  >
+  <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class="fruit"
@@ -280,11 +276,13 @@
 <style>
   .grid-container {
     box-sizing: border-box;
-    display: grid;
     border: solid 1px black;
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(var(--gridSize), 10px);
+    grid-template-rows: repeat(var(--gridSize), 10px);
     margin: 0;
     padding: 0;
-    gap: 0;
   }
 
   .snake-head {
