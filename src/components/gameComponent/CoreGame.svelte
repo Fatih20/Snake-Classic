@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     gridSize,
+    initialLength,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTime,
@@ -44,7 +45,7 @@
     directionsProperty[oppositeDirection].vectorValue;
 
   let headCoordinate: cellCoordinate = randomCoordinate();
-  let length = 7;
+  let length = initialLength;
   let bodyAndTailCoordinateList =
     bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
