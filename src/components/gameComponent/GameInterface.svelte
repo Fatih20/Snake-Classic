@@ -24,5 +24,13 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    gap: 1em;
+  }
+
+  .attribute-box {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>
