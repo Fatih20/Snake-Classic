@@ -38,6 +38,7 @@
   let directionVector = directionsProperty[direction].vectorValue;
   let oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
+  let keyJustPressed: string;
 
   $: oppositeDirection = oppositeDirectionDictionary[direction];
   $: directionVector = directionsProperty[direction].vectorValue;
@@ -157,14 +158,7 @@
   function handleKeydown(e) {
     const { key } = e;
     const keyPressed = key.toUpperCase();
-    Object.values(directionsProperty).forEach(({ key }, index) => {
-      if (
-        keyPressed === key &&
-        keyPressed !== directionsProperty[oppositeDirection].key
-      ) {
-        direction = possibleDirection[index];
-      }
-    });
+    keyJustPressed = keyPressed;
   }
 
   function checkIfHeadBiteBody(
@@ -202,6 +196,14 @@
   }
 
   const mainEventLoop = setInterval(() => {
+    Object.values(directionsProperty).forEach(({ key }, index) => {
+      if (
+        keyJustPressed === key &&
+        keyJustPressed !== directionsProperty[oppositeDirection].key
+      ) {
+        direction = possibleDirection[index];
+      }
+    });
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
