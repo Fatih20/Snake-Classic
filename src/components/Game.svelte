@@ -1,16 +1,21 @@
 <script lang="ts">
-  import { scoresAfterEveryFruit } from "../config";
+  import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
 
   let fruitEaten = 0;
   $: score = fruitEaten * scoresAfterEveryFruit;
+
+  let length = initialLength;
 </script>
 
 <main>
-  <GameInterface {score} />
-  <CoreGame on:justAteFruit={() => (fruitEaten += 1)} />
+  <GameInterface {score} {length} />
+  <CoreGame
+    on:justAteFruit={() => (fruitEaten += 1)}
+    on:lengthUpdate={(e) => (length = e.detail.length)}
+  />
 </main>
 
 <style>

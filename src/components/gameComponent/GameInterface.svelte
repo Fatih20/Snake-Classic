@@ -1,12 +1,16 @@
 <script lang="ts">
   export let score: number;
-  //   export let length: number;
+  export let length: number;
 </script>
 
 <main>
   <div class="attribute-box">
     <h2>Score</h2>
     <h3>{score}</h3>
+  </div>
+  <div class="attribute-box">
+    <h2>Length</h2>
+    <h3>{length}</h3>
   </div>
 </main>
 

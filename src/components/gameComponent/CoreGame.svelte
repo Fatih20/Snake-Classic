@@ -109,6 +109,7 @@
 
     let newTailCoordinateList = [] as cellCoordinate[];
     if (addNewTail) {
+      length += 1;
       const tailDirection = positionRelativeTo(
         wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
         wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
@@ -188,6 +189,12 @@
     });
   }
 
+  function sendLengthData() {
+    dispatch("lengthUpdate", {
+      length: length,
+    });
+  }
+
   const mainEventLoop = setInterval(() => {
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
@@ -207,6 +214,8 @@
       numberOfTailAddedAfterEating
     );
     headCoordinate = mover(headCoordinate, directionVector);
+
+    sendLengthData();
 
     if (allFruitEaten) {
       nthTurnReference += 1;
