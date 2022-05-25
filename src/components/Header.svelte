@@ -12,7 +12,7 @@
     color: white;
     display: flex;
     justify-content: center;
-    padding: 0.5em;
+    padding: 0.5em 0;
     width: 100%;
   }
 </style>

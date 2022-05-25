@@ -277,6 +277,7 @@
   main {
     width: 100%;
   }
+
   .grid-container {
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
