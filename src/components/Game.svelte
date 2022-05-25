@@ -33,5 +33,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 1em;
   }
 </style>

@@ -27,15 +27,19 @@
   {#key unique}
     <Game on:gameOver={(e) => (gameIsRunning = !e.detail.gameOver)} />
   {/key}
+  <div class="spacer" />
   <Footer />
 </main>
 
 <style>
   main {
     align-items: center;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 100vh;
+    padding: 0.5em;
     position: relative;
   }
 
@@ -61,5 +65,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .spacer {
+    flex-grow: 1;
   }
 </style>
