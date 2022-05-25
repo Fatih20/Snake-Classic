@@ -37,9 +37,10 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    gap: 1em;
     justify-content: center;
     min-height: 100vh;
-    padding: 0.5em;
+    width: 100%;
     position: relative;
   }
 

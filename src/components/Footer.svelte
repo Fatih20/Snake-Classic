@@ -9,10 +9,12 @@
 <style>
   main {
     align-items: center;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0.25em;
+    padding: 0.25em;
   }
   p {
     text-align: center;
