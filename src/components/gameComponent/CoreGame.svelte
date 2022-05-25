@@ -188,20 +188,12 @@
   }
 
   function sendFruitEatenData() {
-    dispatch("justAteFruit", {
-      text: "Fruit eaten increased",
-    });
+    dispatch("justAteFruit");
   }
 
   function sendLengthData() {
     dispatch("lengthUpdate", {
       length: length,
-    });
-  }
-
-  function sendGameIsOver() {
-    dispatch("gameOver", {
-      gameOver: gameOver,
     });
   }
 
