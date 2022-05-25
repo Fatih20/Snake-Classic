@@ -274,15 +274,20 @@
 </main>
 
 <style>
+  main {
+    width: 100%;
+  }
   .grid-container {
+    aspect-ratio: 1 / 1;
     box-sizing: border-box;
     border: solid 1px black;
     display: grid;
     gap: 0;
-    grid-template-columns: repeat(var(--gridSize), 10px);
-    grid-template-rows: repeat(var(--gridSize), 10px);
+    grid-template-columns: repeat(var(--gridSize), 1fr);
+    grid-template-rows: repeat(var(--gridSize), 1fr);
     margin: 0;
     padding: 0;
+    width: 100%;
   }
 
   .snake-head {
