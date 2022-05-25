@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { highScore } from "../stores";
   import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
@@ -7,13 +8,20 @@
 
   let fruitEaten = 0;
   $: score = fruitEaten * scoresAfterEveryFruit;
+  $: highScoreChecker(score);
 
   let length = initialLength;
+
+  function highScoreChecker(score) {
+    if (score > $highScore) {
+      highScore.updateAndSave(score);
+    }
+  }
 </script>
 
 <main>
-  <GameInterface {score} {length} />
   {#key unique}
+    <GameInterface {score} {length} highScore={$highScore} />
     <CoreGame
       on:justAteFruit={() => (fruitEaten += 1)}
       on:lengthUpdate={(e) => (length = e.detail.length)}

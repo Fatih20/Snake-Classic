@@ -102,3 +102,12 @@ export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : 
     return returnedDirection;
 }
 
+export function fetchHighScoreFromLocalStorage () : number | null {
+    let candidateResult = localStorage.getItem("highScore");
+    if (candidateResult !== undefined && candidateResult !== null) {
+        return JSON.parse(candidateResult)
+    } else {
+        return null
+    }
+}
+
