@@ -23,6 +23,10 @@
     positionRelativeTo,
   } from "../../utilities/utilities";
 
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
   const cellSize = "10px";
 
   const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
@@ -177,11 +181,18 @@
     return headBiteBody;
   }
 
+  function sendFruitEatenData() {
+    dispatch("justAteFruit", {
+      text: "Fruit eaten increased",
+    });
+  }
+
   const mainEventLoop = setInterval(() => {
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
         justAteFruit = true;
+        sendFruitEatenData();
         fruitCoordinateList = fruitCoordinateList.filter(
           (fruitCoordinate, indexInner) => {
             return indexInner !== indexOuter;
