@@ -90,15 +90,11 @@ export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : 
     const incrementX = makePossibleVectorValue(x2 - x1);
     const incrementY = makePossibleVectorValue(y2 - y1);
     const directionVectorOneToTwo = <directionVectorType>{x : incrementX, y : incrementY};
-    console.log(directionVectorOneToTwo);
     let returnedDirection : direction = "Up";
     Object.keys(directionsProperty).forEach((directionName : direction) => {
         const candidatedirectionVector = directionsProperty[directionName].vectorValue
-        console.log(candidatedirectionVector);
         const {x : referenceX, y : referenceY} = candidatedirectionVector;
         if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
-            console.log(directionVectorOneToTwo.x === referenceX)
-            console.log(directionVectorOneToTwo.y === referenceY)
             returnedDirection = directionName;
         }
     })

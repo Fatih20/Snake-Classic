@@ -110,7 +110,6 @@
       );
       const directionVectorFromLastTail =
         directionsProperty[tailDirection].vectorValue;
-      console.log(tailDirection);
       let lastTail =
         newBodyAndTailCoordinateList[newBodyAndTailCoordinateList.length - 1];
       for (let i = 0; i < howManyTail; i++) {
@@ -172,7 +171,7 @@
       const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
       if (referenceX === comparedX && referenceY === comparedY) {
         headBiteBody = true;
-        console.log("You lost");
+        // console.log("You lost");
       }
     });
     return headBiteBody;
@@ -209,7 +208,7 @@
       clearInterval(mainEventLoop);
     }
 
-    console.log("Game is running");
+    // console.log("Game is running");
   }, refreshTime);
 </script>
 
@@ -218,7 +217,7 @@
 <main>
   <div
     class="grid-container"
-    style:grid-template-rows={gridRowColumnString}
+    style:grid-template-rows="{gridRowColumnString}z"
     style:grid-template-columns={gridRowColumnString}
   >
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
