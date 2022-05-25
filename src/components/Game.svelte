@@ -217,7 +217,7 @@
 <main>
   <div
     class="grid-container"
-    style:grid-template-rows="{gridRowColumnString}z"
+    style:grid-template-rows={gridRowColumnString}
     style:grid-template-columns={gridRowColumnString}
   >
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
