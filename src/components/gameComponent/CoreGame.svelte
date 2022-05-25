@@ -195,6 +195,12 @@
     });
   }
 
+  function sendGameIsOver() {
+    dispatch("gameOver", {
+      gameOver: gameOver,
+    });
+  }
+
   const mainEventLoop = setInterval(() => {
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
@@ -223,6 +229,7 @@
 
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
       gameOver = true;
+      sendGameIsOver();
     }
 
     if (gameOver) {
