@@ -5,6 +5,8 @@
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
 
+  export let resetCoreGame: () => void;
+
   let fruitEaten = 0;
   $: score = fruitEaten * scoresAfterEveryFruit;
   $: highScoreChecker(score);
@@ -23,7 +25,7 @@
   <CoreGame
     on:justAteFruit={() => (fruitEaten += 1)}
     on:lengthUpdate={(e) => (length = e.detail.length)}
-    on:gameOver
+    on:resetGame={resetCoreGame}
   />
 </main>
 

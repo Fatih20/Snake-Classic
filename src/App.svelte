@@ -6,13 +6,17 @@
   let gameIsRunning = true;
   let unique = {};
 
+  function resetCoreGame() {
+    unique = {};
+  }
+
   $: {
     console.log(gameIsRunning);
   }
 </script>
 
 <main>
-  <div class="absolute-container" class:shown={!gameIsRunning}>
+  <!-- <div class="absolute-container" class:shown={!gameIsRunning}>
     <div class="game-over-container">
       <h2>Game Over!</h2>
       <button
@@ -22,10 +26,10 @@
         }}>Play Again</button
       >
     </div>
-  </div>
+  </div> -->
   <Header />
   {#key unique}
-    <Game on:gameOver={(e) => (gameIsRunning = !e.detail.gameOver)} />
+    <Game {resetCoreGame} />
   {/key}
   <div class="spacer" />
   <Footer />

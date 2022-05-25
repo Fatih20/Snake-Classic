@@ -205,6 +205,10 @@
     });
   }
 
+  function sendResetGame() {
+    dispatch("resetGame");
+  }
+
   const mainEventLoop = setInterval(() => {
     previousDirection = direction;
     let justAteFruit = false;
@@ -234,7 +238,6 @@
 
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
       gameOver = true;
-      sendGameIsOver();
     }
 
     if (gameOver) {
@@ -248,9 +251,11 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main>
-  <div class="game-over-container" class:shown={true}>
+  <div class="game-over-container" class:shown={gameOver}>
     <h2>Game Over!</h2>
-    <button id="restart-button">Play Again</button>
+    <button id="restart-button" on:click={() => sendResetGame()}
+      >Play Again</button
+    >
   </div>
   <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
@@ -287,6 +292,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     bottom: 0;
+    display: none;
     flex-direction: column;
     gap: 1em;
     justify-content: center;
