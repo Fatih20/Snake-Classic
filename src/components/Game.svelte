@@ -4,7 +4,6 @@
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
-  export let unique: object;
 
   let fruitEaten = 0;
   $: score = fruitEaten * scoresAfterEveryFruit;
@@ -20,14 +19,12 @@
 </script>
 
 <main>
-  {#key unique}
-    <GameInterface {score} {length} highScore={$highScore} />
-    <CoreGame
-      on:justAteFruit={() => (fruitEaten += 1)}
-      on:lengthUpdate={(e) => (length = e.detail.length)}
-      on:gameOver
-    />
-  {/key}
+  <GameInterface {score} {length} highScore={$highScore} />
+  <CoreGame
+    on:justAteFruit={() => (fruitEaten += 1)}
+    on:lengthUpdate={(e) => (length = e.detail.length)}
+    on:gameOver
+  />
 </main>
 
 <style>

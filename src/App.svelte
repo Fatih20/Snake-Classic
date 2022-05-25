@@ -24,7 +24,9 @@
     </div>
   </div>
   <Header />
-  <Game {unique} on:gameOver={(e) => (gameIsRunning = !e.detail.gameOver)} />
+  {#key unique}
+    <Game on:gameOver={(e) => (gameIsRunning = !e.detail.gameOver)} />
+  {/key}
   <Footer />
 </main>
 
