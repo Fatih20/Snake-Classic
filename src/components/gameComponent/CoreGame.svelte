@@ -24,6 +24,7 @@
     randomUniqueCoordinateGenerator,
     positionRelativeTo,
   } from "../../utilities/utilities";
+  import { gameIsPaused } from "../../stores";
 
   import { createEventDispatcher } from "svelte";
 
@@ -245,7 +246,9 @@
     }
   }
 
-  gameFlowControl(true);
+  $: {
+    gameFlowControl(!$gameIsPaused);
+  }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

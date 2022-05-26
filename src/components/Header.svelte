@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { gameIsPaused } from "../stores";
 </script>
 
 <head>
@@ -8,8 +9,16 @@
 </head>
 
 <main>
-  <button class="header-button">
-    <i class="fa-solid fa-pause icon" />
+  <button
+    on:click={() =>
+      gameIsPaused.update((gameIsPaused) => (gameIsPaused = !gameIsPaused))}
+    class="header-button"
+  >
+    {#if $gameIsPaused}
+      <i class="fa-solid fa-play icon" />
+    {:else}
+      <i class="fa-solid fa-pause icon" />
+    {/if}
   </button>
   <h1>Snake Classics</h1>
   <button class="header-button">

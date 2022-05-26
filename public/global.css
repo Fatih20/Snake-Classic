@@ -59,7 +59,7 @@ button {
   outline: none;
 }
 
-button:disabled {
+/* button:disabled {
   color: #999;
 }
 
@@ -69,4 +69,4 @@ button:not(:disabled):active {
 
 button:focus {
   border-color: #666;
-}
+} */
