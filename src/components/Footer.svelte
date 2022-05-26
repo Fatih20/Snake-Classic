@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.25em;
-    height: var(--footer-height);
+    /* height: var(--footer-height); */
     justify-content: center;
   }
   p {

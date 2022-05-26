@@ -39,14 +39,14 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
-    height: calc(
+    /* height: calc(
       100vh - var(--header-height) - var(--footer-height) -
         calc(2 * var(--gap-between-parts))
-    );
+    ); */
     justify-content: center;
     flex-grow: 1;
     padding: 0 1.5em;
-    width: 100%;
+    /* width: 100%; */
   }
 
   .spacer {

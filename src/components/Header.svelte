@@ -25,7 +25,7 @@
     box-sizing: border-box;
     color: white;
     display: flex;
-    height: var(--header-height);
+    /* height: var(--header-height); */
     justify-content: space-between;
     padding: 0.5em 1em;
     width: 100%;
