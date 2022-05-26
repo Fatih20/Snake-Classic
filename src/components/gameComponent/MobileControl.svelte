@@ -40,7 +40,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     row-gap: 10px;
-    width: 100%;
+    /* width: 100%; */
   }
 
   #up {
@@ -64,6 +64,8 @@
   }
 
   .control-button {
-    /* aspect-ratio: 1/1; */
+    aspect-ratio: 1/1;
+    width: 75px;
+    font-size: 1.5em;
   }
 </style>
