@@ -19,17 +19,20 @@
 
 <style>
   main {
+    --font-size: 1.5em;
     align-items: center;
     background-color: #206b00;
     box-sizing: border-box;
     color: white;
     display: flex;
+    height: var(--header-height);
     justify-content: space-between;
     padding: 0.5em 1em;
     width: 100%;
   }
 
   h1 {
+    font-size: var(--font-size);
     /* border: solid 1px white; */
   }
 
@@ -38,7 +41,7 @@
     border: none;
     color: white;
     display: flex;
-    font-size: 2em;
+    font-size: var(--font-size);
     padding: 0;
 
     /* border: solid 1px white; */

@@ -12,9 +12,9 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 0.25em;
-    padding: 0.25em;
+    height: var(--footer-height);
+    justify-content: center;
   }
   p {
     text-align: center;
