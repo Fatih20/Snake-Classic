@@ -9,7 +9,7 @@
 
 <main>
   <button class="header-button">
-    <i class="fa-solid fa-gear icon" />
+    <i class="fa-solid fa-pause icon" />
   </button>
   <h1>Snake Classics</h1>
   <button class="header-button">
