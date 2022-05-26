@@ -254,7 +254,13 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <main>
-  <div class="game-over-container" class:shown={gameOver}>
+  <div
+    class="overlay-container game-is-paused-container"
+    class:shown={$gameIsPaused}
+  >
+    <h2>Game is Paused</h2>
+  </div>
+  <div class="overlay-container game-over-container" class:shown={gameOver}>
     <h2>Game Over!</h2>
     <button id="restart-button" on:click={() => sendResetGame()}
       >Play Again</button
@@ -291,7 +297,7 @@
     position: relative;
   }
 
-  .game-over-container {
+  .overlay-container {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     bottom: 0;
@@ -303,10 +309,13 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .game-over-container {
     z-index: 1000;
   }
 
-  .game-over-container h2 {
+  .overlay-container h2 {
     border-radius: 10px;
     background-color: #000000;
     color: white;
