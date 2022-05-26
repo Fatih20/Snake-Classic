@@ -29,9 +29,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const cellSize = "10px";
-
-  const gridRowColumnString = `repeat(${gridSize}, ${cellSize})`;
+  let mainEventLoop: NodeJS.Timer;
 
   let allCoordinateList = allCoordinateMaker(gridSize);
   let direction = randomDirection();
@@ -201,7 +199,7 @@
     dispatch("resetGame");
   }
 
-  const mainEventLoop = setInterval(() => {
+  function toBeRunInMainEventLoop() {
     previousDirection = direction;
     let justAteFruit = false;
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
@@ -233,11 +231,21 @@
     }
 
     if (gameOver) {
-      clearInterval(mainEventLoop);
+      gameFlowControl(false);
     }
 
     // console.log("Game is running");
-  }, refreshTime);
+  }
+
+  function gameFlowControl(resumeOrStart: boolean) {
+    if (resumeOrStart) {
+      mainEventLoop = setInterval(toBeRunInMainEventLoop, refreshTime);
+    } else {
+      clearInterval(mainEventLoop);
+    }
+  }
+
+  gameFlowControl(true);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
