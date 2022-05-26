@@ -4,6 +4,7 @@
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
+  import MobileControl from "./gameComponent/MobileControl.svelte";
 
   export let resetCoreGame: () => void;
 
@@ -27,6 +28,7 @@
     on:lengthUpdate={(e) => (length = e.detail.length)}
     on:resetGame={resetCoreGame}
   />
+  <MobileControl />
 </main>
 
 <style>
