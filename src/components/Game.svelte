@@ -47,6 +47,8 @@
     flex-grow: 1;
     padding: 0 1.5em;
     /* width: 100%; */
+
+    /* border: solid 1px black; */
   }
 
   .spacer {

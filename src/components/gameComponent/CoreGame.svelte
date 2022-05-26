@@ -293,8 +293,12 @@
 
 <style>
   main {
-    width: 100%;
+    /* height: 100%; */
+    /* flex-grow: 1; */
     position: relative;
+    width: 100%;
+
+    /* border: solid 1px black; */
   }
 
   .overlay-container {
@@ -343,7 +347,9 @@
     gap: 0;
     grid-template-columns: repeat(var(--gridSize), 1fr);
     grid-template-rows: repeat(var(--gridSize), 1fr);
-    margin: 0;
+    margin: 0 auto;
+    /* max-height: 100%; */
+    /* max-width: 100%; */
     padding: 0;
     width: 100%;
   }
