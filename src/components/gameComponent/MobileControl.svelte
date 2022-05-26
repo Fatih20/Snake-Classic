@@ -36,7 +36,7 @@
 <style>
   main {
     display: grid;
-    column-gap: 10px;
+    column-gap: 20px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     row-gap: 10px;
@@ -65,7 +65,7 @@
 
   .control-button {
     aspect-ratio: 1/1;
-    width: 75px;
-    font-size: 1.5em;
+    width: 50px;
+    font-size: 1.25em;
   }
 </style>
