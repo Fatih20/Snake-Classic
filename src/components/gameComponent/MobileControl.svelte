@@ -1,5 +1,6 @@
 <script lang="ts">
   import { directionsProperty } from "../../utilities/utilities";
+  import { deviceWidth } from "../../stores";
   function keyDownSimulator(key: string) {
     window.dispatchEvent(
       new KeyboardEvent("keydown", {
@@ -7,6 +8,8 @@
       })
     );
   }
+
+  //   $: console.log($deviceWidth);
 </script>
 
 <head>
@@ -16,40 +19,18 @@
 </head>
 
 <main>
-  {#each Object.keys(directionsProperty) as direction (direction)}
-    <button
-      class="control-button"
-      id={direction.toLowerCase()}
-      on:click={() =>
-        keyDownSimulator(directionsProperty[direction].key.toLowerCase())}
-    >
-      <i class={`fa-solid fa-arrow-${direction.toLowerCase()}`} />
-    </button>
-  {/each}
-  <!-- <button class="control-button" id="up" on:click={() => keyDownSimulator("w")}>
-    <i class="fa-solid fa-arrow-up" />
-  </button>
-  <button
-    class="control-button"
-    id="down"
-    on:click={() => keyDownSimulator("s")}
-  >
-    <i class="fa-solid fa-arrow-down" />
-  </button>
-  <button
-    class="control-button"
-    id="right"
-    on:click={() => keyDownSimulator("d")}
-  >
-    <i class="fa-solid fa-arrow-right" />
-  </button>
-  <button
-    class="control-button"
-    id="left"
-    on:click={() => keyDownSimulator("a")}
-  >
-    <i class="fa-solid fa-arrow-left" />
-  </button> -->
+  {#if $deviceWidth <= 1000}
+    {#each Object.keys(directionsProperty) as direction (direction)}
+      <button
+        class="control-button"
+        id={direction.toLowerCase()}
+        on:click={() =>
+          keyDownSimulator(directionsProperty[direction].key.toLowerCase())}
+      >
+        <i class={`fa-solid fa-arrow-${direction.toLowerCase()}`} />
+      </button>
+    {/each}
+  {/if}
 </main>
 
 <style>

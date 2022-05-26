@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { readable, writable } from "svelte/store";
 import { fetchHighScoreFromLocalStorage } from "./utilities/utilities";
 
 function createHighScore () {
@@ -16,3 +16,5 @@ function createHighScore () {
 }
 
 export const highScore = createHighScore();
+
+export const deviceWidth = readable(screen.width)
