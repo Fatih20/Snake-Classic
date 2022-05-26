@@ -30,13 +30,16 @@
 
 <style>
   main {
+    --header-height: 50px;
+    --footer-height: 50px;
+    --gap-between-parts: 1em;
     align-items: center;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: var(--gap-between-parts);
     justify-content: center;
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
     position: relative;
   }
