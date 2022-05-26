@@ -83,6 +83,6 @@
   }
 
   .control-button {
-    aspect-ratio: 1/1;
+    /* aspect-ratio: 1/1; */
   }
 </style>

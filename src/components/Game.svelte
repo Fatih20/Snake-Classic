@@ -28,6 +28,7 @@
     on:lengthUpdate={(e) => (length = e.detail.length)}
     on:resetGame={resetCoreGame}
   />
+  <div class="spacer" />
   <MobileControl />
 </main>
 
@@ -38,5 +39,10 @@
     flex-direction: column;
     justify-content: center;
     gap: 1em;
+    flex-grow: 1;
+  }
+
+  .spacer {
+    flex-grow: 1;
   }
 </style>

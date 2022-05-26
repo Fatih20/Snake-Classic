@@ -23,7 +23,7 @@
     {#key unique}
       <Game {resetCoreGame} />
     {/key}
-    <div class="spacer" />
+    <!-- <div class="spacer" /> -->
     <Footer />
   {/if}
 </main>
