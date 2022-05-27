@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { fade, fly } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
@@ -21,7 +22,7 @@
   />
 </head>
 
-<main>
+<main transition:fade={{ duration: 250 }}>
   <div id="content-container">
     <h1 id="title">Snake<br />Classics</h1>
     <div class="spacer" />
@@ -39,13 +40,19 @@
 <style>
   main {
     align-items: center;
-    color: var(--text-on-primary-element-color);
     background-color: var(--primary-color);
+    bottom: 0;
+    color: var(--text-on-primary-element-color);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     height: 100vh;
+    justify-content: center;
+    left: 0;
     width: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 100;
   }
 
   main * {
