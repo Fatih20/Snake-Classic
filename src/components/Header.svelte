@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gameIsPaused } from "../stores";
+  import { gameIsPaused, gameIsOver } from "../stores";
 </script>
 
 <head>
@@ -18,8 +18,11 @@
   <div class="width-constrain">
     <!-- <button>Bruh</button> -->
     <button
-      on:click={() =>
-        gameIsPaused.update((gameIsPaused) => (gameIsPaused = !gameIsPaused))}
+      on:click={() => {
+        if (!$gameIsOver) {
+          gameIsPaused.update((gameIsPaused) => (gameIsPaused = !gameIsPaused));
+        }
+      }}
       class="header-button left-button"
       style="width: 20px;"
     >

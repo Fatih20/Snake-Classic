@@ -27,7 +27,7 @@
     randomUniqueCoordinateGenerator,
     positionRelativeTo,
   } from "../../utilities/utilities";
-  import { gameIsPaused } from "../../stores";
+  import { gameIsPaused, gameIsOver } from "../../stores";
 
   import { createEventDispatcher } from "svelte";
 
@@ -85,8 +85,6 @@
   }
 
   let nthTurnReference = 0;
-
-  let gameOver = false;
 
   const directionsToCornerEdgeDictionary: Record<
     direction,
@@ -273,10 +271,10 @@
     }
 
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
-      gameOver = true;
+      gameIsOver.update((gameIsOver) => true);
     }
 
-    if (gameOver) {
+    if ($gameIsOver) {
       gameFlowControl(false);
     }
 
@@ -327,7 +325,7 @@
   >
     <h2>Game is Paused</h2>
   </div>
-  <div class="overlay-container game-over-container" class:shown={gameOver}>
+  <div class="overlay-container game-over-container" class:shown={$gameIsOver}>
     <h2>Game Over!</h2>
     <button id="restart-button" on:click={() => sendResetGame()}
       >Play Again</button

@@ -19,4 +19,6 @@ export const gameIsPaused = writable(false);
 
 export const highScore = createHighScore();
 
-export const deviceWidth = readable(screen.width)
+export const deviceWidth = readable(screen.width);
+
+export const gameIsOver = writable(false);
