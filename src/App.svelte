@@ -4,6 +4,7 @@
   import Footer from "./components/Footer.svelte";
   import StartPage from "./components/StartPage.svelte";
   import { fade } from "svelte/transition";
+  import { gameIsOver } from "./stores";
 
   const possibleGameState = ["startPage", "playing", "settings"] as const;
   type possibleGameStateType = typeof possibleGameState[number];
@@ -13,6 +14,7 @@
 
   function resetCoreGame() {
     unique = {};
+    gameIsOver.update((gameIsOver) => false);
   }
 </script>
 
