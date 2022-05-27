@@ -32,7 +32,7 @@
         <i class="fa-solid fa-pause icon" />
       {/if}
     </button>
-    <h1>Snake Classics</h1>
+    <h1>Snake Classic</h1>
     <button class="header-button right-button" style="width: 26px;">
       <i class="fa-solid fa-right-to-bracket icon" />
     </button>

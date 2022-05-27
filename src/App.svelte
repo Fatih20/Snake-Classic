@@ -10,7 +10,7 @@
   type possibleGameStateType = typeof possibleGameState[number];
 
   let unique = {};
-  let gameState: possibleGameStateType = "playing";
+  let gameState: possibleGameStateType = "startPage";
 
   function resetCoreGame() {
     unique = {};

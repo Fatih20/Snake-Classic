@@ -25,7 +25,7 @@
 
 <main transition:fade={{ duration: mainMenuTransitionDuration }}>
   <div id="content-container">
-    <h1 id="title">Snake<br />Classics</h1>
+    <h1 id="title">Snake<br />Classic</h1>
     <div class="spacer" />
     <button
       class="start-button"
