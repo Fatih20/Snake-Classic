@@ -221,20 +221,18 @@
       } else {
         const previousCell = wholeSnakeCoordinateList[index - 1];
         const nextCell = wholeSnakeCoordinateList[index + 1];
-        const directionToPreviousCell = positionRelativeTo(
-          snakeCoordinate,
-          previousCell
+        const directionFromPreviousCell = positionRelativeTo(
+          previousCell,
+          snakeCoordinate
         ) as direction;
         const directionFromNextCell = positionRelativeTo(
           nextCell,
           snakeCoordinate
         ) as direction;
-        if (directionToPreviousCell === directionFromNextCell) {
+        if (directionFromPreviousCell === directionFromNextCell) {
           return ``;
         } else {
-          return `${oppositeDirectionDictionary[
-            directionToPreviousCell
-          ].toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
+          return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
         }
       }
     });
