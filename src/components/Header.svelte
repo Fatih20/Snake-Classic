@@ -6,6 +6,12 @@
   <script
     src="https://kit.fontawesome.com/31a5898fa1.js"
     crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+    rel="stylesheet"
+  />
 </head>
 
 <main>
@@ -39,7 +45,7 @@
     display: flex;
     /* height: var(--header-height); */
     justify-content: center;
-    padding: 0.5em 1em;
+    padding: 0.25em 1em;
     width: 100%;
   }
 
@@ -62,7 +68,9 @@
   }
 
   h1 {
-    font-size: var(--font-size);
+    font-size: calc(var(--font-size) + 0.2em);
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
     /* border: solid 1px white; */
   }
 
