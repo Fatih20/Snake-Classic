@@ -3,7 +3,7 @@ import { fetchHighScoreFromLocalStorage } from "./utilities/utilities";
 
 function createHighScore () {
     const candidateHighScore = fetchHighScoreFromLocalStorage();
-    const {subscribe, set, update} = writable((candidateHighScore !== null ? candidateHighScore : 0))
+    const {subscribe, set, update} = writable(candidateHighScore ?? 0);
 
     function updateAndSave (newValue : number) {
         update(oldValue => newValue);
