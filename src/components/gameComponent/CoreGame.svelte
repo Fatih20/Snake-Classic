@@ -427,10 +427,12 @@
   .snake-body,
   .snake-head {
     background-color: rgb(var(--snake-color));
+    border: none;
   }
 
   .fruit {
     background-color: rgb(var(--fruit-color));
+    border: none;
   }
 
   .standalone-object {
