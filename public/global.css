@@ -6,16 +6,16 @@ body {
 }
 
 body {
-  --primary-color: #68b723;
-  --text-on-primary-element-color: #fff;
-  --secondary-color: #3a9104;
-  --secondary-selected-color: #43a904;
-  --text-on-secondary-selected-element-color: #fff;
+  --primary-color: 104, 183, 35;
+  --text-on-primary-element-color: 255, 255, 255;
+  --secondary-color: 58, 145, 4;
+  --secondary-selected-color: 67, 169, 4;
+  --text-on-secondary-selected-element-color: 255, 255, 255;
   --button-radius: 7px;
-  --secondary-active-color: #fff;
-  --text-on-secondary-active-element-color: #000;
+  --secondary-active-color: 255, 255, 255;
+  --text-on-secondary-active-element-color: 0, 0, 0;
   --snake-color: var(--primary-color);
-  --fruit-color: #ed5353;
+  --fruit-color: 237, 83, 83;
   --object-border-radius: 3px;
   color: #333;
   margin: 0;

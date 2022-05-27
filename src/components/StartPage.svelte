@@ -39,9 +39,9 @@
 <style>
   main {
     align-items: center;
-    background-color: var(--primary-color);
+    background-color: rgb(var(--primary-color));
     bottom: 0;
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -55,7 +55,7 @@
   }
 
   main * {
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
   }
 
   #content-container {
@@ -81,7 +81,7 @@
   }
 
   .start-button {
-    background-color: var(--primary-color);
+    background-color: rgb(var(--primary-color));
     /* border: solid 2px black; */
     border: none;
     /* box-sizing: border-box; */
@@ -97,15 +97,15 @@
   }
 
   .start-button:hover {
-    background-color: var(--secondary-color);
-    color: var(--text-on-secondary-selected-element-color);
+    background-color: rgb(var(--secondary-color));
+    color: rgb(var(--text-on-secondary-selected-element-color));
     /* font-size: 2em; */
     /* padding: 0.4em 0; */
   }
 
   .clicked {
-    background-color: var(--secondary-active-color) !important;
-    color: var(--text-on-secondary-active-element-color) !important;
+    background-color: rgb(var(--secondary-active-color)) !important;
+    color: rgb(var(--text-on-secondary-active-element-color)) !important;
     transition: all 0.25s ease-in-out !important;
   }
 </style>

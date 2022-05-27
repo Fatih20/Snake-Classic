@@ -361,7 +361,7 @@
 
   .overlay-container {
     align-items: center;
-    background-color: var(--primary-color);
+    background-color: rgba(var(--primary-color), 0.5);
     bottom: 0;
     display: none;
     flex-direction: column;
@@ -384,7 +384,8 @@
   .overlay-container h2 {
     /* background-color: #000000; */
     border-radius: 10px;
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
+    /* color: yellow; */
     display: inline-block;
     font-size: 3em;
     font-family: "Pacifico", cursive;
@@ -401,7 +402,7 @@
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
     font-family: "Asap", sans-serif;
     font-size: 1.75em;
     font-weight: 700;
@@ -425,11 +426,11 @@
 
   .snake-body,
   .snake-head {
-    background-color: var(--snake-color);
+    background-color: rgb(var(--snake-color));
   }
 
   .fruit {
-    background-color: var(--fruit-color);
+    background-color: rgb(var(--fruit-color));
   }
 
   .standalone-object {

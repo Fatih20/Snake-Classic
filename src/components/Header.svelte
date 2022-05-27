@@ -43,9 +43,9 @@
   main {
     --font-size: 1.5em;
     align-items: center;
-    background-color: var(--primary-color);
+    background-color: rgb(var(--primary-color));
     box-sizing: border-box;
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
     display: flex;
     /* height: var(--header-height); */
     justify-content: center;
@@ -54,7 +54,7 @@
   }
 
   main * {
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
   }
 
   .width-constrain {

@@ -65,16 +65,16 @@
 
   .control-button {
     aspect-ratio: 1/1;
-    background-color: var(--primary-color);
+    background-color: rgb(var(--primary-color));
     border: none;
     border-radius: 10px;
-    color: var(--text-on-primary-element-color);
+    color: rgb(var(--text-on-primary-element-color));
     font-size: 1.25em;
     width: 50px;
   }
 
   .control-button:active {
-    background-color: var(--text-on-primary-element-color);
-    color: var(--primary-color);
+    background-color: rgb(var(--text-on-primary-element-color));
+    color: rgb(var(--primary-color));
   }
 </style>
