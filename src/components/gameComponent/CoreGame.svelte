@@ -58,12 +58,12 @@
     bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
-  // let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
-  //   wholeSnakeCoordinateList
-  // );
-  // $: cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
-  //   wholeSnakeCoordinateList
-  // );
+  let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
+    wholeSnakeCoordinateList
+  );
+  $: cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
+    wholeSnakeCoordinateList
+  );
 
   let allFruitEaten = false;
   let fruitCoordinateList = randomUniqueCoordinateGenerator(
@@ -300,7 +300,7 @@
     }
   }
 
-  // $: console.log(cornerOfSnakeBodyList);
+  $: console.log(cornerOfSnakeBodyList);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -341,7 +341,7 @@
     {/each}
     {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
       <div
-        class={`snake-body`}
+        class={`snake-body ${cornerOfSnakeBodyList[i]}`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
