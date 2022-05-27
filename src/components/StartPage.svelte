@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { fade, fly } from "svelte/transition";
-  import { delayUntilGameStarts, mainMenuTransitionDuration } from "../config";
+  import { fade } from "svelte/transition";
+  import { mainMenuTransitionDuration } from "../config";
 
   const dispatch = createEventDispatcher();
 
