@@ -412,7 +412,7 @@
   .grid-container {
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
-    border: solid 1px black;
+    border: solid 2px rgb(var(--primary-border-color));
     display: grid;
     gap: 0;
     grid-template-columns: repeat(var(--gridSize), 1fr);
