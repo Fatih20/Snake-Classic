@@ -1,6 +1,6 @@
 <script lang="ts">
   import { directionsProperty } from "../../utilities/utilities";
-  import { deviceWidth } from "../../stores";
+  import { deviceWidth, gameIsPaused } from "../../stores";
   function keyDownSimulator(key: string) {
     window.dispatchEvent(
       new KeyboardEvent("keydown", {
@@ -24,8 +24,11 @@
       <button
         class="control-button"
         id={direction.toLowerCase()}
-        on:click={() =>
-          keyDownSimulator(directionsProperty[direction].key.toLowerCase())}
+        on:click={() => {
+          if (!$gameIsPaused) {
+            keyDownSimulator(directionsProperty[direction].key.toLowerCase());
+          }
+        }}
       >
         <i class={`fa-solid fa-arrow-${direction.toLowerCase()}`} />
       </button>
