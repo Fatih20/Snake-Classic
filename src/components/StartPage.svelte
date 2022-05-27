@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { fade, fly } from "svelte/transition";
+  import { delayUntilGameStarts, mainMenuTransitionDuration } from "../config";
 
   const dispatch = createEventDispatcher();
 
@@ -22,16 +23,14 @@
   />
 </head>
 
-<main transition:fade={{ duration: 250 }}>
+<main transition:fade={{ duration: mainMenuTransitionDuration }}>
   <div id="content-container">
     <h1 id="title">Snake<br />Classics</h1>
     <div class="spacer" />
     <button
       class="start-button"
       on:click={() => {
-        setTimeout(() => {
-          sendGameHasStarted();
-        }, 250);
+        sendGameHasStarted();
       }}>Start</button
     >
   </div>

@@ -1,7 +1,9 @@
 <script lang="ts">
   import {
+    delayUntilGameStarts,
     gridSize,
     initialLength,
+    mainMenuTransitionDuration,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTime,
@@ -29,6 +31,8 @@
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
+
+  let firstStart = true;
 
   let mainEventLoop: NodeJS.Timer;
 
@@ -247,7 +251,14 @@
   }
 
   $: {
-    gameFlowControl(!$gameIsPaused);
+    if (firstStart) {
+      setTimeout(() => {
+        gameFlowControl(!$gameIsPaused);
+      }, delayUntilGameStarts);
+      firstStart = false;
+    } else {
+      gameFlowControl(!$gameIsPaused);
+    }
   }
 </script>
 

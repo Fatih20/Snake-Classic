@@ -5,3 +5,5 @@ export const turnIntervalBetweenFruitSpawn = 4;
 export const numberOfTailAddedAfterEating = 1;
 export const scoresAfterEveryFruit = 7;
 export const initialLength = 4;
+export const mainMenuTransitionDuration = 250;
+export const delayUntilGameStarts = 500 + mainMenuTransitionDuration;
