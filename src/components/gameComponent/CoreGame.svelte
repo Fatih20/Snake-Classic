@@ -367,10 +367,10 @@
 
   .snake-body,
   .snake-head {
-    background-color: #ed5353;
+    background-color: var(--snake-color);
   }
 
   .fruit {
-    background-color: #68b723;
+    background-color: var(--fruit-color);
   }
 </style>

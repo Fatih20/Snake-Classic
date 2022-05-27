@@ -30,9 +30,9 @@
   main {
     --font-size: 1.5em;
     align-items: center;
-    background-color: #206b00;
+    background-color: var(--primary-color);
     box-sizing: border-box;
-    color: white;
+    color: var(--text-on-primary-element-color);
     display: flex;
     /* height: var(--header-height); */
     justify-content: space-between;
