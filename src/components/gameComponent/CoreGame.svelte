@@ -339,7 +339,7 @@
   <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="fruit standalone-object"
+        class="fruit"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -444,50 +444,47 @@
 
   .fruit {
     background-color: rgb(var(--fruit-color));
+    border-radius: var(--fruit-border-radius);
     border: none;
   }
 
-  .standalone-object {
-    border-radius: var(--object-border-radius);
-  }
-
   .up-radius {
-    border-top-right-radius: var(--object-border-radius);
-    border-top-left-radius: var(--object-border-radius);
+    border-top-right-radius: var(--snake-border-radius);
+    border-top-left-radius: var(--snake-border-radius);
   }
 
   .left-radius {
-    border-top-left-radius: var(--object-border-radius);
-    border-bottom-left-radius: var(--object-border-radius);
+    border-top-left-radius: var(--snake-border-radius);
+    border-bottom-left-radius: var(--snake-border-radius);
   }
 
   .right-radius {
-    border-top-right-radius: var(--object-border-radius);
-    border-bottom-right-radius: var(--object-border-radius);
+    border-top-right-radius: var(--snake-border-radius);
+    border-bottom-right-radius: var(--snake-border-radius);
   }
 
   .down-radius {
-    border-bottom-right-radius: var(--object-border-radius);
-    border-bottom-left-radius: var(--object-border-radius);
+    border-bottom-right-radius: var(--snake-border-radius);
+    border-bottom-left-radius: var(--snake-border-radius);
   }
 
   .up-right-radius,
   .right-up-radius {
-    border-top-right-radius: var(--object-border-radius);
+    border-top-right-radius: var(--snake-border-radius);
   }
 
   .up-left-radius,
   .left-up-radius {
-    border-top-left-radius: var(--object-border-radius);
+    border-top-left-radius: var(--snake-border-radius);
   }
 
   .right-down-radius,
   .down-right-radius {
-    border-bottom-right-radius: var(--object-border-radius);
+    border-bottom-right-radius: var(--snake-border-radius);
   }
 
   .left-down-radius,
   .down-left-radius {
-    border-bottom-left-radius: var(--object-border-radius);
+    border-bottom-left-radius: var(--snake-border-radius);
   }
 </style>
