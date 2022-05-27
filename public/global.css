@@ -6,6 +6,14 @@ body {
 }
 
 body {
+  --primary-color: #68b723;
+  --text-on-primary-element-color: #fff;
+  --secondary-color: #3a9104;
+  --secondary-selected-color: #43a904;
+  --text-on-secondary-selected-element-color: #fff;
+  --button-radius: 7px;
+  --secondary-active-color: #fff;
+  --text-on-secondary-active-element-color: #000;
   color: #333;
   margin: 0;
   padding: 0;
