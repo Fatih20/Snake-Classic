@@ -72,6 +72,12 @@
     allCoordinateList,
     numberOfFruitSpawned
   );
+  // $: fruitCoordinateList = fruitCoordinateList.filter((fruitCoordinate) => {
+  //   console.log(fruitCoordinate);
+  //   console.log(wholeSnakeCoordinateList[0]);
+  //   JSON.stringify(fruitCoordinate) !==
+  //     JSON.stringify(wholeSnakeCoordinateList[0]);
+  // });
   $: allFruitEaten = fruitCoordinateList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
@@ -339,7 +345,12 @@
   <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="fruit"
+        class={`fruit ${
+          coordinate.x === wholeSnakeCoordinateList[0].x &&
+          coordinate.y === wholeSnakeCoordinateList[0].y
+            ? "eaten"
+            : null
+        }`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -446,6 +457,10 @@
     background-color: rgb(var(--fruit-color));
     border-radius: var(--fruit-border-radius);
     border: none;
+  }
+
+  .eaten {
+    display: none;
   }
 
   .up-radius {
