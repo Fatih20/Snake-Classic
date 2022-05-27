@@ -20,7 +20,8 @@
     <button
       on:click={() =>
         gameIsPaused.update((gameIsPaused) => (gameIsPaused = !gameIsPaused))}
-      class="header-button"
+      class="header-button left-button"
+      style="width: 20px;"
     >
       {#if $gameIsPaused}
         <i class="fa-solid fa-play icon" />
@@ -29,7 +30,7 @@
       {/if}
     </button>
     <h1>Snake Classics</h1>
-    <button class="header-button">
+    <button class="header-button right-button" style="width: 26px;">
       <i class="fa-solid fa-right-to-bracket icon" />
     </button>
   </div>
@@ -63,10 +64,6 @@
     /* border: solid 1px white; */
   }
 
-  .width-constrain > * {
-    /* border: solid 1px white; */
-  }
-
   h1 {
     font-size: calc(var(--font-size) + 0.2em);
     font-family: "Pacifico", cursive;
@@ -75,7 +72,6 @@
   }
 
   .header-button {
-    align-self: center;
     background-color: rgba(0, 0, 0, 0);
     border: none;
     color: white;
@@ -86,6 +82,14 @@
     padding: 0;
 
     /* border: solid 1px white; */
+  }
+
+  .left-button {
+    justify-content: left;
+  }
+
+  .right-button {
+    justify-content: right;
   }
 
   .icon {
