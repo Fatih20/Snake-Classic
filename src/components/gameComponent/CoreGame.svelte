@@ -28,6 +28,7 @@
     positionRelativeTo,
   } from "../../utilities/utilities";
   import { gameIsPaused, gameIsOver } from "../../stores";
+  import { fade } from "svelte/transition";
 
   import { createEventDispatcher } from "svelte";
 
@@ -351,6 +352,7 @@
 
 <style>
   main {
+    --overlay-transition-time: 0.25s;
     /* height: 100%; */
     /* flex-grow: 1; */
     position: relative;
@@ -361,16 +363,20 @@
 
   .overlay-container {
     align-items: center;
-    background-color: rgba(var(--primary-color), 0.5);
+    background-color: rgba(var(--primary-color));
     bottom: 0;
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 1em;
     justify-content: center;
     left: 0;
+    opacity: 0;
     position: absolute;
     right: 0;
     top: 0;
+    transition: opacity var(--overlay-transition-time) ease-in-out,
+      visibility var(--overlay-transition-time) ease-in-out;
+    visibility: hidden;
   }
 
   .game-over-container {
@@ -395,7 +401,9 @@
   }
 
   .shown {
-    display: flex;
+    /* display: flex; */
+    opacity: 1;
+    visibility: visible;
   }
   #restart-button {
     border: none;
