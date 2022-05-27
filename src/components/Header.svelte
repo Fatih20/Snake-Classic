@@ -49,6 +49,7 @@
     background-color: rgba(0, 0, 0, 0);
     border: none;
     color: white;
+    cursor: pointer;
     display: flex;
     font-size: var(--font-size);
     padding: 0;
