@@ -87,16 +87,6 @@
 
   let nthTurnReference = 0;
 
-  const directionsToCornerEdgeDictionary: Record<
-    direction,
-    edgeCoordinateCornerType
-  > = {
-    Up: "above-radius",
-    Down: "bottom-radius",
-    Right: "right-radius",
-    Left: "left-radius",
-  };
-
   function bodyAndTailCoordinateInitialGenerator(
     headCoordinate: cellCoordinate
   ) {
@@ -221,11 +211,25 @@
           snakeCoordinate
         );
 
-        return `${directionFromNextCoordinate.toLowerCase()}-radius`;
+        return `${directionFromNextCoordinate.toLowerCase()}`;
       } else {
-        const comparedCellOne = wholeSnakeCoordinateList[index - 1];
-        const comparedCellTwo = wholeSnakeCoordinateList[index + 1];
-        return ``;
+        const previousCell = wholeSnakeCoordinateList[index - 1];
+        const nextCell = wholeSnakeCoordinateList[index + 1];
+        const directionToPreviousCell = positionRelativeTo(
+          snakeCoordinate,
+          previousCell
+        ) as direction;
+        const directionFromNextCell = positionRelativeTo(
+          nextCell,
+          snakeCoordinate
+        ) as direction;
+        if (directionToPreviousCell === directionFromNextCell) {
+          return ``;
+        } else {
+          return `${oppositeDirectionDictionary[
+            directionToPreviousCell
+          ].toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
+        }
       }
     });
   }
@@ -342,7 +346,7 @@
     {/each}
     {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
       <div
-        class={`snake-body ${cornerOfSnakeBodyList[i]}`}
+        class={`snake-body ${cornerOfSnakeBodyList[i]}-radius`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -464,6 +468,26 @@
 
   .down-radius {
     border-bottom-right-radius: var(--object-border-radius);
+    border-bottom-left-radius: var(--object-border-radius);
+  }
+
+  .up-right-radius,
+  .right-up-radius {
+    border-top-right-radius: var(--object-border-radius);
+  }
+
+  .up-left-radius,
+  .left-up-radius {
+    border-top-left-radius: var(--object-border-radius);
+  }
+
+  .right-down-radius,
+  .down-right-radius {
+    border-bottom-right-radius: var(--object-border-radius);
+  }
+
+  .left-down-radius,
+  .down-left-radius {
     border-bottom-left-radius: var(--object-border-radius);
   }
 </style>

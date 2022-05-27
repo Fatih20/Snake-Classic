@@ -17,7 +17,7 @@ body {
   --snake-color: var(--primary-color);
   --fruit-color: 237, 83, 83;
   --primary-border-color: 32, 107, 0;
-  --object-border-radius: 3px;
+  --object-border-radius: 5px;
   color: #333;
   margin: 0;
   padding: 0;
