@@ -40,7 +40,7 @@
   let allCoordinateList = allCoordinateMaker(gridSize);
   let direction = randomDirection();
   let candidateDirection = direction;
-  let previousDirection: direction;
+  let previousDirection = direction;
   let oppositeDirection = oppositeDirectionDictionary[direction];
   let directionVector = directionsProperty[direction].vectorValue;
   let oppositeDirectionVector =
@@ -179,6 +179,7 @@
   }
 
   function handleKeydown(e) {
+    // console.log(direction);
     const { key } = e;
     const keyPressed = key.toUpperCase();
     Object.values(directionsProperty).forEach(({ key }, index) => {
