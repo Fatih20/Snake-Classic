@@ -13,6 +13,7 @@
     cellCoordinate,
     direction,
     directionVectorType,
+    edgeCoordinateCornerType,
     makePossibleCoordinate,
     possibleCoordinateType,
     possibleDirection,
@@ -57,6 +58,12 @@
     bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
+  let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
+    wholeSnakeCoordinateList
+  );
+  $: cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
+    wholeSnakeCoordinateList
+  );
 
   let allFruitEaten = false;
   let fruitCoordinateList = randomUniqueCoordinateGenerator(
@@ -80,6 +87,16 @@
   let nthTurnReference = 0;
 
   let gameOver = false;
+
+  const directionsToCornerEdgeDictionary: Record<
+    direction,
+    edgeCoordinateCornerType
+  > = {
+    Up: "above-radius",
+    Down: "bottom-radius",
+    Right: "right-radius",
+    Left: "left-radius",
+  };
 
   function bodyAndTailCoordinateInitialGenerator(
     headCoordinate: cellCoordinate
@@ -190,6 +207,29 @@
     return headBiteBody;
   }
 
+  function cornerOfSnakeBodyGenerator(
+    wholeSnakeCoordinateList: cellCoordinate[]
+  ) {
+    return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
+      if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
+        const comparedCell =
+          index === 0
+            ? wholeSnakeCoordinateList[1]
+            : wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2];
+        const directionFromNextCoordinate = positionRelativeTo(
+          comparedCell,
+          snakeCoordinate
+        );
+
+        return `${directionFromNextCoordinate.toLowerCase()}-radius`;
+      } else {
+        const comparedCellOne = wholeSnakeCoordinateList[index - 1];
+        const comparedCellTwo = wholeSnakeCoordinateList[index + 1];
+        return ``;
+      }
+    });
+  }
+
   function sendFruitEatenData() {
     dispatch("justAteFruit");
   }
@@ -260,6 +300,8 @@
       gameFlowControl(!$gameIsPaused);
     }
   }
+
+  $: console.log(cornerOfSnakeBodyList);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -285,16 +327,9 @@
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
     {/each}
-    {#each bodyAndTailCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="snake-body"
-        style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
-        style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
-      />
-    {/each}
-    {#each [headCoordinate] as coordinate (`${coordinate.x} ${coordinate.y}`)}
-      <div
-        class="snake-head"
+        class={`snake-body ${cornerOfSnakeBodyList[i]}`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -376,5 +411,25 @@
 
   .standalone-object {
     border-radius: var(--object-border-radius);
+  }
+
+  .up-radius {
+    border-top-right-radius: var(--object-border-radius);
+    border-top-left-radius: var(--object-border-radius);
+  }
+
+  .left-radius {
+    border-top-left-radius: var(--object-border-radius);
+    border-bottom-left-radius: var(--object-border-radius);
+  }
+
+  .right-radius {
+    border-top-right-radius: var(--object-border-radius);
+    border-bottom-right-radius: var(--object-border-radius);
+  }
+
+  .down-radius {
+    border-bottom-right-radius: var(--object-border-radius);
+    border-bottom-left-radius: var(--object-border-radius);
   }
 </style>

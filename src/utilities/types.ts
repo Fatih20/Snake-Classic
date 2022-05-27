@@ -63,6 +63,9 @@ interface directionPropertyType {
 
 export type directionsPropertyType = Record<direction, directionPropertyType>
 
+const edgeCoordinateCornerList = ["above-radius", "bottom-radius", "left-radius", "right-radius"] as const;
+
+export type edgeCoordinateCornerType = typeof edgeCoordinateCornerList[number];
 // Direction is Up, Down, Right, Left
 // DirectionVector is the element in possibleDirectionVector
 // Direction key is "W", "S", "D", "A"
