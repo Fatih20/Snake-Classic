@@ -229,7 +229,10 @@
           nextCell,
           snakeCoordinate
         ) as direction;
-        if (directionFromPreviousCell === directionFromNextCell) {
+        if (
+          oppositeDirectionDictionary[directionFromPreviousCell] ===
+          directionFromNextCell
+        ) {
           return ``;
         } else {
           return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
