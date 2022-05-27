@@ -16,6 +16,7 @@ body {
   --text-on-secondary-active-element-color: #000;
   --snake-color: var(--primary-color);
   --fruit-color: #ed5353;
+  --object-border-radius: 3px;
   color: #333;
   margin: 0;
   padding: 0;

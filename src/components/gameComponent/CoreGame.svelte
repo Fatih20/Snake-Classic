@@ -280,7 +280,7 @@
   <div class="grid-container" style={`--gridSize : ${gridSize};`}>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
-        class="fruit"
+        class="fruit standalone-object"
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -372,5 +372,9 @@
 
   .fruit {
     background-color: var(--fruit-color);
+  }
+
+  .standalone-object {
+    border-radius: var(--object-border-radius);
   }
 </style>
