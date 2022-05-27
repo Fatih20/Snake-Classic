@@ -307,6 +307,19 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
 <main>
   <div
     class="overlay-container game-is-paused-container"
@@ -328,7 +341,7 @@
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
     {/each}
-    {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y}`)}
+    {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
       <div
         class={`snake-body`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
@@ -350,7 +363,7 @@
 
   .overlay-container {
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--primary-color);
     bottom: 0;
     display: none;
     flex-direction: column;
@@ -366,24 +379,35 @@
     z-index: 1000;
   }
 
+  .game-is-paused-container {
+    z-index: 100;
+  }
+
   .overlay-container h2 {
+    /* background-color: #000000; */
     border-radius: 10px;
-    background-color: #000000;
-    color: white;
+    color: var(--text-on-primary-element-color);
     display: inline-block;
+    font-size: 3em;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
     padding: 0.4em;
+    text-align: center;
   }
 
   .shown {
     display: flex;
   }
   #restart-button {
-    background-color: white;
     border: none;
-    border-radius: 8px;
     box-sizing: border-box;
-    color: black;
-    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    color: var(--text-on-primary-element-color);
+    font-family: "Asap", sans-serif;
+    font-size: 1.75em;
+    font-weight: 700;
+    padding: 0;
   }
 
   .grid-container {

@@ -44,7 +44,6 @@
     justify-content: center;
     height: 100vh;
     width: 100%;
-
     /* border: solid 1px white; */
   }
 
