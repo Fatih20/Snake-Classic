@@ -18,6 +18,8 @@ body {
   --fruit-color: 237, 83, 83;
   --primary-border-color: 32, 107, 0;
   --snake-border-radius: 7px;
+  --head-border-radius: 4px;
+  --tail-border-radius: 7px;
   --fruit-border-radius: 5px;
   color: #333;
   margin: 0;

@@ -400,7 +400,9 @@
     {/each}
     {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
       <div
-        class={`snake-body ${cornerOfSnakeBodyList[i]}-radius`}
+        class={`snake-${i === 0 ? `head` : `body`} ${
+          cornerOfSnakeBodyList[i]
+        }-radius`}
         style:grid-column={`${coordinate.x}/${coordinate.x + 1}`}
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
@@ -496,6 +498,14 @@
     border: none;
   }
 
+  .snake-head {
+    --border-radius: var(--head-border-radius);
+  }
+
+  .snake-body {
+    --border-radius: var(--snake-border-radius);
+  }
+
   .fruit {
     background-color: rgb(var(--fruit-color));
     border-radius: var(--fruit-border-radius);
@@ -507,28 +517,28 @@
   }
 
   .up-radius {
-    border-top-right-radius: var(--snake-border-radius);
-    border-top-left-radius: var(--snake-border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
   }
 
   .left-radius {
-    border-top-left-radius: var(--snake-border-radius);
-    border-bottom-left-radius: var(--snake-border-radius);
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
   }
 
   .right-radius {
-    border-top-right-radius: var(--snake-border-radius);
-    border-bottom-right-radius: var(--snake-border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
   }
 
   .down-radius {
-    border-bottom-right-radius: var(--snake-border-radius);
-    border-bottom-left-radius: var(--snake-border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
   }
 
   .up-right-radius,
   .right-up-radius {
-    border-top-right-radius: var(--snake-border-radius);
+    border-top-right-radius: var(--border-radius);
   }
 
   .up-left-radius,
