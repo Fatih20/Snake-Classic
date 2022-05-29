@@ -426,6 +426,7 @@
     top: 0;
     transition: opacity var(--overlay-transition-time) ease-in-out,
       visibility var(--overlay-transition-time) ease-in-out;
+    user-select: none;
     visibility: hidden;
   }
 

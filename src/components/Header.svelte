@@ -71,6 +71,7 @@
     font-size: calc(var(--font-size) + 0.2em);
     font-family: "Pacifico", cursive;
     font-weight: 400;
+    user-select: none;
     /* border: solid 1px white; */
   }
 
