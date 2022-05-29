@@ -43,10 +43,8 @@
 
   let mainEventLoop: NodeJS.Timer;
 
-  // Before implementing login and signup, refactor this mess by unifying head, bodyAndTail, and wholeSnake, into one.
-  let headCoordinate: cellCoordinate;
   let length: number;
-  let bodyAndTailCoordinateList: cellCoordinate[];
+  let wholeSnakeCoordinateList: cellCoordinate[];
   let direction: direction;
 
   if (
@@ -54,15 +52,13 @@
     $savedDirection === undefined
   ) {
     firstStart = true;
-    headCoordinate = randomCoordinate();
     length = initialLength;
     direction = randomDirection();
   } else {
     firstStart = false;
     gameIsPaused.set(true);
-    headCoordinate = $savedWholeSnakeCoordinateList[0];
-    bodyAndTailCoordinateList = $savedWholeSnakeCoordinateList.slice(1);
-    length = $savedWholeSnakeCoordinateList.length - 1;
+    wholeSnakeCoordinateList = $savedWholeSnakeCoordinateList;
+    length = $savedWholeSnakeCoordinateList.length;
     direction = $savedDirection as direction;
   }
 
@@ -85,12 +81,17 @@
     $savedWholeSnakeCoordinateList === undefined ||
     $savedDirection === undefined
   ) {
-    bodyAndTailCoordinateList =
-      bodyAndTailCoordinateInitialGenerator(headCoordinate);
+    wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
+      randomCoordinate()
+    );
   }
 
-  let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
-  $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
+  $: {
+    console.log(wholeSnakeCoordinateList);
+  }
+
+  let headCoordinate = wholeSnakeCoordinateList[0];
+  $: headCoordinate = wholeSnakeCoordinateList[0];
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
     wholeSnakeCoordinateList
   );
@@ -128,44 +129,39 @@
       savedDirection.reset();
       savedWholeSnakeCoordinateList.reset();
     } else {
-      savedDirection.updateAndSave(direction);
-      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
+      // savedDirection.updateAndSave(direction);
+      // savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
     }
   }
 
   let nthTurnReference = 0;
 
-  function bodyAndTailCoordinateInitialGenerator(
+  function wholeSnakeCoordinateListInitialGenerator(
     headCoordinate: cellCoordinate
   ) {
-    let bodyAndTailCoordinateList: cellCoordinate[] = [];
     let referenceCoordinate = headCoordinate;
-    for (let i = 0; i < length; i++) {
-      if (i !== 0) {
-        referenceCoordinate = bodyAndTailCoordinateList[i - 1];
-      }
-
-      bodyAndTailCoordinateList.push(
+    let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
+    for (let i = 1; i < length; i++) {
+      referenceCoordinate = wholeSnakeCoordinateList[i - 1];
+      wholeSnakeCoordinateList.push(
         mover(referenceCoordinate, oppositeDirectionVector)
       );
     }
 
-    return bodyAndTailCoordinateList;
+    return wholeSnakeCoordinateList;
   }
 
-  function bodyAndTailCoordinateUpdater(
+  function wholeSnakeCoordinateListUpdater(
     wholeSnakeCoordinateList: cellCoordinate[],
     addNewTail: boolean,
     howManyTail: number = 0
   ) {
-    let newBodyAndTailCoordinateList = wholeSnakeCoordinateList
+    const initialHeadCoordinate = wholeSnakeCoordinateList[0];
+    const newheadCoordinate = mover(initialHeadCoordinate, directionVector);
+    const newBodyCoordinateList = wholeSnakeCoordinateList
       .slice(1)
       .map((coordinate, index) => {
-        if (index === 0) {
-          return headCoordinate;
-        } else {
-          return bodyAndTailCoordinateList[index - 1];
-        }
+        return wholeSnakeCoordinateList[index];
       });
 
     let newTailCoordinateList = [] as cellCoordinate[];
@@ -177,8 +173,7 @@
       );
       const directionVectorFromLastTail =
         directionsProperty[tailDirection].vectorValue;
-      let lastTail =
-        newBodyAndTailCoordinateList[newBodyAndTailCoordinateList.length - 1];
+      let lastTail = newBodyCoordinateList[newBodyCoordinateList.length - 1];
       for (let i = 0; i < howManyTail; i++) {
         let newTail = mover(lastTail, directionVectorFromLastTail);
         newTailCoordinateList.push(newTail);
@@ -186,13 +181,20 @@
       }
     }
 
-    return [...newBodyAndTailCoordinateList, ...newTailCoordinateList];
+    console.log(newheadCoordinate);
+    console.log(newBodyCoordinateList);
+    console.log(newTailCoordinateList);
+    return [
+      newheadCoordinate,
+      ...newBodyCoordinateList,
+      ...newTailCoordinateList,
+    ];
   }
 
   function mover(
     movedCoordinate: cellCoordinate,
     directionVector: directionVectorType
-  ) {
+  ): cellCoordinate {
     let newX: number;
     let newY: number;
     const { x: incrementX, y: incrementY } = directionVector;
@@ -229,13 +231,12 @@
     }
   }
 
-  function checkIfHeadBiteBody(
-    headCoordinate: cellCoordinate,
-    bodyAndTailCoordinateList: cellCoordinate[]
-  ) {
+  function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) {
+    const headCoordinate = wholeSnakeCoordinateList[0];
+    const bodyCoordinateList = wholeSnakeCoordinateList.slice(1);
     const { x: referenceX, y: referenceY } = headCoordinate;
     let headBiteBody = false;
-    bodyAndTailCoordinateList.forEach((bodyAndTailCoordinate) => {
+    bodyCoordinateList.forEach((bodyAndTailCoordinate) => {
       const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
       if (referenceX === comparedX && referenceY === comparedY) {
         headBiteBody = true;
@@ -248,6 +249,7 @@
   function cornerOfSnakeBodyGenerator(
     wholeSnakeCoordinateList: cellCoordinate[]
   ) {
+    // console.log(wholeSnakeCoordinateList);
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
         const comparedCell =
@@ -261,6 +263,7 @@
 
         return `${directionFromNextCoordinate.toLowerCase()}`;
       } else {
+        console.log(index);
         const previousCell = wholeSnakeCoordinateList[index - 1];
         const nextCell = wholeSnakeCoordinateList[index + 1];
         const directionFromPreviousCell = positionRelativeTo(
@@ -275,6 +278,11 @@
           oppositeDirectionDictionary[directionFromPreviousCell] ===
           directionFromNextCell
         ) {
+          console.log(snakeCoordinate);
+          console.log(previousCell);
+          console.log(nextCell);
+          console.log(directionFromNextCell);
+          console.log(directionFromPreviousCell);
           return ``;
         } else {
           return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
@@ -311,12 +319,11 @@
         );
       }
     });
-    bodyAndTailCoordinateList = bodyAndTailCoordinateUpdater(
+    wholeSnakeCoordinateList = wholeSnakeCoordinateListUpdater(
       wholeSnakeCoordinateList,
       justAteFruit,
       numberOfTailAddedAfterEating
     );
-    headCoordinate = mover(headCoordinate, directionVector);
 
     sendLengthData();
 
@@ -324,7 +331,7 @@
       nthTurnReference += 1;
     }
 
-    if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
+    if (checkIfHeadBiteBody(wholeSnakeCoordinateList)) {
       gameIsOver.set(true);
     }
 
@@ -354,7 +361,7 @@
     }
   }
 
-  // $: console.log(cornerOfSnakeBodyList);
+  $: console.log(cornerOfSnakeBodyList);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -543,16 +550,16 @@
 
   .up-left-radius,
   .left-up-radius {
-    border-top-left-radius: var(--snake-border-radius);
+    border-top-left-radius: var(--border-radius);
   }
 
   .right-down-radius,
   .down-right-radius {
-    border-bottom-right-radius: var(--snake-border-radius);
+    border-bottom-right-radius: var(--border-radius);
   }
 
   .left-down-radius,
   .down-left-radius {
-    border-bottom-left-radius: var(--snake-border-radius);
+    border-bottom-left-radius: var(--border-radius);
   }
 </style>
