@@ -23,19 +23,19 @@ export function randomDirection () {
 
 export const directionsProperty: directionsPropertyType = {
     Up: {
-      key: possibleDirectionKey[0],
+      keyList: possibleDirectionKey[0],
       vectorValue: possibleDirectionVector[0],
     },
     Down: {
-      key: possibleDirectionKey[1],
+      keyList: possibleDirectionKey[1],
       vectorValue: possibleDirectionVector[1],
     },
     Right: {
-      key: possibleDirectionKey[2],
+      keyList: possibleDirectionKey[2],
       vectorValue: possibleDirectionVector[2],
     },
     Left: {
-      key: possibleDirectionKey[3],
+      keyList: possibleDirectionKey[3],
       vectorValue: possibleDirectionVector[3],
     },
   };

@@ -16,7 +16,7 @@ export type cellCoordinate = {
 };
 
 export const possibleDirection = ["Up", "Down", "Right", "Left"] as const;
-export const possibleDirectionKey = ["W", "S", "D", "A"] as const;
+export const possibleDirectionKey = [["W", "ArrowUp"], ["S", "ArrowDown"], ["D", "ArrowRight"], ["A", "ArrowLeft"]] as const;
 export type direction = typeof possibleDirection[number];
 export type directionKey = typeof possibleDirectionKey[number];
 
@@ -57,7 +57,7 @@ export const possibleDirectionVector = [
 export type directionVectorType = typeof possibleDirectionVector[number];
 
 interface directionPropertyType {
-  key: directionKey,
+  keyList: directionKey,
   vectorValue : directionVectorType
 }
 

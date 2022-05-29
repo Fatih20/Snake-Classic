@@ -208,10 +208,12 @@
   }
 
   function handleKeydown(e) {
-    const { key } = e;
-    const keyPressed = key.toUpperCase();
-    Object.values(directionsProperty).forEach(({ key }, index) => {
-      if (keyPressed === key) {
+    const { key: keyPressed } = e;
+    // console.log(key);
+    console.log(keyPressed);
+    Object.values(directionsProperty).forEach(({ keyList }, index) => {
+      const keySet = new Set(keyList.map((key) => key.toLowerCase()));
+      if (keySet.has(keyPressed.toLowerCase())) {
         candidateDirection = possibleDirection[index];
       }
     });
