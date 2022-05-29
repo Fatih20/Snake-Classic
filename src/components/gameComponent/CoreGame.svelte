@@ -27,19 +27,46 @@
     randomUniqueCoordinateGenerator,
     positionRelativeTo,
   } from "../../utilities/utilities";
-  import { gameIsPaused, gameIsOver } from "../../stores";
+  import {
+    gameIsPaused,
+    gameIsOver,
+    savedWholeSnakeCoordinateList,
+    savedDirection,
+  } from "../../stores";
   import { fade } from "svelte/transition";
 
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
-  let firstStart = true;
+  let firstStart: boolean;
 
   let mainEventLoop: NodeJS.Timer;
 
+  let headCoordinate: cellCoordinate;
+  let length: number;
+  let bodyAndTailCoordinateList: cellCoordinate[];
+  let direction: direction;
+
+  if (
+    $savedWholeSnakeCoordinateList === undefined ||
+    $savedDirection === undefined
+  ) {
+    firstStart = true;
+    headCoordinate = randomCoordinate();
+    length = initialLength;
+    direction = randomDirection();
+  } else {
+    firstStart = false;
+    gameIsPaused.set(true);
+    headCoordinate = $savedWholeSnakeCoordinateList[0];
+    bodyAndTailCoordinateList = $savedWholeSnakeCoordinateList.slice(1);
+    length = $savedWholeSnakeCoordinateList.length - 1;
+    direction = $savedDirection as direction;
+  }
+
   let allCoordinateList = allCoordinateMaker(gridSize);
-  let direction = randomDirection();
+  // let direction = randomDirection();
   let candidateDirection = direction;
   let previousDirection = direction;
   let oppositeDirection = oppositeDirectionDictionary[direction];
@@ -53,10 +80,18 @@
   $: oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
 
-  let headCoordinate: cellCoordinate = randomCoordinate();
-  let length = initialLength;
-  let bodyAndTailCoordinateList =
-    bodyAndTailCoordinateInitialGenerator(headCoordinate);
+  if (
+    $savedWholeSnakeCoordinateList === undefined ||
+    $savedDirection === undefined
+  ) {
+    bodyAndTailCoordinateList =
+      bodyAndTailCoordinateInitialGenerator(headCoordinate);
+  }
+
+  // let headCoordinate: cellCoordinate = savedInitialWholeSnakeCoordinateList[0] ?? randomCoordinate();
+  // let length = savedInitialWholeSnakeCoordinateList.length ?? initialLength;
+  // let bodyAndTailCoordinateList =
+  // bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
@@ -283,11 +318,14 @@
     }
 
     if (checkIfHeadBiteBody(headCoordinate, bodyAndTailCoordinateList)) {
-      gameIsOver.update((gameIsOver) => true);
+      gameIsOver.set(true);
     }
 
     if ($gameIsOver) {
       gameFlowControl(false);
+    } else {
+      savedDirection.updateAndSave(direction);
+      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
     }
 
     // console.log("Game is running");

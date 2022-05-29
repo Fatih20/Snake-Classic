@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { highScore } from "../stores";
+  import {
+    highScore,
+    savedWholeSnakeCoordinateList,
+    savedDirection,
+  } from "../stores";
   import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
