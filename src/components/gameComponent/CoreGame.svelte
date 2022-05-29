@@ -92,17 +92,6 @@
   $: oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
 
-  // if (
-  //   $savedWholeSnakeCoordinateList === undefined ||
-  //   $savedDirection === undefined
-  // ) {
-
-  // }
-
-  $: {
-    console.log(wholeSnakeCoordinateList);
-  }
-
   let headCoordinate = wholeSnakeCoordinateList[0];
   $: headCoordinate = wholeSnakeCoordinateList[0];
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
@@ -112,12 +101,6 @@
     wholeSnakeCoordinateList
   );
 
-  // $: fruitCoordinateList = fruitCoordinateList.filter((fruitCoordinate) => {
-  //   console.log(fruitCoordinate);
-  //   console.log(wholeSnakeCoordinateList[0]);
-  //   JSON.stringify(fruitCoordinate) !==
-  //     JSON.stringify(wholeSnakeCoordinateList[0]);
-  // });
   $: allFruitEaten = fruitCoordinateList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
@@ -191,10 +174,6 @@
         lastTail = newTailCoordinateList[newTailCoordinateList.length - 1];
       }
     }
-
-    console.log(newheadCoordinate);
-    console.log(newBodyCoordinateList);
-    console.log(newTailCoordinateList);
     return [
       newheadCoordinate,
       ...newBodyCoordinateList,
@@ -229,7 +208,6 @@
   }
 
   function handleKeydown(e) {
-    // console.log(direction);
     const { key } = e;
     const keyPressed = key.toUpperCase();
     Object.values(directionsProperty).forEach(({ key }, index) => {
@@ -251,7 +229,6 @@
       const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
       if (referenceX === comparedX && referenceY === comparedY) {
         headBiteBody = true;
-        // console.log("You lost");
       }
     });
     return headBiteBody;
@@ -260,7 +237,6 @@
   function cornerOfSnakeBodyGenerator(
     wholeSnakeCoordinateList: cellCoordinate[]
   ) {
-    // console.log(wholeSnakeCoordinateList);
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
         const comparedCell =
@@ -274,7 +250,6 @@
 
         return `${directionFromNextCoordinate.toLowerCase()}`;
       } else {
-        console.log(index);
         const previousCell = wholeSnakeCoordinateList[index - 1];
         const nextCell = wholeSnakeCoordinateList[index + 1];
         const directionFromPreviousCell = positionRelativeTo(
@@ -289,11 +264,6 @@
           oppositeDirectionDictionary[directionFromPreviousCell] ===
           directionFromNextCell
         ) {
-          console.log(snakeCoordinate);
-          console.log(previousCell);
-          console.log(nextCell);
-          console.log(directionFromNextCell);
-          console.log(directionFromPreviousCell);
           return ``;
         } else {
           return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
@@ -372,7 +342,7 @@
     }
   }
 
-  $: console.log(cornerOfSnakeBodyList);
+  // $: console.log(cornerOfSnakeBodyList);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
