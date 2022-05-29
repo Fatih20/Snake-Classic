@@ -43,6 +43,7 @@
 
   let mainEventLoop: NodeJS.Timer;
 
+  // Before implementing login and signup, refactor this mess by unifying head, bodyAndTail, and wholeSnake, into one.
   let headCoordinate: cellCoordinate;
   let length: number;
   let bodyAndTailCoordinateList: cellCoordinate[];
