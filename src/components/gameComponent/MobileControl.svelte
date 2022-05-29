@@ -33,7 +33,9 @@
         id={direction.toLowerCase()}
         on:click={() => {
           if (!$gameIsPaused) {
-            keyDownSimulator(directionsProperty[direction].key.toLowerCase());
+            keyDownSimulator(
+              directionsProperty[direction].keyList[0].toLowerCase()
+            );
           }
         }}
       >
