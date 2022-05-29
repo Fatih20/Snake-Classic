@@ -24,13 +24,41 @@
     align-items: center;
     display: flex;
     justify-content: center;
-    gap: 1em;
+    /* gap: 1em; */
   }
 
   .attribute-box {
     align-items: center;
     display: flex;
     flex-direction: column;
+    gap: 0.25em;
     justify-content: center;
+    padding: 0 0.5em;
+  }
+
+  .attribute-box:first-child {
+    border-right: solid 2px black;
+  }
+
+  .attribute-box:last-child {
+    border-left: solid 2px black;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  h3 {
+    font-size: 1.5em;
+  }
+
+  @media (min-width: 600px) {
+    h2 {
+      font-size: 1.2em;
+    }
+
+    h3 {
+      font-size: 1.5em;
+    }
   }
 </style>

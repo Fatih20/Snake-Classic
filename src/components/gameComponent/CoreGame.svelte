@@ -363,19 +363,27 @@
 </head>
 
 <main>
+  <div class="spacer" />
   <div
-    class="overlay-container game-is-paused-container"
-    class:shown={$gameIsPaused}
+    class="grid-container"
+    class:grid-container-bordered={!$gameIsOver && !$gameIsPaused}
+    style={`--gridSize : ${gridSize};`}
   >
-    <h2>Game is Paused</h2>
-  </div>
-  <div class="overlay-container game-over-container" class:shown={$gameIsOver}>
-    <h2>Game Over!</h2>
-    <button id="restart-button" on:click={() => sendResetGame()}
-      >Play Again</button
+    <div
+      class="overlay-container game-is-paused-container"
+      class:shown={$gameIsPaused}
     >
-  </div>
-  <div class="grid-container" style={`--gridSize : ${gridSize};`}>
+      <h2>Game is Paused</h2>
+    </div>
+    <div
+      class="overlay-container game-over-container"
+      class:shown={$gameIsOver}
+    >
+      <h2>Game Over!</h2>
+      <button id="restart-button" on:click={() => sendResetGame()}
+        >Play Again</button
+      >
+    </div>
     {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class={`fruit ${
@@ -398,13 +406,18 @@
       />
     {/each}
   </div>
+  <div class="spacer" />
 </main>
 
 <style>
   main {
     --overlay-transition-time: 0.25s;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     /* height: 100%; */
-    /* flex-grow: 1; */
+    flex-grow: 1;
     position: relative;
     width: 100%;
 
@@ -471,7 +484,7 @@
   .grid-container {
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
-    border: solid 2px rgb(var(--primary-border-color));
+    border: none;
     display: grid;
     gap: 0;
     grid-template-columns: repeat(var(--gridSize), 1fr);
@@ -480,7 +493,17 @@
     /* max-height: 100%; */
     /* max-width: 100%; */
     padding: 0;
+    position: relative;
+    transition: border var(--overlay-transition-time) ease-in-out;
     width: 100%;
+  }
+
+  .grid-container-bordered {
+    border: solid 2px rgb(var(--primary-border-color));
+  }
+
+  .spacer {
+    flex-grow: 1;
   }
 
   .snake-body,

@@ -32,7 +32,7 @@
     on:lengthUpdate={(e) => (length = e.detail.length)}
     on:resetGame={resetCoreGame}
   />
-  <div class="spacer" />
+  <!-- <div class="spacer" /> -->
   <MobileControl />
 </main>
 
