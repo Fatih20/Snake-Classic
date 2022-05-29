@@ -32,9 +32,15 @@ function createWholeSnakeCoordinateList () {
         set(newValue);
         localStorage.setItem("wholeSnakeList", JSON.stringify(newValue))
     }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("wholeSnakeList");
+    }
     return {
         subscribe,
-        updateAndSave
+        updateAndSave,
+        reset
     }
 }
 
@@ -46,9 +52,16 @@ function createDirection () {
         set(newValue);
         localStorage.setItem("direction", JSON.stringify(newValue))
     }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("wholeSnakeList");
+    }
+
     return {
         subscribe,
-        updateAndSave
+        updateAndSave,
+        reset
     }
 }
 

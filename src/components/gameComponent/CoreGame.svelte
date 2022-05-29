@@ -88,10 +88,6 @@
       bodyAndTailCoordinateInitialGenerator(headCoordinate);
   }
 
-  // let headCoordinate: cellCoordinate = savedInitialWholeSnakeCoordinateList[0] ?? randomCoordinate();
-  // let length = savedInitialWholeSnakeCoordinateList.length ?? initialLength;
-  // let bodyAndTailCoordinateList =
-  // bodyAndTailCoordinateInitialGenerator(headCoordinate);
   let wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   $: wholeSnakeCoordinateList = [headCoordinate, ...bodyAndTailCoordinateList];
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
@@ -123,6 +119,16 @@
       );
       nthTurnReference = 0;
       allFruitEaten = false;
+    }
+  }
+
+  $: {
+    if ($gameIsOver) {
+      savedDirection.reset();
+      savedWholeSnakeCoordinateList.reset();
+    } else {
+      savedDirection.updateAndSave(direction);
+      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
     }
   }
 
@@ -323,9 +329,6 @@
 
     if ($gameIsOver) {
       gameFlowControl(false);
-    } else {
-      savedDirection.updateAndSave(direction);
-      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
     }
 
     // console.log("Game is running");
