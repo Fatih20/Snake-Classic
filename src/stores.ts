@@ -65,5 +65,29 @@ function createDirection () {
     }
 }
 
+function createFruitPositionList () {
+    const candidateFruitPosition = fetchItemFromLocalStorage("fruitPosition")
+    const {subscribe, set} = writable(candidateFruitPosition as cellCoordinate[] ?? undefined);
+
+    function updateAndSave (newValue : cellCoordinate[]) {
+        set(newValue);
+        localStorage.setItem("fruitPosition", JSON.stringify(newValue))
+    }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("fruitPosition");
+    }
+
+    return {
+        subscribe,
+        updateAndSave,
+        reset
+    }
+}
+
+
+
 export const savedWholeSnakeCoordinateList = createWholeSnakeCoordinateList();
 export const savedDirection = createDirection();
+export const savedFruitPositionList = createFruitPositionList()

@@ -32,6 +32,7 @@
     gameIsOver,
     savedWholeSnakeCoordinateList,
     savedDirection,
+    savedFruitPositionList,
   } from "../../stores";
   import { fade } from "svelte/transition";
 
@@ -39,30 +40,44 @@
 
   const dispatch = createEventDispatcher();
 
+  let mainEventLoop: NodeJS.Timer;
   let firstStart: boolean;
 
-  let mainEventLoop: NodeJS.Timer;
+  let allCoordinateList = allCoordinateMaker(gridSize);
 
   let length: number;
   let wholeSnakeCoordinateList: cellCoordinate[];
   let direction: direction;
+  let fruitCoordinateList: cellCoordinate[];
+  let allFruitEaten: boolean;
 
   if (
     $savedWholeSnakeCoordinateList === undefined ||
-    $savedDirection === undefined
+    $savedDirection === undefined ||
+    $savedFruitPositionList === undefined
   ) {
     firstStart = true;
     length = initialLength;
     direction = randomDirection();
+    wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
+      randomCoordinate()
+    );
+    fruitCoordinateList = randomUniqueCoordinateGenerator(
+      wholeSnakeCoordinateList,
+      allCoordinateList,
+      numberOfFruitSpawned
+    );
+    allFruitEaten = fruitCoordinateList.length > 0;
   } else {
     firstStart = false;
     gameIsPaused.set(true);
     wholeSnakeCoordinateList = $savedWholeSnakeCoordinateList;
     length = $savedWholeSnakeCoordinateList.length;
     direction = $savedDirection as direction;
+    fruitCoordinateList = $savedFruitPositionList;
+    allFruitEaten = fruitCoordinateList.length > 0;
   }
 
-  let allCoordinateList = allCoordinateMaker(gridSize);
   // let direction = randomDirection();
   let candidateDirection = direction;
   let previousDirection = direction;
@@ -77,14 +92,12 @@
   $: oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
 
-  if (
-    $savedWholeSnakeCoordinateList === undefined ||
-    $savedDirection === undefined
-  ) {
-    wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
-      randomCoordinate()
-    );
-  }
+  // if (
+  //   $savedWholeSnakeCoordinateList === undefined ||
+  //   $savedDirection === undefined
+  // ) {
+
+  // }
 
   $: {
     console.log(wholeSnakeCoordinateList);
@@ -99,12 +112,6 @@
     wholeSnakeCoordinateList
   );
 
-  let allFruitEaten = false;
-  let fruitCoordinateList = randomUniqueCoordinateGenerator(
-    wholeSnakeCoordinateList,
-    allCoordinateList,
-    numberOfFruitSpawned
-  );
   // $: fruitCoordinateList = fruitCoordinateList.filter((fruitCoordinate) => {
   //   console.log(fruitCoordinate);
   //   console.log(wholeSnakeCoordinateList[0]);
@@ -128,9 +135,11 @@
     if ($gameIsOver) {
       savedDirection.reset();
       savedWholeSnakeCoordinateList.reset();
+      savedFruitPositionList.reset();
     } else {
-      // savedDirection.updateAndSave(direction);
-      // savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
+      savedDirection.updateAndSave(direction);
+      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
+      savedFruitPositionList.updateAndSave(fruitCoordinateList);
     }
   }
 
@@ -139,6 +148,8 @@
   function wholeSnakeCoordinateListInitialGenerator(
     headCoordinate: cellCoordinate
   ) {
+    const oppositeDirectionVector =
+      directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
     let referenceCoordinate = headCoordinate;
     let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
     for (let i = 1; i < length; i++) {
