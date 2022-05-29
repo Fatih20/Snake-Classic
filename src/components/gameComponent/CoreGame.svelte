@@ -312,7 +312,7 @@
     }
   }
 
-  $: console.log(cornerOfSnakeBodyList);
+  // $: console.log(cornerOfSnakeBodyList);
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

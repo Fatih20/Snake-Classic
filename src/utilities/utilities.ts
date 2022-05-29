@@ -58,18 +58,20 @@ export function allCoordinateMaker (gridSize : number) {
 }
 
 export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoordinate[], allCoordinateList : cellCoordinate[], numberOfCoordinate : number) {
-    const filledCoordinateSet = new Set(filledCoordinateList);
-    const allCoordinateSet = new Set(allCoordinateList);
+    const filledCoordinateStringifiedSet = new Set(filledCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
+    const allCoordinateStringifiedSet = new Set(allCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
 
     let emptyCoordinateSet = new Set<cellCoordinate>();
 
-    allCoordinateSet.forEach((coordinate) => {
-        if (!filledCoordinateSet.has(coordinate)) {
-            emptyCoordinateSet.add(coordinate);
+    allCoordinateStringifiedSet.forEach((coordinate) => {
+        // This check probably doesn't work because every object is unique and can't be compared.
+        if (!filledCoordinateStringifiedSet.has(coordinate)) {
+            emptyCoordinateSet.add(JSON.parse(coordinate));
         }
     });
 
     let emptyCoordinateList = Array.from(emptyCoordinateSet);
+    // console.log(emptyCoordinateList);
 
     if (numberOfCoordinate >= emptyCoordinateList.length) {
         return [] as cellCoordinate[]
