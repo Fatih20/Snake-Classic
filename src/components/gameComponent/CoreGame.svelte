@@ -285,6 +285,9 @@
   }
 
   function sendResetGame() {
+    savedDirection.reset();
+    savedWholeSnakeCoordinateList.reset();
+    savedFruitPositionList.reset();
     dispatch("resetGame");
   }
 
@@ -374,6 +377,9 @@
       class:shown={$gameIsPaused}
     >
       <h2>Game is Paused</h2>
+      <button id="restart-button" on:click={() => sendResetGame()}
+        >New Game</button
+      >
     </div>
     <div
       class="overlay-container game-over-container"
@@ -430,7 +436,7 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 0.5em;
     justify-content: center;
     left: 0;
     opacity: 0;
@@ -460,7 +466,7 @@
     font-size: 3em;
     font-family: "Pacifico", cursive;
     font-weight: 400;
-    padding: 0.4em;
+    /* padding: 0.4em; */
     text-align: center;
   }
 
