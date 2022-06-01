@@ -1,6 +1,5 @@
 <script lang="ts">
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
-  import Game from "./Game.svelte";
 </script>
 
 <head>
@@ -24,7 +23,12 @@
 </head>
 
 <main>
-  <div class="width-constrain">
+  <div
+    class="width-constrain"
+    style={$gameState === "playing"
+      ? "justify-content: space-between;"
+      : "justify-content: center;"}
+  >
     <!-- <button>Bruh</button> -->
     <button
       on:click={() => {
@@ -48,8 +52,9 @@
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
       on:click={() => {
-        if (isLoggedIn) {
+        if ($isLoggedIn) {
         } else {
+          console.log("Bruh");
           gameState.set("login");
         }
       }}
@@ -85,7 +90,6 @@
     align-items: center;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     width: min(100%, 400px);
 
     /* border: solid 1px white; */

@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
   import { mainMenuTransitionDuration } from "../config";
+  import { gameState } from "../stores";
 
   const dispatch = createEventDispatcher();
 
@@ -27,12 +28,20 @@
   <div id="content-container">
     <h1 id="title">Snake<br />Classic</h1>
     <div class="spacer" />
-    <button
-      class="start-button"
-      on:click={() => {
-        sendGameHasStarted();
-      }}>Start</button
-    >
+    <div id="button-container">
+      <button
+        class="start-button"
+        on:click={() => {
+          sendGameHasStarted();
+        }}>Start</button
+      >
+      <button
+        class="start-button"
+        on:click={() => {
+          gameState.set("login");
+        }}>Login</button
+      >
+    </div>
   </div>
 </main>
 
@@ -66,6 +75,19 @@
     gap: 1.5em;
     height: 300px;
     /* border: solid 1px white; */
+  }
+
+  #button-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5em;
+  }
+
+  #button-container button {
+    margin: 0;
+    padding: 0;
   }
 
   #title {
