@@ -33,6 +33,8 @@
     savedWholeSnakeCoordinateList,
     savedDirection,
     savedFruitPositionList,
+    savedScore,
+    savedFruitEaten,
   } from "../../stores";
   import { fade } from "svelte/transition";
 
@@ -288,6 +290,8 @@
     savedDirection.reset();
     savedWholeSnakeCoordinateList.reset();
     savedFruitPositionList.reset();
+    savedScore.reset();
+    savedFruitEaten.reset();
     dispatch("resetGame");
   }
 
@@ -377,8 +381,12 @@
       class:shown={$gameIsPaused}
     >
       <h2>Game is Paused</h2>
-      <button id="restart-button" on:click={() => sendResetGame()}
-        >New Game</button
+      <button
+        id="restart-button"
+        on:click={() => {
+          sendResetGame();
+          gameIsPaused.set(false);
+        }}>New Game</button
       >
     </div>
     <div

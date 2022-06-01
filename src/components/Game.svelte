@@ -19,6 +19,11 @@
     score = $savedScore;
   }
 
+  $: {
+    savedFruitEaten.updateAndSave(fruitEaten);
+    savedScore.updateAndSave(score);
+  }
+
   $: highScoreChecker(score);
 
   let length = initialLength;
