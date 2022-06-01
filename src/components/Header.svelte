@@ -46,7 +46,14 @@
         <i class="fa-solid fa-pause icon" />
       {/if}
     </button>
-    <h1>Snake Classic</h1>
+    <h1
+      id="title"
+      on:click={() => {
+        gameState.set("startPage");
+      }}
+    >
+      Snake Classic
+    </h1>
     <button
       class="header-button right-button"
       style="width: 26px;"
@@ -95,7 +102,8 @@
     /* border: solid 1px white; */
   }
 
-  h1 {
+  #title {
+    cursor: pointer;
     font-size: calc(var(--font-size) + 0.2em);
     font-family: "Pacifico", cursive;
     font-weight: 400;
