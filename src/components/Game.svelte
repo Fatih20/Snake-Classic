@@ -1,15 +1,11 @@
 <script lang="ts">
-  import {
-    highScore,
-    savedScore,
-    savedFruitEaten,
-    savedWholeSnakeCoordinateList,
-  } from "../stores";
+  import { highScore, savedGame } from "../stores";
   import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
   import MobileControl from "./gameComponent/MobileControl.svelte";
+  import { isSavedGameUndefined } from "../utilities/utilities";
 
   export let resetCoreGame: () => void;
 
@@ -17,28 +13,28 @@
   let score: number;
   let length: number;
 
-  if ($savedScore === undefined || $savedFruitEaten === undefined) {
+  if (isSavedGameUndefined($savedGame)) {
     fruitEaten = 0;
     score = 0;
   } else {
-    fruitEaten = $savedFruitEaten;
-    score = $savedScore;
+    fruitEaten = $savedGame.fruitEaten;
+    score = $savedGame.score;
   }
 
-  if ($savedWholeSnakeCoordinateList === undefined) {
+  if (isSavedGameUndefined($savedGame)) {
     length = initialLength;
   } else {
-    length = $savedWholeSnakeCoordinateList.length;
+    length = $savedGame.wholeSnakeCoordinateList.length;
   }
 
   $: {
-    savedFruitEaten.updateAndSave(fruitEaten);
-    savedScore.updateAndSave(score);
+    savedGame.updateFruitEaten(fruitEaten);
+    savedGame.updateScore(score);
   }
 
   $: highScoreChecker(score);
 
-  function highScoreChecker(score) {
+  function highScoreChecker(score: number) {
     if (score > $highScore) {
       highScore.updateAndSave(score);
     }

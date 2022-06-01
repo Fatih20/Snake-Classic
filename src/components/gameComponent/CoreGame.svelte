@@ -26,17 +26,9 @@
     allCoordinateMaker,
     randomUniqueCoordinateGenerator,
     positionRelativeTo,
+    isSavedGameUndefined,
   } from "../../utilities/utilities";
-  import {
-    gameIsPaused,
-    gameIsOver,
-    savedWholeSnakeCoordinateList,
-    savedDirection,
-    savedFruitPositionList,
-    savedScore,
-    savedFruitEaten,
-  } from "../../stores";
-  import { fade } from "svelte/transition";
+  import { gameIsPaused, gameIsOver, savedGame } from "../../stores";
 
   import { createEventDispatcher } from "svelte";
 
@@ -53,11 +45,7 @@
   let fruitCoordinateList: cellCoordinate[];
   let allFruitEaten: boolean;
 
-  if (
-    $savedWholeSnakeCoordinateList === undefined ||
-    $savedDirection === undefined ||
-    $savedFruitPositionList === undefined
-  ) {
+  if (isSavedGameUndefined($savedGame)) {
     firstStart = true;
     length = initialLength;
     direction = randomDirection();
@@ -73,10 +61,10 @@
   } else {
     firstStart = false;
     gameIsPaused.set(true);
-    wholeSnakeCoordinateList = $savedWholeSnakeCoordinateList;
-    length = $savedWholeSnakeCoordinateList.length;
-    direction = $savedDirection as direction;
-    fruitCoordinateList = $savedFruitPositionList;
+    wholeSnakeCoordinateList = $savedGame.wholeSnakeCoordinateList;
+    length = $savedGame.wholeSnakeCoordinateList.length;
+    direction = $savedGame.direction as direction;
+    fruitCoordinateList = $savedGame.fruitPositionList;
     allFruitEaten = fruitCoordinateList.length > 0;
   }
 
@@ -118,13 +106,11 @@
 
   $: {
     if ($gameIsOver) {
-      savedDirection.reset();
-      savedWholeSnakeCoordinateList.reset();
-      savedFruitPositionList.reset();
+      savedGame.reset();
     } else {
-      savedDirection.updateAndSave(direction);
-      savedWholeSnakeCoordinateList.updateAndSave(wholeSnakeCoordinateList);
-      savedFruitPositionList.updateAndSave(fruitCoordinateList);
+      savedGame.updateDirection(direction);
+      savedGame.updateWholeSnakeCoordinate(wholeSnakeCoordinateList);
+      savedGame.updateFruitPosition(fruitCoordinateList);
     }
   }
 
@@ -212,7 +198,7 @@
   function handleKeydown(e) {
     const { key: keyPressed } = e;
     // console.log(key);
-    console.log(keyPressed);
+    // console.log(keyPressed);
     Object.values(directionsProperty).forEach(({ keyList }, index) => {
       const keySet = new Set(keyList.map((key) => key.toLowerCase()));
       if (keySet.has(keyPressed.toLowerCase())) {
@@ -287,11 +273,7 @@
   }
 
   function sendResetGame() {
-    savedDirection.reset();
-    savedWholeSnakeCoordinateList.reset();
-    savedFruitPositionList.reset();
-    savedScore.reset();
-    savedFruitEaten.reset();
+    savedGame.reset();
     dispatch("resetGame");
   }
 

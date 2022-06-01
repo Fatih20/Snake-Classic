@@ -1,5 +1,5 @@
 import { readable, writable } from "svelte/store";
-import type { cellCoordinate, direction } from "./utilities/types";
+import { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, ISavedGameProperty } from "./utilities/types";
 import { fetchItemFromLocalStorage } from "./utilities/utilities";
 
 function createHighScore () {
@@ -128,9 +128,79 @@ function createFruitEaten () {
     }
 }
 
-export const savedScore = createScore();
-export const savedFruitEaten = createFruitEaten();
+function createSavedGame () {
+    const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
+    const {subscribe, set, update} = writable(candidateSavedGame as ISavedGameInfo ?? blankSavedGame);
+
+    // function updateAndSave (propertyName : ISavedGameProperty, newValue : cellCoordinate[]| direction | number) {
+    //     switch ()
+    // }
+
+    function updateFruitPosition (newValue : cellCoordinate[]) {
+        update(previousSavedGame => {
+            let newSavedGame = previousSavedGame;
+            newSavedGame.fruitPositionList = newValue;
+            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
+            return newSavedGame;
+        })
+    }
+
+    function updateWholeSnakeCoordinate (newValue : cellCoordinate[]) {
+        update(previousSavedGame => {
+            let newSavedGame = previousSavedGame;
+            newSavedGame.wholeSnakeCoordinateList = newValue;
+            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
+            return newSavedGame;
+        })  
+    }
+
+    function updateDirection (newValue : direction) {
+        update(previousSavedGame => {
+            let newSavedGame = previousSavedGame;
+            newSavedGame.direction = newValue;
+            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
+            return newSavedGame;
+        })
+    }
+
+    function updateScore (newValue : number) {
+        update(previousSavedGame => {
+            let newSavedGame = previousSavedGame;
+            newSavedGame.score = newValue;
+            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
+            return newSavedGame;
+        })
+    }
+
+    function updateFruitEaten (newValue : number) {
+        update(previousSavedGame => {
+            let newSavedGame = previousSavedGame;
+            newSavedGame.fruitEaten = newValue;
+            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
+            return newSavedGame;
+        })
+    }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("savedGame");
+    }
+
+    return {
+        subscribe,
+        updateScore,
+        updateDirection,
+        updateFruitEaten,
+        updateFruitPosition,
+        updateWholeSnakeCoordinate,
+        reset
+    }
+}
+
+export const savedGame = createSavedGame();
 
 export const savedWholeSnakeCoordinateList = createWholeSnakeCoordinateList();
-export const savedDirection = createDirection();
 export const savedFruitPositionList = createFruitPositionList();
+export const savedDirection = createDirection();
+export const savedScore = createScore();
+export const savedFruitEaten = createFruitEaten();

@@ -71,3 +71,29 @@ export type edgeCoordinateCornerType = typeof edgeCoordinateCornerList[number];
 // Direction key is "W", "S", "D", "A"
 
 export type oppositeDirectionDictionaryType = Record<direction, direction>
+
+export interface ISavedGameInfo {
+  "direction" : direction,
+  "wholeSnakeCoordinateList" : cellCoordinate[],
+  "fruitPositionList" : cellCoordinate[],
+  "fruitEaten" : number,
+  "score" : number,
+}
+
+export type ISavedGameProperty = keyof ISavedGameInfo;
+
+export interface ISavedGameNone {
+  "direction" : undefined,
+  "wholeSnakeCoordinateList" : undefined,
+  "fruitPositionList" : undefined,
+  "fruitEaten" : undefined,
+  "score" : undefined,
+}
+
+export const blankSavedGame : ISavedGameNone = {
+  "direction" : undefined,
+  "fruitEaten" : undefined,
+  "fruitPositionList" : undefined,
+  "wholeSnakeCoordinateList" : undefined,
+  "score" : undefined,
+}

@@ -1,4 +1,4 @@
-import { cellCoordinate, direction, directionVectorType, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
+import { blankSavedGame, cellCoordinate, direction, directionVectorType, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
 import { gridSize } from "../config";
 import { possibleDirection, directionsPropertyType,
     possibleDirectionKey,
@@ -127,5 +127,9 @@ export function fetchItemFromLocalStorage (key : string){
     } else {
         return null
     }
+}
+
+export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo) {
+    return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
