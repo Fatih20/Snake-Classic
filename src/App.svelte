@@ -33,12 +33,12 @@
           <Game {resetCoreGame} />
         {/key}
       {/if}
-      <div class="spacer" />
       {#if $gameState === "login" || $gameState === "signIn"}
+        <div class="spacer" />
         <Login />
         <!-- <div class="spacer" /> -->
+        <div class="spacer" />
       {/if}
-      <div class="spacer" />
       <Footer />
     </div>
   {/if}
