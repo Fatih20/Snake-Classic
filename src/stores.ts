@@ -86,8 +86,51 @@ function createFruitPositionList () {
     }
 }
 
+function createScore () {
+    const candidateScore = fetchItemFromLocalStorage("score");
+    const {subscribe, set} = writable(candidateScore ?? 0);
 
+    function updateAndSave (newValue : number) {
+        set(newValue);
+        localStorage.setItem("score", JSON.stringify(newValue))
+    }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("score");
+    }
+
+    return {
+        subscribe,
+        updateAndSave,
+        reset
+    }
+}
+
+function createFruitEaten () {
+    const candidateFruitEaten = fetchItemFromLocalStorage("fruitEaten");
+    const {subscribe, set} = writable(candidateFruitEaten ?? 0);
+
+    function updateAndSave (newValue : number) {
+        set(newValue);
+        localStorage.setItem("fruitEaten", JSON.stringify(newValue))
+    }
+
+    function reset () {
+        set(undefined);
+        localStorage.removeItem("FruitEaten");
+    }
+
+    return {
+        subscribe,
+        updateAndSave,
+        reset
+    }
+}
+
+export const savedScore = createScore();
+export const savedFruitEaten = createFruitEaten();
 
 export const savedWholeSnakeCoordinateList = createWholeSnakeCoordinateList();
 export const savedDirection = createDirection();
-export const savedFruitPositionList = createFruitPositionList()
+export const savedFruitPositionList = createFruitPositionList();

@@ -1,9 +1,5 @@
 <script lang="ts">
-  import {
-    highScore,
-    savedWholeSnakeCoordinateList,
-    savedDirection,
-  } from "../stores";
+  import { highScore, savedScore, savedFruitEaten } from "../stores";
   import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
@@ -12,8 +8,17 @@
 
   export let resetCoreGame: () => void;
 
-  let fruitEaten = 0;
-  $: score = fruitEaten * scoresAfterEveryFruit;
+  let fruitEaten: number;
+  let score: number;
+
+  if ($savedScore === undefined || $savedFruitEaten === undefined) {
+    fruitEaten = 0;
+    score = 0;
+  } else {
+    fruitEaten = $savedFruitEaten;
+    score = $savedScore;
+  }
+
   $: highScoreChecker(score);
 
   let length = initialLength;
@@ -28,7 +33,10 @@
 <main>
   <GameInterface {score} {length} highScore={$highScore} />
   <CoreGame
-    on:justAteFruit={() => (fruitEaten += 1)}
+    on:justAteFruit={() => {
+      fruitEaten += 1;
+      score += scoresAfterEveryFruit;
+    }}
     on:lengthUpdate={(e) => (length = e.detail.length)}
     on:resetGame={resetCoreGame}
   />
