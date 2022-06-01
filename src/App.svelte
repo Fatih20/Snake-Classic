@@ -13,7 +13,7 @@
   }
 
   if (!isSavedGameUndefined($savedGame)) {
-    gameState.set("login");
+    gameState.set("playing");
   }
 
   function resetCoreGame() {
