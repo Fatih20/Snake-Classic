@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { placeholderPassword, placeholderUsername } from "../config";
+  import {
+    placeholderEmail,
+    placeholderPassword,
+    placeholderUsername,
+  } from "../config";
 
   import { gameState } from "../stores";
 
@@ -31,6 +35,7 @@
           id="email-input"
           name="email"
           type="email"
+          placeholder={placeholderEmail}
           bind:value={enteredEmail}
         />
       </div>
@@ -101,10 +106,18 @@
     width: 100%;
   }
 
+  input:autofill {
+    box-sizing: border-box;
+    background-color: rgb(var(--primary-color));
+    border: solid 1px rgba(var(--primary-color), 0);
+    border-radius: var(--button-radius);
+    color: rgb(var(--text-on-primary-element-color));
+    outline: none;
+    width: 100%;
+  }
+
   input:focus {
-    background-color: rgb(var(--text-on-primary-element-color));
-    border: solid 2px rgb(var(--primary-color));
-    color: rgb(var(--primary-color));
+    /* border: solid 1px rgba(var(--primary-border-color), 1);s */
   }
 
   ::placeholder {
@@ -113,11 +126,21 @@
 
   .submit-button {
     background-color: rgb(var(--primary-color));
-    border: none;
+    border: solid 2px rgba(var(--primary-color), 0);
     border-radius: var(--button-smaller-radius);
     color: rgb(var(--text-on-primary-element-color));
+    cursor: pointer;
     font-weight: 600;
+    transition: all 0.25s ease-in-out;
+    /* font-size: 1em; */
     margin: 0;
+    padding: 7px;
+  }
+
+  .submit-button:hover {
+    background-color: rgb(var(--text-on-primary-element-color));
+    border: solid 2px rgba(var(--primary-color), 1);
+    color: rgb(var(--primary-color));
   }
 
   .input-element {
