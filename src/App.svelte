@@ -6,9 +6,7 @@
   import { fade } from "svelte/transition";
   import { gameIsOver, savedGame, gameState } from "./stores";
   import { isSavedGameUndefined } from "./utilities/utilities";
-  import type { possibleGameStateType } from "./utilities/types";
   import Login from "./components/login.svelte";
-  import SignIn from "./components/SignIn.svelte";
 
   let unique = {};
   if (isSavedGameUndefined($savedGame)) {
