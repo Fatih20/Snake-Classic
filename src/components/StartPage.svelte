@@ -113,17 +113,16 @@
     font-family: "Asap", sans-serif;
     font-size: 1.75em;
     font-weight: 700;
-    padding: 0.25em 0;
+    padding: 1em;
     transition: all 0.1s ease-in-out;
     width: 100%;
   }
 
-  .start-button:hover {
+  /* .start-button:hover {
     background-color: rgb(var(--secondary-color));
     color: rgb(var(--text-on-secondary-selected-element-color));
-    /* font-size: 2em; */
-    /* padding: 0.4em 0; */
-  }
+    font-size: 2em;
+  } */
 
   .clicked {
     background-color: rgb(var(--secondary-active-color)) !important;
