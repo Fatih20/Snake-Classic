@@ -1,5 +1,6 @@
 <script lang="ts">
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
+  import Game from "./Game.svelte";
 </script>
 
 <head>
@@ -46,6 +47,12 @@
       class="header-button right-button"
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
+      on:click={() => {
+        if (isLoggedIn) {
+        } else {
+          gameState.set("login");
+        }
+      }}
     >
       {#if $isLoggedIn}
         <i class="fa-solid fa-right-to-bracket icon" />

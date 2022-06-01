@@ -4,16 +4,19 @@
   import Footer from "./components/Footer.svelte";
   import StartPage from "./components/StartPage.svelte";
   import { fade } from "svelte/transition";
-  import { gameIsOver, savedGame } from "./stores";
+  import { gameIsOver, savedGame, gameState } from "./stores";
   import { isSavedGameUndefined } from "./utilities/utilities";
   import type { possibleGameStateType } from "./utilities/types";
   import Login from "./components/login.svelte";
   import SignIn from "./components/SignIn.svelte";
 
   let unique = {};
-  let gameState: possibleGameStateType = isSavedGameUndefined($savedGame)
-    ? "startPage"
-    : "playing";
+  if (isSavedGameUndefined($savedGame)) {
+  }
+
+  if (!isSavedGameUndefined($savedGame)) {
+    gameState.set("playing");
+  }
 
   function resetCoreGame() {
     unique = {};
@@ -22,20 +25,20 @@
 </script>
 
 <main>
-  {#if gameState === "startPage"}
-    <StartPage on:gameStarted={() => (gameState = "playing")} />
+  {#if $gameState === "startPage"}
+    <StartPage on:gameStarted={() => gameState.set("playing")} />
   {:else}
     <div class="main-app-container" transition:fade>
       <Header />
-      {#if gameState === "playing"}
+      {#if $gameState === "playing"}
         {#key unique}
           <Game {resetCoreGame} />
         {/key}
       {/if}
       <div class="spacer" />
-      {#if gameState === "login"}
+      {#if $gameState === "login"}
         <Login />
-      {:else if gameState === "signIn"}
+      {:else if $gameState === "signIn"}
         <SignIn />
         <!-- <div class="spacer" /> -->
       {/if}
