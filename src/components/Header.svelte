@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gameIsPaused, gameIsOver } from "../stores";
+  import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
 </script>
 
 <head>
@@ -33,6 +33,7 @@
       }}
       class="header-button left-button"
       style="width: 20px;"
+      class:shown-button={$gameState === "playing"}
     >
       {#if $gameIsPaused}
         <i class="fa-solid fa-play icon" />
@@ -41,8 +42,16 @@
       {/if}
     </button>
     <h1>Snake Classic</h1>
-    <button class="header-button right-button" style="width: 26px;">
-      <i class="fa-solid fa-right-to-bracket icon" />
+    <button
+      class="header-button right-button"
+      style="width: 26px;"
+      class:shown-button={$gameState === "playing"}
+    >
+      {#if $isLoggedIn}
+        <i class="fa-solid fa-right-to-bracket icon" />
+      {:else}
+        <i class="fa-solid fa-right-to-bracket icon fa-flip-horizontal" />
+      {/if}
     </button>
   </div>
 </main>
@@ -88,7 +97,7 @@
     border: none;
     color: white;
     cursor: pointer;
-    display: flex;
+    display: none;
     font-size: var(--font-size);
     margin: 0;
     padding: 0;
@@ -107,5 +116,9 @@
   .icon {
     display: block;
     /* border: solid 1px white; */
+  }
+
+  .shown-button {
+    display: flex;
   }
 </style>

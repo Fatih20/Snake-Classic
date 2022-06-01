@@ -1,5 +1,5 @@
 import { readable, writable } from "svelte/store";
-import { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, ISavedGameProperty } from "./utilities/types";
+import { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, ISavedGameProperty, possibleGameStateType } from "./utilities/types";
 import { fetchItemFromLocalStorage } from "./utilities/utilities";
 
 function createHighScore () {
@@ -94,3 +94,6 @@ function createSavedGame () {
 }
 
 export const savedGame = createSavedGame();
+export const gameState = writable("StartPage" as possibleGameStateType);
+
+export const isLoggedIn = writable(false);

@@ -97,3 +97,12 @@ export const blankSavedGame : ISavedGameNone = {
   "wholeSnakeCoordinateList" : undefined,
   "score" : undefined,
 }
+
+const possibleGameState = [
+  "startPage",
+  "playing",
+  "settings",
+  "login",
+  "signIn",
+] as const;
+export type possibleGameStateType = typeof possibleGameState[number];
