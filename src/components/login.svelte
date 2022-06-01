@@ -100,24 +100,12 @@
     border: solid 2px rgba(var(--primary-color), 0);
     border-radius: var(--button-radius);
     color: rgb(var(--text-on-primary-element-color));
-    outline-color: rgb(var(--text-on-primary-element-color));
-    outline-style: solid;
-    outline-width: 2px;
-    width: 100%;
-  }
-
-  input:autofill {
-    box-sizing: border-box;
-    background-color: rgb(var(--primary-color));
-    border: solid 1px rgba(var(--primary-color), 0);
-    border-radius: var(--button-radius);
-    color: rgb(var(--text-on-primary-element-color));
     outline: none;
     width: 100%;
   }
 
   input:focus {
-    /* border: solid 1px rgba(var(--primary-border-color), 1);s */
+    border: solid 2px rgba(var(--primary-border-color), 1);
   }
 
   ::placeholder {
