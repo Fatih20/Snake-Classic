@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { highScore, savedScore, savedFruitEaten } from "../stores";
+  import {
+    highScore,
+    savedScore,
+    savedFruitEaten,
+    savedWholeSnakeCoordinateList,
+  } from "../stores";
   import { initialLength, scoresAfterEveryFruit } from "../config";
 
   import CoreGame from "./gameComponent/CoreGame.svelte";
@@ -10,6 +15,7 @@
 
   let fruitEaten: number;
   let score: number;
+  let length: number;
 
   if ($savedScore === undefined || $savedFruitEaten === undefined) {
     fruitEaten = 0;
@@ -19,14 +25,18 @@
     score = $savedScore;
   }
 
+  if ($savedWholeSnakeCoordinateList === undefined) {
+    length = initialLength;
+  } else {
+    length = $savedWholeSnakeCoordinateList.length;
+  }
+
   $: {
     savedFruitEaten.updateAndSave(fruitEaten);
     savedScore.updateAndSave(score);
   }
 
   $: highScoreChecker(score);
-
-  let length = initialLength;
 
   function highScoreChecker(score) {
     if (score > $highScore) {
