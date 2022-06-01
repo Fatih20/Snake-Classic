@@ -4,14 +4,16 @@
   import Footer from "./components/Footer.svelte";
   import StartPage from "./components/StartPage.svelte";
   import { fade } from "svelte/transition";
-  import { gameIsOver, savedWholeSnakeCoordinateList } from "./stores";
+  import { gameIsOver, savedGame } from "./stores";
+  import { isSavedGameUndefined } from "./utilities/utilities";
 
   const possibleGameState = ["startPage", "playing", "settings"] as const;
   type possibleGameStateType = typeof possibleGameState[number];
 
   let unique = {};
-  let gameState: possibleGameStateType =
-    $savedWholeSnakeCoordinateList === undefined ? "startPage" : "playing";
+  let gameState: possibleGameStateType = isSavedGameUndefined($savedGame)
+    ? "startPage"
+    : "playing";
 
   function resetCoreGame() {
     unique = {};
