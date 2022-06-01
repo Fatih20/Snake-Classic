@@ -15,7 +15,7 @@
   }
 
   if (!isSavedGameUndefined($savedGame)) {
-    gameState.set("playing");
+    gameState.set("login");
   }
 
   function resetCoreGame() {
@@ -36,10 +36,8 @@
         {/key}
       {/if}
       <div class="spacer" />
-      {#if $gameState === "login"}
+      {#if $gameState === "login" || $gameState === "signIn"}
         <Login />
-      {:else if $gameState === "signIn"}
-        <SignIn />
         <!-- <div class="spacer" /> -->
       {/if}
       <div class="spacer" />
