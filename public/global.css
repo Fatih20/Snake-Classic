@@ -12,6 +12,7 @@ body {
   --secondary-selected-color: 67, 169, 4;
   --text-on-secondary-selected-element-color: 255, 255, 255;
   --button-radius: 7px;
+  --button-smaller-radius: 4px;
   --secondary-active-color: 255, 255, 255;
   --text-on-secondary-active-element-color: 0, 0, 0;
   --snake-color: var(--primary-color);
