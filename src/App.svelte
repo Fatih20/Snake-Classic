@@ -4,15 +4,15 @@
   import Footer from "./components/Footer.svelte";
   import StartPage from "./components/StartPage.svelte";
   import { fade } from "svelte/transition";
-  import { gameIsOver, savedGame, gameState } from "./stores";
+  import { gameIsOver, savedGame, gameState, gameIsPaused } from "./stores";
   import Login from "./components/Login.svelte";
 
   let unique = {};
 
   function resetCoreGame() {
     savedGame.reset();
-    unique = {};
-    gameIsOver.update((gameIsOver) => false);
+    gameIsPaused.set(false);
+    gameIsOver.set(false);
   }
 </script>
 
