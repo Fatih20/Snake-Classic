@@ -1,17 +1,9 @@
 <script lang="ts">
-  import { highScore, savedGame } from "../stores";
-  import { initialLength, scoresAfterEveryFruit } from "../config";
-
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
   import MobileControl from "./gameComponent/MobileControl.svelte";
-  import { isSavedGameUndefined } from "../utilities/utilities";
 
   export let resetCoreGame: () => void;
-
-  let fruitEaten: number;
-  let score: number;
-  let length: number;
 </script>
 
 <main>
