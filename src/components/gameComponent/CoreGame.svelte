@@ -77,10 +77,6 @@
   $: {
     if ($gameIsOver) {
       savedGame.reset();
-    } else {
-      savedGame.updateDirection($savedGame.direction);
-      savedGame.updateWholeSnakeCoordinate($savedGame.wholeSnakeCoordinateList);
-      savedGame.updateFruitPosition($savedGame.fruitPositionList);
     }
   }
 
