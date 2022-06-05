@@ -2,7 +2,6 @@
   import {
     delayUntilGameStarts,
     gridSize,
-    initialLength,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTime,
@@ -19,7 +18,6 @@
     oppositeDirectionDictionary,
     allCoordinateMaker,
     positionRelativeTo,
-    isSavedGameUndefined,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -31,51 +29,14 @@
   import { createEventDispatcher } from "svelte";
   import {
     mover,
-    randomCoordinate,
-    randomDirection,
     randomUniqueCoordinateGenerator,
-    wholeSnakeCoordinateListInitialGenerator,
   } from "../../utilities/utilitiesCoreGame";
 
   const dispatch = createEventDispatcher();
-
   let mainEventLoop: NodeJS.Timer;
-
   let allCoordinateList = allCoordinateMaker(gridSize);
-
-  // let length: number;
-  // let wholeSnakeCoordinateList: cellCoordinate[];
-  // let direction: direction;
-  // let fruitCoordinateList: cellCoordinate[];
-  // let allFruitEaten: boolean;
-
-  // if (isSavedGameUndefined($savedGame)) {
-  //   firstStart = true;
-  //   length = initialLength;
-  //   direction = randomDirection();
-  //   wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
-  //     randomCoordinate(),
-  //     direction
-  //   );
-  //   fruitCoordinateList = randomUniqueCoordinateGenerator(
-  //     wholeSnakeCoordinateList,
-  //     allCoordinateList,
-  //     numberOfFruitSpawned
-  //   );
-  //   allFruitEaten = fruitCoordinateList.length > 0;
-  // } else {
-  //   firstStart = false;
-  //   gameIsPaused.set(true);
-  //   wholeSnakeCoordinateList = $savedGame.wholeSnakeCoordinateList;
-  //   length = $savedGame.wholeSnakeCoordinateList.length;
-  //   direction = $savedGame.direction as direction;
-  //   fruitCoordinateList = $savedGame.fruitPositionList;
-  //   allFruitEaten = fruitCoordinateList.length > 0;
-  // }
-
   let allFruitEaten = $savedGame.fruitPositionList.length === 0;
 
-  // let direction = randomDirection();
   let candidateDirection = $savedGame.direction;
   let previousDirection = $savedGame.direction;
   let oppositeDirection = oppositeDirectionDictionary[$savedGame.direction];
@@ -226,16 +187,6 @@
     });
   }
 
-  // function sendFruitEatenData() {
-  //   dispatch("justAteFruit");
-  // }
-
-  // function sendLengthData() {
-  //   dispatch("lengthUpdate", {
-  //     length: length,
-  //   });
-  // }
-
   function sendResetGame() {
     dispatch("resetGame");
   }
@@ -262,8 +213,6 @@
         numberOfTailAddedAfterEating
       )
     );
-
-    // sendLengthData();
 
     if (allFruitEaten) {
       nthTurnReference += 1;
