@@ -17,7 +17,6 @@
     directionsProperty,
     oppositeDirectionDictionary,
     allCoordinateMaker,
-    positionRelativeTo,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -28,8 +27,11 @@
 
   import { createEventDispatcher } from "svelte";
   import {
+    checkIfHeadBiteBody,
+    cornerOfSnakeBodyGenerator,
     mover,
     randomUniqueCoordinateGenerator,
+    wholeSnakeCoordinateListUpdater,
   } from "../../utilities/utilitiesCoreGame";
 
   const dispatch = createEventDispatcher();
@@ -84,41 +86,6 @@
 
   let nthTurnReference = 0;
 
-  function wholeSnakeCoordinateListUpdater(
-    wholeSnakeCoordinateList: cellCoordinate[],
-    addNewTail: boolean,
-    howManyTail: number = 0
-  ) {
-    const initialHeadCoordinate = wholeSnakeCoordinateList[0];
-    const newheadCoordinate = mover(initialHeadCoordinate, directionVector);
-    const newBodyCoordinateList = wholeSnakeCoordinateList
-      .slice(1)
-      .map((coordinate, index) => {
-        return wholeSnakeCoordinateList[index];
-      });
-
-    let newTailCoordinateList = [] as cellCoordinate[];
-    if (addNewTail) {
-      const tailDirection = positionRelativeTo(
-        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
-        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
-      );
-      const directionVectorFromLastTail =
-        directionsProperty[tailDirection].vectorValue;
-      let lastTail = newBodyCoordinateList[newBodyCoordinateList.length - 1];
-      for (let i = 0; i < howManyTail; i++) {
-        let newTail = mover(lastTail, directionVectorFromLastTail);
-        newTailCoordinateList.push(newTail);
-        lastTail = newTailCoordinateList[newTailCoordinateList.length - 1];
-      }
-    }
-    return [
-      newheadCoordinate,
-      ...newBodyCoordinateList,
-      ...newTailCoordinateList,
-    ];
-  }
-
   function handleKeydown(e) {
     const { key: keyPressed } = e;
     // console.log(key);
@@ -132,58 +99,6 @@
     if (candidateDirection !== oppositePreviousDirection) {
       savedGame.updateDirection(candidateDirection);
     }
-  }
-
-  function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) {
-    const headCoordinate = wholeSnakeCoordinateList[0];
-    const bodyCoordinateList = wholeSnakeCoordinateList.slice(1);
-    const { x: referenceX, y: referenceY } = headCoordinate;
-    let headBiteBody = false;
-    bodyCoordinateList.forEach((bodyAndTailCoordinate) => {
-      const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
-      if (referenceX === comparedX && referenceY === comparedY) {
-        headBiteBody = true;
-      }
-    });
-    return headBiteBody;
-  }
-
-  function cornerOfSnakeBodyGenerator(
-    wholeSnakeCoordinateList: cellCoordinate[]
-  ) {
-    return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
-      if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
-        const comparedCell =
-          index === 0
-            ? wholeSnakeCoordinateList[1]
-            : wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2];
-        const directionFromNextCoordinate = positionRelativeTo(
-          comparedCell,
-          snakeCoordinate
-        );
-
-        return `${directionFromNextCoordinate.toLowerCase()}`;
-      } else {
-        const previousCell = wholeSnakeCoordinateList[index - 1];
-        const nextCell = wholeSnakeCoordinateList[index + 1];
-        const directionFromPreviousCell = positionRelativeTo(
-          previousCell,
-          snakeCoordinate
-        ) as direction;
-        const directionFromNextCell = positionRelativeTo(
-          nextCell,
-          snakeCoordinate
-        ) as direction;
-        if (
-          oppositeDirectionDictionary[directionFromPreviousCell] ===
-          directionFromNextCell
-        ) {
-          return ``;
-        } else {
-          return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
-        }
-      }
-    });
   }
 
   function sendResetGame() {
@@ -208,6 +123,7 @@
     savedGame.updateWholeSnakeCoordinate(
       wholeSnakeCoordinateListUpdater(
         $savedGame.wholeSnakeCoordinateList,
+        directionVector,
         justAteFruit,
         numberOfTailAddedAfterEating
       )

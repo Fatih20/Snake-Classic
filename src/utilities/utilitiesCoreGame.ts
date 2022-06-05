@@ -1,4 +1,4 @@
-import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection } from "./types";
+import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection, makePossibleVectorValue } from "./types";
 import { directionsProperty, oppositeDirectionDictionary, randomizeFrom0ToNMinus1, randomizeFrom1ToN } from "./utilities";
 import { gridSize } from "../config";
 
@@ -82,4 +82,124 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
         }
         return randomUniqueCoordinateList;
     }
+}
+
+export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : cellCoordinate) {
+    const {x : x1, y : y1} = coordinate1;
+    const {x : x2, y : y2} = coordinate2;
+
+    const incrementX = x2 - x1;
+    const incrementY = y2 - y1;
+    let directionVectorOneToTwo : directionVectorType;
+    if (Math.abs(incrementX) > 1) {
+        if (incrementX < 0) {
+            directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
+        } else {
+            directionVectorOneToTwo = {x : makePossibleVectorValue(-1), y : makePossibleVectorValue(0)}
+        }
+    } else if (Math.abs(incrementY) > 1) {
+        if (incrementY < 0) {
+            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(1)}    
+        } else {
+            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(-1)}
+        }
+    } else {
+        directionVectorOneToTwo ={x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)};
+    }
+    let returnedDirection : direction = "Up";
+    Object.keys(directionsProperty).forEach((directionName : direction) => {
+        const candidatedirectionVector = directionsProperty[directionName].vectorValue
+        const {x : referenceX, y : referenceY} = candidatedirectionVector;
+        if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
+            returnedDirection = directionName;
+        }
+    })
+
+    return returnedDirection;
+}
+
+export function wholeSnakeCoordinateListUpdater(
+    wholeSnakeCoordinateList: cellCoordinate[],
+    directionVector : directionVectorType,
+    addNewTail: boolean,
+    howManyTail: number = 0
+  ) {
+    const initialHeadCoordinate = wholeSnakeCoordinateList[0];
+    const newheadCoordinate = mover(initialHeadCoordinate, directionVector);
+    const newBodyCoordinateList = wholeSnakeCoordinateList
+      .slice(1)
+      .map((coordinate, index) => {
+        return wholeSnakeCoordinateList[index];
+      });
+
+    let newTailCoordinateList = [] as cellCoordinate[];
+    if (addNewTail) {
+      const tailDirection = positionRelativeTo(
+        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
+        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
+      );
+      const directionVectorFromLastTail =
+        directionsProperty[tailDirection].vectorValue;
+      let lastTail = newBodyCoordinateList[newBodyCoordinateList.length - 1];
+      for (let i = 0; i < howManyTail; i++) {
+        let newTail = mover(lastTail, directionVectorFromLastTail);
+        newTailCoordinateList.push(newTail);
+        lastTail = newTailCoordinateList[newTailCoordinateList.length - 1];
+      }
+    }
+    return [
+      newheadCoordinate,
+      ...newBodyCoordinateList,
+      ...newTailCoordinateList,
+    ];
+}
+
+export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordinate[]) {
+    return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
+      if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
+        const comparedCell =
+          index === 0
+            ? wholeSnakeCoordinateList[1]
+            : wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2];
+        const directionFromNextCoordinate = positionRelativeTo(
+          comparedCell,
+          snakeCoordinate
+        );
+
+        return `${directionFromNextCoordinate.toLowerCase()}`;
+      } else {
+        const previousCell = wholeSnakeCoordinateList[index - 1];
+        const nextCell = wholeSnakeCoordinateList[index + 1];
+        const directionFromPreviousCell = positionRelativeTo(
+          previousCell,
+          snakeCoordinate
+        ) as direction;
+        const directionFromNextCell = positionRelativeTo(
+          nextCell,
+          snakeCoordinate
+        ) as direction;
+        if (
+          oppositeDirectionDictionary[directionFromPreviousCell] ===
+          directionFromNextCell
+        ) {
+          return ``;
+        } else {
+          return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
+        }
+      }
+    });
+}
+
+export function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) {
+    const headCoordinate = wholeSnakeCoordinateList[0];
+    const bodyCoordinateList = wholeSnakeCoordinateList.slice(1);
+    const { x: referenceX, y: referenceY } = headCoordinate;
+    let headBiteBody = false;
+    bodyCoordinateList.forEach((bodyAndTailCoordinate) => {
+        const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
+        if (referenceX === comparedX && referenceY === comparedY) {
+        headBiteBody = true;
+        }
+    });
+    return headBiteBody;
 }

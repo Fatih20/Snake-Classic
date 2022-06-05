@@ -50,40 +50,6 @@ export function allCoordinateMaker (gridSize : number) {
     return allCoordinateList;
 }
 
-export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : cellCoordinate) {
-    const {x : x1, y : y1} = coordinate1;
-    const {x : x2, y : y2} = coordinate2;
-
-    const incrementX = x2 - x1;
-    const incrementY = y2 - y1;
-    let directionVectorOneToTwo : directionVectorType;
-    if (Math.abs(incrementX) > 1) {
-        if (incrementX < 0) {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
-        } else {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(-1), y : makePossibleVectorValue(0)}
-        }
-    } else if (Math.abs(incrementY) > 1) {
-        if (incrementY < 0) {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(1)}    
-        } else {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(-1)}
-        }
-    } else {
-        directionVectorOneToTwo ={x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)};
-    }
-    let returnedDirection : direction = "Up";
-    Object.keys(directionsProperty).forEach((directionName : direction) => {
-        const candidatedirectionVector = directionsProperty[directionName].vectorValue
-        const {x : referenceX, y : referenceY} = candidatedirectionVector;
-        if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
-            returnedDirection = directionName;
-        }
-    })
-
-    return returnedDirection;
-}
-
 export function fetchItemFromLocalStorage (key : string){
     let candidateResult = localStorage.getItem(key);
     if (candidateResult !== undefined && candidateResult !== null) {
