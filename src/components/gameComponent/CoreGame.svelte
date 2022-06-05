@@ -8,11 +8,7 @@
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
-  import {
-    cellCoordinate,
-    direction,
-    possibleDirection,
-  } from "../../utilities/types";
+  import { possibleDirection } from "../../utilities/types";
   import {
     directionsProperty,
     oppositeDirectionDictionary,
@@ -29,7 +25,6 @@
   import {
     checkIfHeadBiteBody,
     cornerOfSnakeBodyGenerator,
-    mover,
     randomUniqueCoordinateGenerator,
     wholeSnakeCoordinateListUpdater,
   } from "../../utilities/utilitiesCoreGame";
@@ -54,33 +49,13 @@
 
   let headCoordinate = $savedGame.wholeSnakeCoordinateList[0];
   $: headCoordinate = $savedGame.wholeSnakeCoordinateList[0];
+
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
     $savedGame.wholeSnakeCoordinateList
   );
   $: cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
     $savedGame.wholeSnakeCoordinateList
   );
-
-  $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
-  $: {
-    if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
-      savedGame.updateFruitPosition(
-        randomUniqueCoordinateGenerator(
-          $savedGame.wholeSnakeCoordinateList,
-          allCoordinateList,
-          numberOfFruitSpawned
-        )
-      );
-      nthTurnReference = 0;
-      allFruitEaten = false;
-    }
-  }
-
-  $: {
-    if ($gameIsOver) {
-      savedGame.reset();
-    }
-  }
 
   let nthTurnReference = 0;
 
@@ -138,7 +113,6 @@
     if ($gameIsOver) {
       gameFlowControl(false);
     }
-
     // console.log("Game is running");
   }
 
@@ -158,6 +132,27 @@
       firstStart.set(false);
     } else {
       gameFlowControl(!$gameIsPaused);
+    }
+  }
+
+  $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
+  $: {
+    if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
+      savedGame.updateFruitPosition(
+        randomUniqueCoordinateGenerator(
+          $savedGame.wholeSnakeCoordinateList,
+          allCoordinateList,
+          numberOfFruitSpawned
+        )
+      );
+      nthTurnReference = 0;
+      allFruitEaten = false;
+    }
+  }
+
+  $: {
+    if ($gameIsOver) {
+      savedGame.reset();
     }
   }
 
