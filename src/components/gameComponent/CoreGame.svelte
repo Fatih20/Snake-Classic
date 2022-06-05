@@ -151,7 +151,6 @@
   function cornerOfSnakeBodyGenerator(
     wholeSnakeCoordinateList: cellCoordinate[]
   ) {
-    console.log(wholeSnakeCoordinateList);
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
         const comparedCell =
