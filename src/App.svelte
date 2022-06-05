@@ -6,15 +6,9 @@
   import { fade } from "svelte/transition";
   import { gameIsOver, savedGame, gameState } from "./stores";
   import { isSavedGameUndefined } from "./utilities/utilities";
-  import Login from "./components/login.svelte";
+  import Login from "./components/Login.svelte";
 
   let unique = {};
-  if (isSavedGameUndefined($savedGame)) {
-  }
-
-  if (!isSavedGameUndefined($savedGame)) {
-    gameState.set("playing");
-  }
 
   function resetCoreGame() {
     unique = {};
