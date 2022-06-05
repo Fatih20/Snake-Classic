@@ -4,21 +4,14 @@ import { possibleDirection, directionsPropertyType,
     possibleDirectionKey,
     possibleDirectionVector, } from "./types";
 
-function randomizeFrom1ToN (N : number) {
+export function randomizeFrom1ToN (N : number) {
     return Math.floor(Math.random() * N) + 1
 }
 
-function randomizeFrom0ToNMinus1 (N : number) {
+export function randomizeFrom0ToNMinus1 (N : number) {
     return Math.floor(Math.random() * N)
 }
 
-export function randomCoordinate () {
-    return {x : makePossibleCoordinate(randomizeFrom1ToN(gridSize)), y : makePossibleCoordinate(randomizeFrom1ToN(gridSize))} as cellCoordinate;
-}
-
-export function randomDirection () {
-    return possibleDirection[(randomizeFrom1ToN(4)-1)];
-}
 
 
 export const directionsProperty: directionsPropertyType = {
@@ -55,35 +48,6 @@ export function allCoordinateMaker (gridSize : number) {
         }
     }
     return allCoordinateList;
-}
-
-export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoordinate[], allCoordinateList : cellCoordinate[], numberOfCoordinate : number) {
-    const filledCoordinateStringifiedSet = new Set(filledCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
-    const allCoordinateStringifiedSet = new Set(allCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
-
-    let emptyCoordinateSet = new Set<cellCoordinate>();
-
-    allCoordinateStringifiedSet.forEach((coordinate) => {
-        // This check probably doesn't work because every object is unique and can't be compared.
-        if (!filledCoordinateStringifiedSet.has(coordinate)) {
-            emptyCoordinateSet.add(JSON.parse(coordinate));
-        }
-    });
-
-    let emptyCoordinateList = Array.from(emptyCoordinateSet);
-    // console.log(emptyCoordinateList);
-
-    if (numberOfCoordinate >= emptyCoordinateList.length) {
-        return [] as cellCoordinate[]
-    } else {
-        let randomUniqueCoordinateList = [] as cellCoordinate[];
-        for (let i = 0; i < numberOfCoordinate; i++) {
-            const randomIndex = randomizeFrom0ToNMinus1(emptyCoordinateList.length);
-            randomUniqueCoordinateList.push(emptyCoordinateList[randomIndex])
-            emptyCoordinateList.splice(randomIndex, 1);
-        }
-        return randomUniqueCoordinateList;
-    }
 }
 
 export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : cellCoordinate) {

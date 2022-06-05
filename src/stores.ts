@@ -1,6 +1,8 @@
 import { readable, writable } from "svelte/store";
-import { blankSavedGame, cellCoordinate, direction, possibleGameStateType } from "./utilities/types";
-import { fetchItemFromLocalStorage } from "./utilities/utilities";
+import { gridSize, initialLength, numberOfFruitSpawned } from "./config";
+import type { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
+import { allCoordinateMaker, fetchItemFromLocalStorage } from "./utilities/utilities";
+import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 function createHighScore () {
     const candidateHighScore = fetchItemFromLocalStorage("highScore");
@@ -16,7 +18,7 @@ function createHighScore () {
     }
 }
 
-export const gameIsPaused = writable(false);
+export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") === undefined);
 
 export const highScore = createHighScore();
 
@@ -26,11 +28,30 @@ export const gameIsOver = writable(false);
 
 function createSavedGame () {
     const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
-    const {subscribe, set, update} = writable(candidateSavedGame ?? blankSavedGame);
+    const {subscribe, set, update} = writable((candidateSavedGame ?? initializeSavedGame()) as ISavedGameInfo);
 
     // function updateAndSave (propertyName : ISavedGameProperty, newValue : cellCoordinate[]| direction | number) {
     //     switch ()
     // }
+    function initializeSavedGame() {
+        const direction = randomDirection()
+        const wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
+            randomCoordinate(),
+            direction,
+            initialLength
+          );
+        return {
+            "direction" : direction,
+            "wholeSnakeCoordinateList" : wholeSnakeCoordinateList,
+            "fruitPositionList" :  randomUniqueCoordinateGenerator(
+                wholeSnakeCoordinateList,
+                allCoordinateMaker(gridSize),
+                numberOfFruitSpawned
+              ),
+            "fruitEaten" : 0,
+            "score" : 0,
+        } as ISavedGameInfo
+    }
 
     function updateFruitPosition (newValue : cellCoordinate[]) {
         update(previousSavedGame => {
@@ -70,7 +91,7 @@ function createSavedGame () {
     }
 
     function reset () {
-        set(blankSavedGame);;
+        set(initializeSavedGame());
         localStorage.removeItem("savedGame");
     }
 
@@ -86,6 +107,16 @@ function createSavedGame () {
 }
 
 export const savedGame = createSavedGame();
+
+function createFirstStart () {
+    const {subscribe, set} = writable(fetchItemFromLocalStorage("savedGame") === undefined);
+    return {
+        subscribe,
+        set
+    }
+}
+
+export const firstStart = createFirstStart();
 export const gameState = writable("startPage" as possibleGameStateType);
 
 export const isLoggedIn = writable(false);

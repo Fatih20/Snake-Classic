@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
   import { mainMenuTransitionDuration } from "../config";
-  import { gameState, savedGame } from "../stores";
+  import { firstStart, gameState, savedGame } from "../stores";
   import { isSavedGameUndefined } from "../utilities/utilities";
 
   const dispatch = createEventDispatcher();
@@ -34,7 +34,7 @@
         class="start-button"
         on:click={() => {
           sendGameHasStarted();
-        }}>{isSavedGameUndefined($savedGame) ? "Start" : "Continue"}</button
+        }}>{$firstStart ? "Start" : "Continue"}</button
       >
       <button
         class="start-button"

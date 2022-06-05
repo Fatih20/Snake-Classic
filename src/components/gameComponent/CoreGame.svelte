@@ -12,90 +12,97 @@
   import {
     cellCoordinate,
     direction,
-    directionVectorType,
-    edgeCoordinateCornerType,
-    makePossibleCoordinate,
     possibleDirection,
   } from "../../utilities/types";
   import {
-    randomCoordinate,
-    randomDirection,
     directionsProperty,
     oppositeDirectionDictionary,
     allCoordinateMaker,
-    randomUniqueCoordinateGenerator,
     positionRelativeTo,
     isSavedGameUndefined,
   } from "../../utilities/utilities";
-  import { gameIsPaused, gameIsOver, savedGame } from "../../stores";
+  import {
+    gameIsPaused,
+    gameIsOver,
+    savedGame,
+    firstStart,
+  } from "../../stores";
 
   import { createEventDispatcher } from "svelte";
+  import {
+    mover,
+    randomCoordinate,
+    randomDirection,
+    randomUniqueCoordinateGenerator,
+    wholeSnakeCoordinateListInitialGenerator,
+  } from "../../utilities/utilitiesCoreGame";
 
   const dispatch = createEventDispatcher();
 
   let mainEventLoop: NodeJS.Timer;
-  let firstStart: boolean;
 
   let allCoordinateList = allCoordinateMaker(gridSize);
 
-  let length: number;
-  let wholeSnakeCoordinateList: cellCoordinate[];
-  let direction: direction;
-  let fruitCoordinateList: cellCoordinate[];
-  let allFruitEaten: boolean;
+  // let length: number;
+  // let wholeSnakeCoordinateList: cellCoordinate[];
+  // let direction: direction;
+  // let fruitCoordinateList: cellCoordinate[];
+  // let allFruitEaten: boolean;
 
-  if (isSavedGameUndefined($savedGame)) {
-    firstStart = true;
-    length = initialLength;
-    direction = randomDirection();
-    wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
-      randomCoordinate()
-    );
-    fruitCoordinateList = randomUniqueCoordinateGenerator(
-      wholeSnakeCoordinateList,
-      allCoordinateList,
-      numberOfFruitSpawned
-    );
-    allFruitEaten = fruitCoordinateList.length > 0;
-    savedGame.updateScore(0);
-  } else {
-    firstStart = false;
-    gameIsPaused.set(true);
-    wholeSnakeCoordinateList = $savedGame.wholeSnakeCoordinateList;
-    length = $savedGame.wholeSnakeCoordinateList.length;
-    direction = $savedGame.direction as direction;
-    fruitCoordinateList = $savedGame.fruitPositionList;
-    allFruitEaten = fruitCoordinateList.length > 0;
-  }
+  // if (isSavedGameUndefined($savedGame)) {
+  //   firstStart = true;
+  //   length = initialLength;
+  //   direction = randomDirection();
+  //   wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
+  //     randomCoordinate(),
+  //     direction
+  //   );
+  //   fruitCoordinateList = randomUniqueCoordinateGenerator(
+  //     wholeSnakeCoordinateList,
+  //     allCoordinateList,
+  //     numberOfFruitSpawned
+  //   );
+  //   allFruitEaten = fruitCoordinateList.length > 0;
+  // } else {
+  //   firstStart = false;
+  //   gameIsPaused.set(true);
+  //   wholeSnakeCoordinateList = $savedGame.wholeSnakeCoordinateList;
+  //   length = $savedGame.wholeSnakeCoordinateList.length;
+  //   direction = $savedGame.direction as direction;
+  //   fruitCoordinateList = $savedGame.fruitPositionList;
+  //   allFruitEaten = fruitCoordinateList.length > 0;
+  // }
+
+  let allFruitEaten = $savedGame.fruitPositionList.length === 0;
 
   // let direction = randomDirection();
-  let candidateDirection = direction;
-  let previousDirection = direction;
-  let oppositeDirection = oppositeDirectionDictionary[direction];
-  let directionVector = directionsProperty[direction].vectorValue;
+  let candidateDirection = $savedGame.direction;
+  let previousDirection = $savedGame.direction;
+  let oppositeDirection = oppositeDirectionDictionary[$savedGame.direction];
+  let directionVector = directionsProperty[$savedGame.direction].vectorValue;
   let oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
 
-  $: oppositeDirection = oppositeDirectionDictionary[direction];
+  $: oppositeDirection = oppositeDirectionDictionary[$savedGame.direction];
   $: oppositePreviousDirection = oppositeDirectionDictionary[previousDirection];
-  $: directionVector = directionsProperty[direction].vectorValue;
+  $: directionVector = directionsProperty[$savedGame.direction].vectorValue;
   $: oppositeDirectionVector =
     directionsProperty[oppositeDirection].vectorValue;
 
-  let headCoordinate = wholeSnakeCoordinateList[0];
-  $: headCoordinate = wholeSnakeCoordinateList[0];
+  let headCoordinate = $savedGame.wholeSnakeCoordinateList[0];
+  $: headCoordinate = $savedGame.wholeSnakeCoordinateList[0];
   let cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
-    wholeSnakeCoordinateList
+    $savedGame.wholeSnakeCoordinateList
   );
   $: cornerOfSnakeBodyList = cornerOfSnakeBodyGenerator(
-    wholeSnakeCoordinateList
+    $savedGame.wholeSnakeCoordinateList
   );
 
-  $: allFruitEaten = fruitCoordinateList.length === 0;
+  $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
-      fruitCoordinateList = randomUniqueCoordinateGenerator(
-        wholeSnakeCoordinateList,
+      $savedGame.fruitPositionList = randomUniqueCoordinateGenerator(
+        $savedGame.wholeSnakeCoordinateList,
         allCoordinateList,
         numberOfFruitSpawned
       );
@@ -108,30 +115,13 @@
     if ($gameIsOver) {
       savedGame.reset();
     } else {
-      savedGame.updateDirection(direction);
-      savedGame.updateWholeSnakeCoordinate(wholeSnakeCoordinateList);
-      savedGame.updateFruitPosition(fruitCoordinateList);
+      savedGame.updateDirection($savedGame.direction);
+      savedGame.updateWholeSnakeCoordinate($savedGame.wholeSnakeCoordinateList);
+      savedGame.updateFruitPosition($savedGame.fruitPositionList);
     }
   }
 
   let nthTurnReference = 0;
-
-  function wholeSnakeCoordinateListInitialGenerator(
-    headCoordinate: cellCoordinate
-  ) {
-    const oppositeDirectionVector =
-      directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
-    let referenceCoordinate = headCoordinate;
-    let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
-    for (let i = 1; i < length; i++) {
-      referenceCoordinate = wholeSnakeCoordinateList[i - 1];
-      wholeSnakeCoordinateList.push(
-        mover(referenceCoordinate, oppositeDirectionVector)
-      );
-    }
-
-    return wholeSnakeCoordinateList;
-  }
 
   function wholeSnakeCoordinateListUpdater(
     wholeSnakeCoordinateList: cellCoordinate[],
@@ -148,7 +138,6 @@
 
     let newTailCoordinateList = [] as cellCoordinate[];
     if (addNewTail) {
-      length += 1;
       const tailDirection = positionRelativeTo(
         wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
         wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
@@ -169,32 +158,6 @@
     ];
   }
 
-  function mover(
-    movedCoordinate: cellCoordinate,
-    directionVector: directionVectorType
-  ): cellCoordinate {
-    let newX: number;
-    let newY: number;
-    const { x: incrementX, y: incrementY } = directionVector;
-    if (movedCoordinate.x + incrementX > gridSize) {
-      newX = 1;
-    } else if (movedCoordinate.x + incrementX < 1) {
-      newX = gridSize;
-    } else {
-      newX = movedCoordinate.x + incrementX;
-    }
-
-    if (movedCoordinate.y + incrementY > gridSize) {
-      newY = 1;
-    } else if (movedCoordinate.y + incrementY < 1) {
-      newY = gridSize;
-    } else {
-      newY = movedCoordinate.y + incrementY;
-    }
-
-    return { x: makePossibleCoordinate(newX), y: makePossibleCoordinate(newY) };
-  }
-
   function handleKeydown(e) {
     const { key: keyPressed } = e;
     // console.log(key);
@@ -206,7 +169,7 @@
       }
     });
     if (candidateDirection !== oppositePreviousDirection) {
-      direction = candidateDirection;
+      savedGame.updateDirection(candidateDirection);
     }
   }
 
@@ -227,6 +190,7 @@
   function cornerOfSnakeBodyGenerator(
     wholeSnakeCoordinateList: cellCoordinate[]
   ) {
+    console.log(wholeSnakeCoordinateList);
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
         const comparedCell =
@@ -278,24 +242,26 @@
   }
 
   function toBeRunInMainEventLoop() {
-    previousDirection = direction;
+    previousDirection = $savedGame.direction;
     let justAteFruit = false;
-    fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
+    $savedGame.fruitPositionList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
         justAteFruit = true;
         savedGame.updateFruitEaten($savedGame.fruitEaten + 1);
         savedGame.updateScore($savedGame.score + scoresAfterEveryFruit);
-        fruitCoordinateList = fruitCoordinateList.filter(
-          (fruitCoordinate, indexInner) => {
+        savedGame.updateFruitPosition(
+          $savedGame.fruitPositionList.filter((fruitCoordinate, indexInner) => {
             return indexInner !== indexOuter;
-          }
+          })
         );
       }
     });
-    wholeSnakeCoordinateList = wholeSnakeCoordinateListUpdater(
-      wholeSnakeCoordinateList,
-      justAteFruit,
-      numberOfTailAddedAfterEating
+    savedGame.updateWholeSnakeCoordinate(
+      wholeSnakeCoordinateListUpdater(
+        $savedGame.wholeSnakeCoordinateList,
+        justAteFruit,
+        numberOfTailAddedAfterEating
+      )
     );
 
     // sendLengthData();
@@ -304,7 +270,7 @@
       nthTurnReference += 1;
     }
 
-    if (checkIfHeadBiteBody(wholeSnakeCoordinateList)) {
+    if (checkIfHeadBiteBody($savedGame.wholeSnakeCoordinateList)) {
       gameIsOver.set(true);
     }
 
@@ -324,11 +290,11 @@
   }
 
   $: {
-    if (firstStart) {
+    if ($firstStart) {
       setTimeout(() => {
         gameFlowControl(!$gameIsPaused);
       }, delayUntilGameStarts);
-      firstStart = false;
+      firstStart.set(false);
     } else {
       gameFlowControl(!$gameIsPaused);
     }
@@ -381,11 +347,11 @@
         >Play Again</button
       >
     </div>
-    {#each fruitCoordinateList as coordinate (`${coordinate.x} ${coordinate.y}`)}
+    {#each $savedGame.fruitPositionList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div
         class={`fruit ${
-          coordinate.x === wholeSnakeCoordinateList[0].x &&
-          coordinate.y === wholeSnakeCoordinateList[0].y
+          coordinate.x === $savedGame.wholeSnakeCoordinateList[0].x &&
+          coordinate.y === $savedGame.wholeSnakeCoordinateList[0].y
             ? "eaten"
             : null
         }`}
@@ -393,7 +359,7 @@
         style:grid-row={`${coordinate.y}/${coordinate.y + 1}`}
       />
     {/each}
-    {#each wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
+    {#each $savedGame.wholeSnakeCoordinateList as coordinate, i (`${coordinate.x} ${coordinate.y} ${i}`)}
       <div
         class={`snake-${i === 0 ? `head` : `body`} ${
           cornerOfSnakeBodyList[i]
