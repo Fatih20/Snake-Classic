@@ -18,7 +18,7 @@ function createHighScore () {
     }
 }
 
-export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") === undefined);
+export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 
 export const highScore = createHighScore();
 
