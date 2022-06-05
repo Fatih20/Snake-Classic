@@ -1,5 +1,5 @@
 import { readable, writable } from "svelte/store";
-import { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, ISavedGameProperty, possibleGameStateType } from "./utilities/types";
+import { blankSavedGame, cellCoordinate, direction, possibleGameStateType } from "./utilities/types";
 import { fetchItemFromLocalStorage } from "./utilities/utilities";
 
 function createHighScore () {
@@ -34,28 +34,21 @@ function createSavedGame () {
 
     function updateFruitPosition (newValue : cellCoordinate[]) {
         update(previousSavedGame => {
-            let newSavedGame = previousSavedGame;
-            newSavedGame.fruitPositionList = newValue;
-            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
-            return newSavedGame;
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, fruitPositionList : newValue}));
+            return {...previousSavedGame, fruitPositionList : newValue};
         })
     }
 
     function updateWholeSnakeCoordinate (newValue : cellCoordinate[]) {
         update(previousSavedGame => {
-            let newSavedGame = previousSavedGame;
-            newSavedGame.wholeSnakeCoordinateList = newValue;
-            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
-            return newSavedGame;
-        })  
-    }
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, wholeSnakeCoordinateList : newValue}));
+            return {...previousSavedGame, wholeSnakeCoordinateList : newValue};  
+    })}
 
     function updateDirection (newValue : direction) {
         update(previousSavedGame => {
-            let newSavedGame = previousSavedGame;
-            newSavedGame.direction = newValue;
-            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
-            return newSavedGame;
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, direction : newValue}));
+            return {...previousSavedGame, direction : newValue};  
         })
     }
 
@@ -70,10 +63,9 @@ function createSavedGame () {
 
     function updateFruitEaten (newValue : number) {
         update(previousSavedGame => {
-            let newSavedGame = previousSavedGame;
-            newSavedGame.fruitEaten = newValue;
-            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
-            return newSavedGame;
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, fruitEaten : newValue}));
+            return {...previousSavedGame, fruitEaten : newValue};  
+
         })
     }
 
