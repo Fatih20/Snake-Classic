@@ -237,7 +237,6 @@
   // }
 
   function sendResetGame() {
-    savedGame.reset();
     dispatch("resetGame");
   }
 
