@@ -5,7 +5,7 @@
   $: highScoreChecker($savedGame.score);
 
   function highScoreChecker(score: number) {
-    if (score > $highScore) {
+    if (score >= $highScore) {
       highScore.updateAndSave(score);
     }
   }
@@ -22,7 +22,7 @@
   </div>
   <div class="attribute-box">
     <h2>High Score</h2>
-    <h3>{$highScore ?? 0}</h3>
+    <h3>{$highScore}</h3>
   </div>
 </main>
 
