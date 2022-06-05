@@ -64,10 +64,12 @@
   $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
-      $savedGame.fruitPositionList = randomUniqueCoordinateGenerator(
-        $savedGame.wholeSnakeCoordinateList,
-        allCoordinateList,
-        numberOfFruitSpawned
+      savedGame.updateFruitPosition(
+        randomUniqueCoordinateGenerator(
+          $savedGame.wholeSnakeCoordinateList,
+          allCoordinateList,
+          numberOfFruitSpawned
+        )
       );
       nthTurnReference = 0;
       allFruitEaten = false;
