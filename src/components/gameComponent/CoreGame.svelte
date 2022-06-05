@@ -6,6 +6,7 @@
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTime,
+    scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
   import {
@@ -56,6 +57,7 @@
       numberOfFruitSpawned
     );
     allFruitEaten = fruitCoordinateList.length > 0;
+    savedGame.updateScore(0);
   } else {
     firstStart = false;
     gameIsPaused.set(true);
@@ -260,15 +262,15 @@
     });
   }
 
-  function sendFruitEatenData() {
-    dispatch("justAteFruit");
-  }
+  // function sendFruitEatenData() {
+  //   dispatch("justAteFruit");
+  // }
 
-  function sendLengthData() {
-    dispatch("lengthUpdate", {
-      length: length,
-    });
-  }
+  // function sendLengthData() {
+  //   dispatch("lengthUpdate", {
+  //     length: length,
+  //   });
+  // }
 
   function sendResetGame() {
     savedGame.reset();
@@ -281,7 +283,8 @@
     fruitCoordinateList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
         justAteFruit = true;
-        sendFruitEatenData();
+        savedGame.updateFruitEaten($savedGame.fruitEaten + 1);
+        savedGame.updateScore($savedGame.score + scoresAfterEveryFruit);
         fruitCoordinateList = fruitCoordinateList.filter(
           (fruitCoordinate, indexInner) => {
             return indexInner !== indexOuter;
@@ -295,7 +298,7 @@
       numberOfTailAddedAfterEating
     );
 
-    sendLengthData();
+    // sendLengthData();
 
     if (allFruitEaten) {
       nthTurnReference += 1;

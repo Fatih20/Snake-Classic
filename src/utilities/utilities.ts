@@ -130,7 +130,6 @@ export function fetchItemFromLocalStorage (key : string){
 }
 
 export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo) {
-    console.log(savedGame);
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 

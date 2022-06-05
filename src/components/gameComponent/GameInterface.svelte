@@ -1,21 +1,28 @@
 <script lang="ts">
-  export let score: number;
-  export let length: number;
-  export let highScore: number;
+  import { initialLength } from "../../config";
+  import { highScore, savedGame } from "../../stores";
+
+  $: highScoreChecker($savedGame.score);
+
+  function highScoreChecker(score: number) {
+    if (score > $highScore) {
+      highScore.updateAndSave(score);
+    }
+  }
 </script>
 
 <main>
   <div class="attribute-box">
     <h2>Score</h2>
-    <h3>{score}</h3>
+    <h3>{$savedGame.score ?? 0}</h3>
   </div>
   <div class="attribute-box">
     <h2>Length</h2>
-    <h3>{length}</h3>
+    <h3>{$savedGame.wholeSnakeCoordinateList?.length ?? initialLength}</h3>
   </div>
   <div class="attribute-box">
     <h2>High Score</h2>
-    <h3>{highScore}</h3>
+    <h3>{$highScore ?? 0}</h3>
   </div>
 </main>
 

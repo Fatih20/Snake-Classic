@@ -12,45 +12,11 @@
   let fruitEaten: number;
   let score: number;
   let length: number;
-
-  if (isSavedGameUndefined($savedGame)) {
-    fruitEaten = 0;
-    score = 0;
-  } else {
-    fruitEaten = $savedGame.fruitEaten;
-    score = $savedGame.score;
-  }
-
-  if (isSavedGameUndefined($savedGame)) {
-    length = initialLength;
-  } else {
-    length = $savedGame.wholeSnakeCoordinateList.length;
-  }
-
-  $: {
-    savedGame.updateFruitEaten(fruitEaten);
-    savedGame.updateScore(score);
-  }
-
-  $: highScoreChecker(score);
-
-  function highScoreChecker(score: number) {
-    if (score > $highScore) {
-      highScore.updateAndSave(score);
-    }
-  }
 </script>
 
 <main>
-  <GameInterface {score} {length} highScore={$highScore} />
-  <CoreGame
-    on:justAteFruit={() => {
-      fruitEaten += 1;
-      score += scoresAfterEveryFruit;
-    }}
-    on:lengthUpdate={(e) => (length = e.detail.length)}
-    on:resetGame={resetCoreGame}
-  />
+  <GameInterface />
+  <CoreGame on:resetGame={resetCoreGame} />
   <!-- <div class="spacer" /> -->
   <MobileControl />
 </main>
