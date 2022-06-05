@@ -3,7 +3,6 @@
     delayUntilGameStarts,
     gridSize,
     initialLength,
-    mainMenuTransitionDuration,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTime,
@@ -15,7 +14,6 @@
     directionVectorType,
     edgeCoordinateCornerType,
     makePossibleCoordinate,
-    possibleCoordinateType,
     possibleDirection,
   } from "../../utilities/types";
   import {

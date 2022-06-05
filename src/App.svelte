@@ -5,7 +5,6 @@
   import StartPage from "./components/StartPage.svelte";
   import { fade } from "svelte/transition";
   import { gameIsOver, savedGame, gameState } from "./stores";
-  import { isSavedGameUndefined } from "./utilities/utilities";
   import Login from "./components/Login.svelte";
 
   let unique = {};
