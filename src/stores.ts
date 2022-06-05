@@ -94,6 +94,6 @@ function createSavedGame () {
 }
 
 export const savedGame = createSavedGame();
-export const gameState = writable("StartPage" as possibleGameStateType);
+export const gameState = writable("startPage" as possibleGameStateType);
 
 export const isLoggedIn = writable(false);
