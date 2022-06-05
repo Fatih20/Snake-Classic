@@ -26,7 +26,7 @@ export const gameIsOver = writable(false);
 
 function createSavedGame () {
     const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
-    const {subscribe, set, update} = writable(candidateSavedGame as ISavedGameInfo ?? blankSavedGame);
+    const {subscribe, set, update} = writable((candidateSavedGame === undefined || candidateSavedGame === null) ? blankSavedGame : candidateSavedGame);
 
     // function updateAndSave (propertyName : ISavedGameProperty, newValue : cellCoordinate[]| direction | number) {
     //     switch ()
@@ -78,7 +78,7 @@ function createSavedGame () {
     }
 
     function reset () {
-        set(undefined);
+        set(blankSavedGame);;
         localStorage.removeItem("savedGame");
     }
 

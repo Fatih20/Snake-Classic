@@ -11,6 +11,7 @@
   let unique = {};
 
   function resetCoreGame() {
+    savedGame.reset();
     unique = {};
     gameIsOver.update((gameIsOver) => false);
   }
