@@ -12,7 +12,7 @@
   import {
     directionsProperty,
     oppositeDirectionDictionary,
-    allCoordinateMaker,
+    allCoordinateList,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -31,7 +31,6 @@
 
   const dispatch = createEventDispatcher();
   let mainEventLoop: NodeJS.Timer;
-  let allCoordinateList = allCoordinateMaker(gridSize);
   let allFruitEaten = $savedGame.fruitPositionList.length === 0;
 
   let candidateDirection = $savedGame.direction;

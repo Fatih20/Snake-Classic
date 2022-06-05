@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
-import { gridSize, initialLength, numberOfFruitSpawned } from "./config";
-import type { blankSavedGame, cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
-import { allCoordinateMaker, fetchItemFromLocalStorage } from "./utilities/utilities";
+import { initialLength, numberOfFruitSpawned } from "./config";
+import type {cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
+import { allCoordinateList, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 function createHighScore () {
@@ -45,7 +45,7 @@ function createSavedGame () {
             "wholeSnakeCoordinateList" : wholeSnakeCoordinateList,
             "fruitPositionList" :  randomUniqueCoordinateGenerator(
                 wholeSnakeCoordinateList,
-                allCoordinateMaker(gridSize),
+                allCoordinateList,
                 numberOfFruitSpawned
               ),
             "fruitEaten" : 0,

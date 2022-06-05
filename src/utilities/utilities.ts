@@ -50,6 +50,8 @@ export function allCoordinateMaker (gridSize : number) {
     return allCoordinateList;
 }
 
+export const allCoordinateList = allCoordinateMaker(gridSize)
+
 export function fetchItemFromLocalStorage (key : string){
     let candidateResult = localStorage.getItem(key);
     if (candidateResult !== undefined && candidateResult !== null) {
