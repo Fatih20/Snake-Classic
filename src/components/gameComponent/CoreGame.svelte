@@ -97,8 +97,7 @@
       wholeSnakeCoordinateListUpdater(
         $savedGame.wholeSnakeCoordinateList,
         directionVector,
-        justAteFruit,
-        numberOfTailAddedAfterEating
+        justAteFruit ? numberOfTailAddedAfterEating : 0
       )
     );
 

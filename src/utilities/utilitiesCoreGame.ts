@@ -91,35 +91,22 @@ export function positionRelativeTo ({x : xFrom, y : yFrom} : cellCoordinate, {x 
 export function wholeSnakeCoordinateListUpdater(
     wholeSnakeCoordinateList: cellCoordinate[],
     directionVector : directionVectorType,
-    addNewTail: boolean,
     howManyTail: number = 0
   ) {
-    const initialHeadCoordinate = wholeSnakeCoordinateList[0];
-    const newheadCoordinate = mover(initialHeadCoordinate, directionVector);
-    const newBodyCoordinateList = wholeSnakeCoordinateList
-      .slice(1)
-      .map((coordinate, index) => {
-        return wholeSnakeCoordinateList[index];
-      });
+    wholeSnakeCoordinateList.unshift(mover(wholeSnakeCoordinateList[0], directionVector))
+    wholeSnakeCoordinateList.pop()
 
-    let newTailCoordinateList = [] as cellCoordinate[];
-    if (addNewTail) {
-      const tailDirection = positionRelativeTo(
-        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
-        wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
-      );
-      const directionVectorFromLastTail =
-        directionsProperty[tailDirection].vectorValue;
-      let lastTail = newBodyCoordinateList[newBodyCoordinateList.length - 1];
-      for (let i = 0; i < howManyTail; i++) {
-        let newTail = mover(lastTail, directionVectorFromLastTail);
-        newTailCoordinateList.push(newTail);
-        lastTail = newTailCoordinateList[newTailCoordinateList.length - 1];
-      }
-    }
+    const tailDirection = positionRelativeTo(
+      wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
+      wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
+    );
+    const directionVectorFromLastTail =
+      directionsProperty[tailDirection].vectorValue;
+    const newTailCoordinateList = Array.from({length : howManyTail}, (_, i) => {
+      return mover(wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1], directionVectorFromLastTail, i + 1)
+    })
     return [
-      newheadCoordinate,
-      ...newBodyCoordinateList,
+      ...wholeSnakeCoordinateList,
       ...newTailCoordinateList,
     ];
 }
