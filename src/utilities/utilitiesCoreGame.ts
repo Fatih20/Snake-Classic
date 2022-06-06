@@ -159,15 +159,7 @@ export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordin
 }
 
 export function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) {
-    const headCoordinate = wholeSnakeCoordinateList[0];
-    const bodyCoordinateList = wholeSnakeCoordinateList.slice(1);
-    const { x: referenceX, y: referenceY } = headCoordinate;
-    let headBiteBody = false;
-    bodyCoordinateList.forEach((bodyAndTailCoordinate) => {
-        const { x: comparedX, y: comparedY } = bodyAndTailCoordinate;
-        if (referenceX === comparedX && referenceY === comparedY) {
-        headBiteBody = true;
-        }
-    });
-    return headBiteBody;
+  const { x: headX, y: headY } = wholeSnakeCoordinateList[0];
+    return wholeSnakeCoordinateList.slice(1).some(({x : bodyX, y : bodyY}) => (headX === bodyX && headY === bodyY)
+    );
 }
