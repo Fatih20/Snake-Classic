@@ -109,9 +109,6 @@
       gameIsOver.set(true);
     }
 
-    if ($gameIsOver) {
-      gameFlowControl(false);
-    }
     // console.log("Game is running");
   }
 
@@ -146,12 +143,6 @@
       );
       nthTurnReference = 0;
       allFruitEaten = false;
-    }
-  }
-
-  $: {
-    if ($gameIsOver) {
-      savedGame.reset();
     }
   }
 
@@ -198,9 +189,7 @@
       class:shown={$gameIsOver}
     >
       <h2>Game Over!</h2>
-      <button id="restart-button" on:click={() => sendResetGame()}
-        >Play Again</button
-      >
+      <button id="restart-button" on:click={sendResetGame}>Play Again</button>
     </div>
     {#each $savedGame.fruitPositionList as coordinate (`${coordinate.x} ${coordinate.y}`)}
       <div

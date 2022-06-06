@@ -11,8 +11,8 @@
 
   function resetCoreGame() {
     savedGame.reset();
-    gameIsPaused.set(false);
     gameIsOver.set(false);
+    gameIsPaused.set(false);
   }
 </script>
 
