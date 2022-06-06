@@ -69,12 +69,12 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
     }
 }
 
-export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : cellCoordinate) {
-    const {x : x1, y : y1} = coordinate1;
-    const {x : x2, y : y2} = coordinate2;
+export function positionRelativeTo (coordinateFrom : cellCoordinate, coordinateTo : cellCoordinate) {
+    const {x : xFrom, y : yFrom} = coordinateFrom;
+    const {x : xTo, y : yTo} = coordinateTo;
 
-    const incrementX = x2 - x1;
-    const incrementY = y2 - y1;
+    const incrementX = xTo - xFrom;
+    const incrementY = yTo - yFrom;
     let directionVectorOneToTwo : directionVectorType;
     // console.log(Math.abs(incrementX) / incrementX);
     // console.log(incrementY);
