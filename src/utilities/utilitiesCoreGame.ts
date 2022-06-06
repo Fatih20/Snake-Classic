@@ -49,14 +49,12 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
     let emptyCoordinateSet = new Set<cellCoordinate>();
 
     allCoordinateStringifiedSet.forEach((coordinate) => {
-        // This check probably doesn't work because every object is unique and can't be compared.
         if (!filledCoordinateStringifiedSet.has(coordinate)) {
             emptyCoordinateSet.add(JSON.parse(coordinate));
         }
     });
 
     let emptyCoordinateList = Array.from(emptyCoordinateSet);
-    // console.log(emptyCoordinateList);
 
     if (numberOfCoordinate >= emptyCoordinateList.length) {
         return [] as cellCoordinate[]
@@ -77,32 +75,48 @@ export function positionRelativeTo (coordinate1 : cellCoordinate, coordinate2 : 
 
     const incrementX = x2 - x1;
     const incrementY = y2 - y1;
-    let directionVectorOneToTwo : directionVectorType;
-    if (Math.abs(incrementX) > 1) {
-        if (incrementX < 0) {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
-        } else {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(-1), y : makePossibleVectorValue(0)}
-        }
-    } else if (Math.abs(incrementY) > 1) {
-        if (incrementY < 0) {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(1)}    
-        } else {
-            directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(-1)}
-        }
-    } else {
-        directionVectorOneToTwo ={x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)};
-    }
-    let returnedDirection : direction = "Up";
-    Object.keys(directionsProperty).forEach((directionName : direction) => {
-        const candidatedirectionVector = directionsProperty[directionName].vectorValue
-        const {x : referenceX, y : referenceY} = candidatedirectionVector;
-        if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
-            returnedDirection = directionName;
-        }
-    })
+    // console.log(Math.abs(incrementX) / incrementX);
+    // console.log(incrementY);
+    // console.log(Math.abs(incrementY) / incrementY);
+    let directionVectorOneToTwo : directionVectorType = {
+        x : makePossibleVectorValue(incrementX !== 0 ? Math.abs(incrementX) / incrementX : 0),
+        y : makePossibleVectorValue(incrementY !== 0 ? Math.abs(incrementY) / incrementY : 0)
+    };
+    // if (Math.abs(incrementX) > 1) {
+    //     if (incrementX < 0) {
+    //         directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
+    //     } else {
+    //         directionVectorOneToTwo = {x : makePossibleVectorValue(-1), y : makePossibleVectorValue(0)}
+    //     }
+    // } else if (Math.abs(incrementY) > 1) {
+    //     if (incrementY < 0) {
+    //         directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(1)}    
+    //     } else {
+    //         directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(-1)}
+    //     }
+    // } else {
+    //     directionVectorOneToTwo ={x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)};
+    // }
+    // const result = Object.keys(directionsProperty).filter((directionName : direction) => {
+    //     console.log(directionVectorOneToTwo);
+    //     console.log(directionsProperty[directionName].vectorValue);
+    //     return JSON.stringify(directionsProperty[directionName].vectorValue) === JSON.stringify(directionVectorOneToTwo)});
 
-    return returnedDirection;
+    // console.log(result);
+
+    return Object.keys(directionsProperty).filter((directionName : direction) =>
+        JSON.stringify(directionsProperty[directionName].vectorValue) === JSON.stringify(directionVectorOneToTwo))[0] as direction;
+
+    // let returnedDirection : direction = "Up";
+    // Object.keys(directionsProperty).forEach((directionName : direction) => {
+    //     const candidatedirectionVector = directionsProperty[directionName].vectorValue
+    //     const {x : referenceX, y : referenceY} = candidatedirectionVector;
+    //     if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
+    //         returnedDirection = directionName;
+    //     }
+    // })
+
+    // return returnedDirection;
 }
 
 export function wholeSnakeCoordinateListUpdater(
