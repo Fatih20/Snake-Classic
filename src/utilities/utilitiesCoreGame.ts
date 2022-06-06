@@ -18,7 +18,7 @@ export function mover(
 
     if (newY > gridSize) {
       newY = 1;
-    } else if (movedCoordinate.y + incrementY < 1) {
+    } else if (newY < 1) {
       newY = gridSize;
     }
 
@@ -30,16 +30,7 @@ export function mover(
     direction: direction,
     length : number
   ) {
-    const oppositeDirectionVector =
-      directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
-    // let referenceCoordinate = headCoordinate;
-    // let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
-    // for (let i = 1; i < length; i++) {
-    //   referenceCoordinate = wholeSnakeCoordinateList[i - 1];
-    //   wholeSnakeCoordinateList.push(
-    //     mover(referenceCoordinate, oppositeDirectionVector)
-    //   );
-    // return wholeSnakeCoordinateList;
+    const oppositeDirectionVector = directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
     return [headCoordinate, ...Array.from({length : length - 1}, (_, i) => mover(headCoordinate, oppositeDirectionVector, i + 1))]
   }
 
