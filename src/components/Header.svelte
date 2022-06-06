@@ -1,6 +1,11 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
-  import { sendResetGame } from "../utilities/utilities";
+
+  const dispatch = createEventDispatcher();
+  function sendResetGame() {
+    dispatch("resetGame");
+  }
 </script>
 
 <head>

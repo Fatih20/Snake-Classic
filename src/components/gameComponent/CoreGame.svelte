@@ -13,7 +13,6 @@
     directionsProperty,
     oppositeDirectionDictionary,
     allCoordinateList,
-    sendResetGame,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -21,6 +20,8 @@
     savedGame,
     firstStart,
   } from "../../stores";
+
+  import { createEventDispatcher } from "svelte";
 
   import {
     checkIfHeadBiteBody,
@@ -30,6 +31,7 @@
   } from "../../utilities/utilitiesCoreGame";
 
   let mainEventLoop: NodeJS.Timer;
+  let dispatch = createEventDispatcher();
   let allFruitEaten = $savedGame.fruitPositionList.length === 0;
 
   let candidateDirection = $savedGame.direction;
@@ -56,6 +58,10 @@
   );
 
   let nthTurnReference = 0;
+
+  function sendResetGame() {
+    dispatch("resetGame");
+  }
 
   function handleKeydown(e) {
     const { key: keyPressed } = e;

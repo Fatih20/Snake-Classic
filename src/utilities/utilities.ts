@@ -3,8 +3,6 @@ import { gridSize } from "../config";
 import { possibleDirection, directionsPropertyType,
     possibleDirectionKey,
     possibleDirectionVector, } from "./types";
-import { createEventDispatcher } from "svelte";
-
 
 export function randomizeFrom1ToN (N : number) {
     return Math.floor(Math.random() * N) + 1
@@ -64,8 +62,3 @@ export function fetchItemFromLocalStorage (key : string){
 export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo) {
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
-
-const dispatch = createEventDispatcher();
-export function sendResetGame() {
-    dispatch("resetGame");
-  }

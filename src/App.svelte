@@ -21,7 +21,7 @@
     <StartPage on:gameStarted={() => gameState.set("playing")} />
   {:else}
     <div class="main-app-container" transition:fade>
-      <Header />
+      <Header on:resetGame={resetCoreGame} />
       {#if $gameState === "playing"}
         {#key unique}
           <Game {resetCoreGame} />
