@@ -4,25 +4,22 @@ import { gridSize } from "../config";
 
 export function mover(
     movedCoordinate: cellCoordinate,
-    directionVector: directionVectorType
+    directionVector: directionVectorType,
+    multiplier : number = 1
   ): cellCoordinate {
-    let newX: number;
-    let newY: number;
-    const { x: incrementX, y: incrementY } = directionVector;
-    if (movedCoordinate.x + incrementX > gridSize) {
+      const { x: incrementX, y: incrementY } = directionVector;
+    let newX = movedCoordinate.x + incrementX * multiplier;
+    let newY = movedCoordinate.y + incrementY * multiplier;
+    if (newX > gridSize) {
       newX = 1;
-    } else if (movedCoordinate.x + incrementX < 1) {
+    } else if (newX < 1) {
       newX = gridSize;
-    } else {
-      newX = movedCoordinate.x + incrementX;
     }
 
-    if (movedCoordinate.y + incrementY > gridSize) {
+    if (newY > gridSize) {
       newY = 1;
     } else if (movedCoordinate.y + incrementY < 1) {
       newY = gridSize;
-    } else {
-      newY = movedCoordinate.y + incrementY;
     }
 
     return { x: makePossibleCoordinate(newX), y: makePossibleCoordinate(newY) };
@@ -35,16 +32,15 @@ export function mover(
   ) {
     const oppositeDirectionVector =
       directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
-    let referenceCoordinate = headCoordinate;
-    let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
-    for (let i = 1; i < length; i++) {
-      referenceCoordinate = wholeSnakeCoordinateList[i - 1];
-      wholeSnakeCoordinateList.push(
-        mover(referenceCoordinate, oppositeDirectionVector)
-      );
-    }
-
-    return wholeSnakeCoordinateList;
+    // let referenceCoordinate = headCoordinate;
+    // let wholeSnakeCoordinateList: cellCoordinate[] = [headCoordinate];
+    // for (let i = 1; i < length; i++) {
+    //   referenceCoordinate = wholeSnakeCoordinateList[i - 1];
+    //   wholeSnakeCoordinateList.push(
+    //     mover(referenceCoordinate, oppositeDirectionVector)
+    //   );
+    // return wholeSnakeCoordinateList;
+    return [headCoordinate, ...Array.from({length : length - 1}, (_, i) => mover(headCoordinate, oppositeDirectionVector, i + 1))]
   }
 
 export function randomCoordinate () {
