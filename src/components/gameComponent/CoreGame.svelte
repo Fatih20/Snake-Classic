@@ -109,7 +109,11 @@
       gameIsOver.set(true);
     }
 
-    // console.log("Game is running");
+    if ($gameIsOver) {
+      gameIsPaused.set(true);
+    }
+
+    console.log("Game is running");
   }
 
   function gameFlowControl(resumeOrStart: boolean) {
