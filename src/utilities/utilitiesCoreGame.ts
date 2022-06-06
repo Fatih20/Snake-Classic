@@ -140,8 +140,6 @@ export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordin
           snakeCoordinate
         );
 
-        console.log(directionFromNextCoordinate);
-
         return `${directionFromNextCoordinate.toLowerCase()}`;
       } else {
         const previousCell = wholeSnakeCoordinateList[index - 1];
@@ -154,15 +152,8 @@ export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordin
           nextCell,
           snakeCoordinate
         ) as direction;
-        console.log([directionFromPreviousCell, directionFromNextCell]);
-        if (
-          oppositeDirectionDictionary[directionFromPreviousCell] ===
-          directionFromNextCell
-        ) {
-          return ``;
-        } else {
-          return `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`;
-        }
+        return (oppositeDirectionDictionary[directionFromPreviousCell] ===
+          directionFromNextCell ? `` : `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`)
       }
     });
 }
