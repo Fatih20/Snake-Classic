@@ -115,7 +115,7 @@
       savedGame.removeFromLocalStorage();
     }
 
-    console.log("Game is running");
+    // console.log("Game is running");
   }
 
   function gameFlowControl(resumeOrStart: boolean) {
