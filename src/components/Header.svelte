@@ -1,5 +1,6 @@
 <script lang="ts">
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
+  import { sendResetGame } from "../utilities/utilities";
 </script>
 
 <head>
@@ -31,11 +32,12 @@
   >
     <!-- <button>Bruh</button> -->
     <button
-      on:click={() => {
-        if (!$gameIsOver) {
-          gameIsPaused.update((gameIsPaused) => (gameIsPaused = !gameIsPaused));
-        }
-      }}
+      on:click={!$gameIsOver
+        ? () =>
+            gameIsPaused.update(
+              (gameIsPaused) => (gameIsPaused = !gameIsPaused)
+            )
+        : sendResetGame}
       class="header-button left-button"
       style="width: 20px;"
       class:shown-button={$gameState === "playing"}

@@ -13,6 +13,7 @@
     directionsProperty,
     oppositeDirectionDictionary,
     allCoordinateList,
+    sendResetGame,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -21,7 +22,6 @@
     firstStart,
   } from "../../stores";
 
-  import { createEventDispatcher } from "svelte";
   import {
     checkIfHeadBiteBody,
     cornerOfSnakeBodyGenerator,
@@ -29,7 +29,6 @@
     wholeSnakeCoordinateListUpdater,
   } from "../../utilities/utilitiesCoreGame";
 
-  const dispatch = createEventDispatcher();
   let mainEventLoop: NodeJS.Timer;
   let allFruitEaten = $savedGame.fruitPositionList.length === 0;
 
@@ -71,10 +70,6 @@
     if (candidateDirection !== oppositePreviousDirection) {
       savedGame.updateDirection(candidateDirection);
     }
-  }
-
-  function sendResetGame() {
-    dispatch("resetGame");
   }
 
   function toBeRunInMainEventLoop() {
