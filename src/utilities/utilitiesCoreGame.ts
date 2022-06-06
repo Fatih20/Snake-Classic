@@ -4,10 +4,9 @@ import { gridSize } from "../config";
 
 export function mover(
     movedCoordinate: cellCoordinate,
-    directionVector: directionVectorType,
+    { x: incrementX, y: incrementY }: directionVectorType,
     multiplier : number = 1
   ): cellCoordinate {
-      const { x: incrementX, y: incrementY } = directionVector;
     let newX = movedCoordinate.x + incrementX * multiplier;
     let newY = movedCoordinate.y + incrementY * multiplier;
     if (newX > gridSize) {
@@ -69,10 +68,7 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
     }
 }
 
-export function positionRelativeTo (coordinateFrom : cellCoordinate, coordinateTo : cellCoordinate) {
-    const {x : xFrom, y : yFrom} = coordinateFrom;
-    const {x : xTo, y : yTo} = coordinateTo;
-
+export function positionRelativeTo ({x : xFrom, y : yFrom} : cellCoordinate, {x : xTo, y : yTo} : cellCoordinate) {
     const incrementX = xTo - xFrom;
     const incrementY = yTo - yFrom;
     let directionVectorOneToTwo : directionVectorType;
