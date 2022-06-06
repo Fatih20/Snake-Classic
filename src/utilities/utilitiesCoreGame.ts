@@ -114,27 +114,23 @@ export function wholeSnakeCoordinateListUpdater(
 export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordinate[]) {
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
-        const comparedCell =
+        const directionFromNextCoordinate = positionRelativeTo(
           index === 0
             ? wholeSnakeCoordinateList[1]
-            : wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2];
-        const directionFromNextCoordinate = positionRelativeTo(
-          comparedCell,
+            : wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 2],
           snakeCoordinate
         );
 
         return `${directionFromNextCoordinate.toLowerCase()}`;
       } else {
-        const previousCell = wholeSnakeCoordinateList[index - 1];
-        const nextCell = wholeSnakeCoordinateList[index + 1];
         const directionFromPreviousCell = positionRelativeTo(
-          previousCell,
+          wholeSnakeCoordinateList[index - 1],
           snakeCoordinate
-        ) as direction;
+        );
         const directionFromNextCell = positionRelativeTo(
-          nextCell,
+          wholeSnakeCoordinateList[index + 1],
           snakeCoordinate
-        ) as direction;
+        );
         return (oppositeDirectionDictionary[directionFromPreviousCell] ===
           directionFromNextCell ? `` : `${directionFromPreviousCell.toLowerCase()}-${directionFromNextCell.toLowerCase()}`)
       }
