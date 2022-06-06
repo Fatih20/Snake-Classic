@@ -186,7 +186,7 @@
         id="restart-button"
         on:click={() => {
           sendResetGame();
-          gameIsPaused.set(false);
+          // gameIsPaused.set(false);
         }}>New Game</button
       >
     </div>

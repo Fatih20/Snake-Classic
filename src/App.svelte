@@ -7,7 +7,7 @@
   import { gameIsOver, savedGame, gameState, gameIsPaused } from "./stores";
   import Login from "./components/Login.svelte";
 
-  let unique = {};
+  // let unique = {};
 
   function resetCoreGame() {
     savedGame.reset();
@@ -23,9 +23,7 @@
     <div class="main-app-container" transition:fade>
       <Header on:resetGame={resetCoreGame} />
       {#if $gameState === "playing"}
-        {#key unique}
-          <Game {resetCoreGame} />
-        {/key}
+        <Game {resetCoreGame} />
       {/if}
       {#if $gameState === "login" || $gameState === "signIn"}
         <div class="spacer" />
