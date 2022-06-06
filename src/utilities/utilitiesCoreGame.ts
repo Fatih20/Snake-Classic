@@ -76,13 +76,6 @@ export function positionRelativeTo (coordinateFrom : cellCoordinate, coordinateT
     const incrementX = xTo - xFrom;
     const incrementY = yTo - yFrom;
     let directionVectorOneToTwo : directionVectorType;
-    // console.log(Math.abs(incrementX) / incrementX);
-    // console.log(incrementY);
-    // console.log(Math.abs(incrementY) / incrementY);
-    // let directionVectorOneToTwo : directionVectorType = {
-    //     x : makePossibleVectorValue(incrementX !== 0 ? Math.abs(incrementX) / incrementX : 0),
-    //     y : makePossibleVectorValue(incrementY !== 0 ? Math.abs(incrementY) / incrementY : 0)
-    // };
     
     if (incrementX < -1) {
         directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
@@ -94,26 +87,9 @@ export function positionRelativeTo (coordinateFrom : cellCoordinate, coordinateT
         directionVectorOneToTwo = {x : makePossibleVectorValue(0), y : makePossibleVectorValue(-1)}
     } else {
     directionVectorOneToTwo = {x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)}}
-    // const result = Object.keys(directionsProperty).filter((directionName : direction) => {
-    //     console.log(directionVectorOneToTwo);
-    //     console.log(directionsProperty[directionName].vectorValue);
-    //     return JSON.stringify(directionsProperty[directionName].vectorValue) === JSON.stringify(directionVectorOneToTwo)});
-
-    // console.log(result);
 
     return Object.keys(directionsProperty).filter((directionName : direction) =>
         JSON.stringify(directionsProperty[directionName].vectorValue) === JSON.stringify(directionVectorOneToTwo))[0] as direction;
-
-    // let returnedDirection : direction = "Up";
-    // Object.keys(directionsProperty).forEach((directionName : direction) => {
-    //     const candidatedirectionVector = directionsProperty[directionName].vectorValue
-    //     const {x : referenceX, y : referenceY} = candidatedirectionVector;
-    //     if (directionVectorOneToTwo.x === referenceX && directionVectorOneToTwo.y === referenceY) {
-    //         returnedDirection = directionName;
-    //     }
-    // })
-
-    // return returnedDirection;
 }
 
 export function wholeSnakeCoordinateListUpdater(
