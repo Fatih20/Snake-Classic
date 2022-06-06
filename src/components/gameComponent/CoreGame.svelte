@@ -112,6 +112,7 @@
 
     if ($gameIsOver) {
       gameIsPaused.set(true);
+      savedGame.removeFromLocalStorage();
     }
 
     console.log("Game is running");

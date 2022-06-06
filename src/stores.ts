@@ -91,7 +91,11 @@ function createSavedGame () {
     }
 
     function reset () {
+        localStorage.removeItem("savedGame");
         set(initializeSavedGame());
+    }
+
+    function removeFromLocalStorage() {
         localStorage.removeItem("savedGame");
     }
 
@@ -102,7 +106,8 @@ function createSavedGame () {
         updateFruitEaten,
         updateFruitPosition,
         updateWholeSnakeCoordinate,
-        reset
+        reset,
+        removeFromLocalStorage
     }
 }
 
