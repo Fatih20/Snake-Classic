@@ -10,3 +10,4 @@ export const delayUntilGameStarts = 500 + mainMenuTransitionDuration;
 export const placeholderUsername = "snakeman69";
 export const placeholderPassword = "5n4k3m4n69";
 export const placeholderEmail = "snakeman69@420.com";
+export const baseAPIPath = "https://snake-classic-backend.herokuapp.com";

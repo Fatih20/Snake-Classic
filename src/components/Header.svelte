@@ -1,6 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
+  import { logout } from "../utilities/api";
+  import Login from "./Login.svelte";
 
   const dispatch = createEventDispatcher();
   function sendResetGame() {
@@ -67,6 +69,7 @@
       class:shown-button={$gameState === "playing"}
       on:click={() => {
         if ($isLoggedIn) {
+          logout();
         } else {
           console.log("Bruh");
           gameState.set("login");

@@ -6,19 +6,33 @@
   } from "../config";
 
   import { gameState } from "../stores";
+  import { login, register } from "../utilities/api";
 
   let enteredEmail = "";
   let enteredPassword = "";
   let enteredUsername = "";
 
-  function handleSubmit(e) {}
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if ($gameState === "login") {
+      console.log(enteredUsername);
+      console.log(enteredPassword);
+      await login({ name: enteredUsername, password: enteredPassword });
+    } else if ($gameState === "signIn") {
+      await register({
+        name: enteredUsername,
+        email: enteredEmail,
+        password: enteredPassword,
+      });
+    }
+  }
 </script>
 
 <main>
   <h2 class="title">
     {$gameState === "login" ? "Log In" : "Sign In"}
   </h2>
-  <form on:submit={handleSubmit} method="POST">
+  <form on:submit={handleSubmit}>
     <div class="input-element">
       <label for="username-input">Username</label>
       <input
@@ -50,10 +64,10 @@
         bind:value={enteredPassword}
       />
     </div>
+    <button class="submit-button" type="submit"
+      >{$gameState === "login" ? "Log In" : "Sign In"}</button
+    >
   </form>
-  <button class="submit-button" type="submit"
-    >{$gameState === "login" ? "Log In" : "Sign In"}</button
-  >
   <p class="alternate-text">
     {#if $gameState === "login"}
       Don't have an account? <span on:click={() => gameState.set("signIn")}

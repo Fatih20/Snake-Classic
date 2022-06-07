@@ -106,3 +106,19 @@ const possibleGameState = [
   "signIn",
 ] as const;
 export type possibleGameStateType = typeof possibleGameState[number];
+
+export interface ILoginInput {
+  name : string,
+  password : string
+}
+
+export interface IRegisterInput {
+  name : string,
+  email : string,
+  password : string,
+}
+
+export interface IResponseData {
+  message : string,
+  error? : any,
+}
