@@ -7,8 +7,6 @@
   import { gameIsOver, savedGame, gameState, gameIsPaused } from "./stores";
   import Login from "./components/Login.svelte";
 
-  // let unique = {};
-
   function resetCoreGame() {
     savedGame.reset();
     gameIsOver.set(false);

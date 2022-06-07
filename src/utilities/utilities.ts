@@ -1,6 +1,6 @@
 import { blankSavedGame, cellCoordinate, direction, directionVectorType, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
 import { gridSize } from "../config";
-import { possibleDirection, directionsPropertyType,
+import { directionsPropertyType,
     possibleDirectionKey,
     possibleDirectionVector, } from "./types";
 

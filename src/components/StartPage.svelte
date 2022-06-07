@@ -2,8 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
   import { mainMenuTransitionDuration } from "../config";
-  import { firstStart, gameState, savedGame } from "../stores";
-  import { isSavedGameUndefined } from "../utilities/utilities";
+  import { firstStart, gameState } from "../stores";
 
   const dispatch = createEventDispatcher();
 
