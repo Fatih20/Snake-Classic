@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { recallingAPILimit } from "../config";
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
   import { logout } from "../utilities/api";
   import Login from "./Login.svelte";
@@ -7,6 +8,20 @@
   const dispatch = createEventDispatcher();
   function sendResetGame() {
     dispatch("resetGame");
+  }
+
+  let attemptAtLogout = 0;
+
+  async function handleLogout() {
+    attemptAtLogout += 1;
+    const response = await logout();
+    if (response.statusCode >= 500) {
+      if (attemptAtLogout <= recallingAPILimit) {
+        await handleLogout();
+      }
+      return;
+    }
+    return;
   }
 </script>
 
@@ -67,11 +82,12 @@
       class="header-button right-button"
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
-      on:click={() => {
+      on:click={async () => {
+        gameIsPaused.set(true);
         if ($isLoggedIn) {
-          logout();
+          await handleLogout();
         } else {
-          console.log("Bruh");
+          // console.log("Bruh");
           gameState.set("login");
         }
       }}
