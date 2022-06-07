@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, numberOfFruitSpawned, recallingAPILimit } from "./config";
 import { getSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
+import type {cellCoordinate, direction, IAPIReturn, IGetServerDataReturn, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
 import { allCoordinateList, errorHandlingWrapper, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -51,13 +51,19 @@ function createSavedGame () {
         return response;
     }
 
-    async function getServerData () {
-        const response = await getServerDataRecursive(0);
+    async function getServerData () : Promise<IGetServerDataReturn> {
+        const response = await getServerDataRecursive() as IAPIReturn;
         if (!response.isError) {
             // set()
-            return { success : true } as { success : boolean};
-        } else {
-            return {success : false} as {success : boolean };
+            return { success : true, errorDueToServer : false };
+        }
+
+        if (response.statusCode >= 500) {
+            return { success : false, errorDueToServer : true };
+        }
+
+        if (response.statusCode >= 400) {
+            return { success : false, errorDueToServer : false };
         }
     }
 

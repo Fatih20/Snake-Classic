@@ -133,3 +133,8 @@ export interface IAPIReturn {
 
 const possibleAPIMethodList = ["post", "put", "get", "patch", "delete"] as const;
 export type possibleAPIMethodType = typeof possibleAPIMethodList[number];
+
+export interface IGetServerDataReturn {
+  success : boolean,
+  errorDueToServer : boolean,
+}
