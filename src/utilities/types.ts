@@ -129,3 +129,6 @@ export interface IAPIReturn {
   message : string,
   error : any
 }
+
+const possibleAPIMethodList = ["post", "put", "get", "patch", "delete"] as const;
+export type possibleAPIMethodType = typeof possibleAPIMethodList[number];

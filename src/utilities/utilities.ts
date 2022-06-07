@@ -1,4 +1,4 @@
-import { blankSavedGame, cellCoordinate, direction, directionVectorType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
+import { blankSavedGame, cellCoordinate, direction, directionVectorType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize } from "../config";
 import { directionsPropertyType,
     possibleDirectionKey,
@@ -64,9 +64,10 @@ export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
-export async function errorHandlingWrapper (url : string, bodyData : any = {}) {
+export async function errorHandlingWrapper (url : string, bodyData : any = {}, method : possibleAPIMethodType) {
+
     try {
-        const response = await axios.post(url, bodyData);
+        const response = await axios({method, url, data : bodyData });
         return {
             statusCode : response.status,
             isError : true,
