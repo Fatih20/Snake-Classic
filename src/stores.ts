@@ -1,8 +1,8 @@
 import { readable, writable } from "svelte/store";
-import { initialLength, numberOfFruitSpawned } from "./config";
+import { baseAPIPath, initialLength, numberOfFruitSpawned, recallingAPILimit } from "./config";
 import { getSavedGame } from "./utilities/api";
 import type {cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
-import { allCoordinateList, fetchItemFromLocalStorage } from "./utilities/utilities";
+import { allCoordinateList, errorHandlingWrapper, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 function createHighScore () {
@@ -35,12 +35,29 @@ function createSavedGame () {
     //     switch ()
     // }
 
+    async function getServerDataRecursive (attemptsAtCallingAPI : number = 0) {
+        const response = await getSavedGame();
+        if (response.isError) {
+            if (response.statusCode >= 500){
+                if (attemptsAtCallingAPI <= recallingAPILimit){
+                    return await getServerDataRecursive(attemptsAtCallingAPI + 1)
+                } else {
+                    return response;
+                }
+            } else {
+                return response;
+            }
+        }
+        return response;
+    }
+
     async function getServerData () {
-        const { isError } = await getSavedGame();
-        if (!isError) {
-
+        const response = await getServerDataRecursive(0);
+        if (!response.isError) {
+            // set()
+            return { success : true } as { success : boolean};
         } else {
-
+            return {success : false} as {success : boolean };
         }
     }
 
@@ -118,7 +135,8 @@ function createSavedGame () {
         updateFruitPosition,
         updateWholeSnakeCoordinate,
         reset,
-        removeFromLocalStorage
+        removeFromLocalStorage,
+        getServerData
     }
 }
 
