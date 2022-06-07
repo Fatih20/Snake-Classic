@@ -1,8 +1,9 @@
-import { blankSavedGame, cellCoordinate, direction, directionVectorType, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
+import { blankSavedGame, cellCoordinate, direction, directionVectorType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType } from "./types";
 import { gridSize } from "../config";
 import { directionsPropertyType,
     possibleDirectionKey,
     possibleDirectionVector, } from "./types";
+import axios from "axios";
 
 export function randomizeFrom1ToN (N : number) {
     return Math.floor(Math.random() * N) + 1
@@ -61,4 +62,24 @@ export function fetchItemFromLocalStorage (key : string){
 
 export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo) {
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
+}
+
+export async function errorHandlingWrapper (url : string, bodyData : any = {}) {
+    try {
+        const response = await axios.post(url, bodyData);
+        return {
+            statusCode : response.status,
+            isError : true,
+            message : response.data.message,
+            error : null,
+        } as IAPIReturn;
+
+    } catch (error) {
+        return {
+            statusCode : error.response.status,
+            isError : true,
+            message : error.response.data.message,
+            error : error,
+        } as IAPIReturn;
+    }
 }

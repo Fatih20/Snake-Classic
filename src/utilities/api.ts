@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseAPIPath } from "../config";
-import type { IAPIReturn, ILoginInput, IRegisterInput } from "./types";
+import type { ILoginInput, IRegisterInput } from "./types";
 import { errorHandlingWrapper } from "./utilities";
 
 export async function logout () {
