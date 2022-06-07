@@ -12,8 +12,11 @@
   let enteredPassword = "";
   let enteredUsername = "";
 
+  let isLoading = false;
+
   async function handleSubmit(e) {
     e.preventDefault();
+    isLoading = true;
     const response = await ($gameState === "login"
       ? login({ name: enteredUsername, password: enteredPassword })
       : register({
@@ -21,8 +24,15 @@
           email: enteredEmail,
           password: enteredPassword,
         }));
-    // if (response.)
+    isLoading = false;
+    if (response.isError) {
+      if (response.statusCode >= 500) {
+      } else if (response.statusCode >= 400) {
+      }
+    }
   }
+
+  $: console.log(isLoading);
 </script>
 
 <main>
@@ -61,9 +71,13 @@
         bind:value={enteredPassword}
       />
     </div>
-    <button class="submit-button" type="submit"
-      >{$gameState === "login" ? "Log In" : "Sign In"}</button
-    >
+    <button class="submit-button" type="submit">
+      {#if isLoading}
+        <i class="fa-solid fa-spinner spinner-button" />
+      {:else}
+        {$gameState === "login" ? "Log In" : "Sign In"}
+      {/if}
+    </button>
   </form>
   <p class="alternate-text">
     {#if $gameState === "login"}
@@ -156,5 +170,26 @@
 
   span {
     cursor: pointer;
+  }
+
+  @keyframes spinnerRotation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    50% {
+      transform: rotate(180deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spinner-button {
+    animation-name: spinnerRotation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
   }
 </style>
