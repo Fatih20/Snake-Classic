@@ -3,6 +3,7 @@
     placeholderEmail,
     placeholderPassword,
     placeholderUsername,
+    recallingAPILimit,
   } from "../config";
 
   import { gameState, isLoggedIn } from "../stores";
@@ -30,7 +31,7 @@
         }));
 
     if (response.statusCode >= 500) {
-      if (loginTriedAttempt <= 5) {
+      if (loginTriedAttempt <= recallingAPILimit) {
         handleSubmit(e);
       } else {
         isLoading = false;
