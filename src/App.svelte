@@ -6,7 +6,17 @@
   import { fade } from "svelte/transition";
   import { gameIsOver, savedGame, gameState, gameIsPaused } from "./stores";
   import Login from "./components/Login.svelte";
+  import { onMount } from "svelte";
 
+  onMount(async () => {
+    const { success, errorDueToServer } = await savedGame.getServerData();
+    if (!success) {
+      if (!errorDueToServer) {
+        gameState.set("startPage");
+      }
+    }
+    gameState.set("startPage");
+  });
   function resetCoreGame() {
     savedGame.reset();
     gameIsOver.set(false);
