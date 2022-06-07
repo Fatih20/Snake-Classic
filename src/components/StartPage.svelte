@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
   import { mainMenuTransitionDuration } from "../config";
-  import { firstStart, gameState } from "../stores";
+  import { firstStart, gameState, isLoggedIn } from "../stores";
 
   const dispatch = createEventDispatcher();
 
@@ -35,12 +35,14 @@
           sendGameHasStarted();
         }}>{$firstStart ? "Start" : "Continue"}</button
       >
-      <button
-        class="start-button"
-        on:click={() => {
-          gameState.set("login");
-        }}>Login</button
-      >
+      {#if !$isLoggedIn}
+        <button
+          class="start-button"
+          on:click={() => {
+            gameState.set("login");
+          }}>Login</button
+        >
+      {/if}
     </div>
   </div>
 </main>

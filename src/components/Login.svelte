@@ -5,7 +5,7 @@
     placeholderUsername,
   } from "../config";
 
-  import { gameState } from "../stores";
+  import { gameState, isLoggedIn } from "../stores";
   import { login, register } from "../utilities/api";
 
   let enteredEmail = "";
@@ -51,6 +51,8 @@
 
     loginTriedAttempt = 0;
     isLoading = false;
+    isLoggedIn.set(true);
+    gameState.set("playing");
   }
 
   $: console.log(isLoading);
