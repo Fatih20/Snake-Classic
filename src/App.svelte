@@ -15,6 +15,9 @@
 </script>
 
 <main>
+  <!-- {#if $gameState === "loadingData"}
+
+  {:else if $gameState === "startPage"} -->
   {#if $gameState === "startPage"}
     <StartPage on:gameStarted={() => gameState.set("playing")} />
   {:else}

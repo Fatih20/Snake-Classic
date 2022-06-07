@@ -1,5 +1,6 @@
 import { readable, writable } from "svelte/store";
 import { initialLength, numberOfFruitSpawned } from "./config";
+import { getSavedGame } from "./utilities/api";
 import type {cellCoordinate, direction, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
 import { allCoordinateList, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
@@ -33,6 +34,16 @@ function createSavedGame () {
     // function updateAndSave (propertyName : ISavedGameProperty, newValue : cellCoordinate[]| direction | number) {
     //     switch ()
     // }
+
+    async function getServerData () {
+        const { isError } = await getSavedGame();
+        if (!isError) {
+
+        } else {
+
+        }
+    }
+
     function initializeSavedGame() {
         const direction = randomDirection()
         const wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(

@@ -104,6 +104,7 @@ const possibleGameState = [
   "settings",
   "login",
   "signIn",
+  "loadingData"
 ] as const;
 export type possibleGameStateType = typeof possibleGameState[number];
 

@@ -68,18 +68,20 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
 
     try {
         const response = await axios({method, url, data : bodyData });
+        console.log(response);
         return {
             statusCode : response.status,
             isError : true,
-            message : response.data.message,
+            message : response.data?.message,
             error : null,
+            retrievedData : response.data
         } as IAPIReturn;
 
     } catch (error) {
         return {
             statusCode : error.response.status,
             isError : true,
-            message : error.response.data.message,
+            message : error.response.data?.message,
             error : error,
         } as IAPIReturn;
     }
