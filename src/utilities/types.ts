@@ -122,3 +122,10 @@ export interface IResponseData {
   message : string,
   error? : any,
 }
+
+export interface IAPIReturn {
+  statusCode : number,
+  isError : boolean,
+  message : string,
+  error : any
+}

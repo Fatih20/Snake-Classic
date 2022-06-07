@@ -1,27 +1,19 @@
 import axios from "axios";
 import { baseAPIPath } from "../config";
-import type { ILoginInput, IRegisterInput } from "./types";
+import type { IAPIReturn, ILoginInput, IRegisterInput } from "./types";
+import { errorHandlingWrapper } from "./utilities";
 
 export async function logout () {
-    const response = await axios.post(`${baseAPIPath}/user/logout`);
-    console.log(response);
+    console.log("Trying to logout");
+    return await errorHandlingWrapper(`${baseAPIPath}/user/logout`);
 }
 
 export async function login (loginInfo : ILoginInput) {
-    console.log("Trying to login")
-    try {
-        const response = await axios.post(`${baseAPIPath}/user/login`, loginInfo);
-    } catch (error) {
-        console.log(error.response.status)
-        // console.log(error.response.data);
-    }
+    console.log("Trying to login");
+    return await errorHandlingWrapper(`${baseAPIPath}/user/login`, loginInfo)
 }
 
 export async function register (registerInfo : IRegisterInput) {
     console.log("Trying to register");
-    try {
-        const response = await axios.post(`${baseAPIPath}/user/login`, registerInfo);
-    } catch (error) {
-        console.log(error)
-    }
+    return await errorHandlingWrapper(`${baseAPIPath}/user/register`, registerInfo)
 }

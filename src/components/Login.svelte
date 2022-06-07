@@ -14,17 +14,14 @@
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if ($gameState === "login") {
-      console.log(enteredUsername);
-      console.log(enteredPassword);
-      await login({ name: enteredUsername, password: enteredPassword });
-    } else if ($gameState === "signIn") {
-      await register({
-        name: enteredUsername,
-        email: enteredEmail,
-        password: enteredPassword,
-      });
-    }
+    const response = await ($gameState === "login"
+      ? login({ name: enteredUsername, password: enteredPassword })
+      : register({
+          name: enteredUsername,
+          email: enteredEmail,
+          password: enteredPassword,
+        }));
+    // if (response.)
   }
 </script>
 
