@@ -1,4 +1,3 @@
-import axios from "axios";
 import { baseAPIPath } from "../config";
 import type { ILoginInput, IRegisterInput } from "./types";
 import { errorHandlingWrapper } from "./utilities";

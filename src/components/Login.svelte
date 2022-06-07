@@ -13,8 +13,12 @@
   let enteredUsername = "";
 
   let isLoading = false;
+  let loginTriedAttempt = 0;
+  let errorOnPreviousAttempt = false;
+  let errorMessage: string;
 
   async function handleSubmit(e) {
+    loginTriedAttempt += 1;
     e.preventDefault();
     isLoading = true;
     const response = await ($gameState === "login"
@@ -24,12 +28,29 @@
           email: enteredEmail,
           password: enteredPassword,
         }));
-    isLoading = false;
-    if (response.isError) {
-      if (response.statusCode >= 500) {
-      } else if (response.statusCode >= 400) {
+
+    if (response.statusCode >= 500) {
+      if (loginTriedAttempt <= 5) {
+        handleSubmit(e);
+      } else {
+        isLoading = false;
+        loginTriedAttempt = 0;
+        errorOnPreviousAttempt = true;
+        errorMessage = "Server error. Try again later.";
       }
+      return;
     }
+
+    if (response.statusCode >= 400) {
+      loginTriedAttempt = 0;
+      isLoading = false;
+      errorOnPreviousAttempt = true;
+      errorMessage = response.message;
+      return;
+    }
+
+    loginTriedAttempt = 0;
+    isLoading = false;
   }
 
   $: console.log(isLoading);
@@ -71,6 +92,11 @@
         bind:value={enteredPassword}
       />
     </div>
+    {#if errorOnPreviousAttempt}
+      <div class="error-message-container">
+        {errorMessage}
+      </div>
+    {/if}
     <button class="submit-button" type="submit">
       {#if isLoading}
         <i class="fa-solid fa-spinner spinner-button" />
@@ -162,6 +188,8 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.5em;
+    padding: 0;
+    width: 100%;
   }
 
   .alternate-text {
@@ -191,5 +219,13 @@
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+  }
+
+  .error-message-container {
+    background-color: #ff8c82;
+    color: #c6262e;
+    padding: 0.5em;
+    text-align: center;
+    width: 100%;
   }
 </style>
