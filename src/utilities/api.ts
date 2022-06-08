@@ -19,5 +19,5 @@ export async function register (registerInfo : IRegisterInput) {
 
 export async function getSavedGame () {
     console.log("Trying to get saved game");
-    return await errorHandlingWrapper(`${baseAPIPath}/api/mine`, {}, "get")
+    return await errorHandlingWrapper(`${baseAPIPath}/gameData/mine`, {}, "get")
 }
