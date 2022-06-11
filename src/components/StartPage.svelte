@@ -9,9 +9,9 @@
 
   const dispatch = createEventDispatcher();
 
-  function sendGameHasStarted() {
-    dispatch("gameStarted");
-  }
+  // function sendGameHasStarted() {
+  //   dispatch("gameStarted");
+  // }
 </script>
 
 <head>
@@ -33,21 +33,40 @@
 >
   <div id="content-container">
     <h1 id="title">Snake<br />Classic</h1>
-    <div class="spacer" />
+    <!-- <div class="spacer" /> -->
     <div id="button-container">
       <button
-        class="start-button"
+        class="option-container"
         on:click={() => {
-          sendGameHasStarted();
-        }}>{$firstStart ? "Start" : "Continue"}</button
+          gameState.set("playing");
+        }}
       >
+        <h3 class="start-button-title">Play as a Guest</h3>
+        <p>Your save file and high score will be saved on this device</p>
+      </button>
       {#if !$isLoggedIn}
         <button
-          class="start-button"
+          class="option-container"
           on:click={() => {
             gameState.set("login");
-          }}>Login</button
+          }}
         >
+          <h3 class="start-button-title">Login</h3>
+          <p>
+            Log to your account (or create a new one) to have your save file and
+            high score accessible to multiple devices and tied to your account
+          </p>
+        </button>
+      {:else}
+        <button
+          class="option-container"
+          on:click={() => {
+            gameState.set("playing");
+          }}
+        >
+          <h3 class="start-button-title">Play as username</h3>
+          <p>Your save game and high score will be saved to this account</p>
+        </button>
       {/if}
     </div>
   </div>
@@ -89,13 +108,33 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 1.5em;
+
+    /* border: solid 1px white; */
   }
 
   #button-container button {
     margin: 0;
     padding: 0;
+  }
+
+  .option-container {
+    align-items: center;
+    background-color: rgb(var(--primary-color));
+    /* border: solid 2px black; */
+    border: none;
+    /* box-sizing: border-box; */
+    border-radius: var(--button-radius);
+    /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); */
+    cursor: pointer;
+    font-family: "Asap", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    justify-content: center;
+    max-width: 200px;
+    text-align: center;
   }
 
   #title {
@@ -110,18 +149,9 @@
     flex-grow: 1;
   }
 
-  .start-button {
-    background-color: rgb(var(--primary-color));
-    /* border: solid 2px black; */
-    border: none;
-    /* box-sizing: border-box; */
-    border-radius: var(--button-radius);
-    /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); */
-    cursor: pointer;
-    font-family: "Asap", sans-serif;
+  .start-button-title {
     font-size: 1.75em;
     font-weight: 700;
-    padding: 1em;
     transition: all 0.1s ease-in-out;
     width: 100%;
   }

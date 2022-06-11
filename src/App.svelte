@@ -44,7 +44,7 @@
     <InitialLoadPage />
   {:else if $gameState === "startPage"}
     <!-- {#if $gameState === "startPage"} -->
-    <StartPage on:gameStarted={() => gameState.set("playing")} />
+    <StartPage />
   {:else}
     <div class="main-app-container" transition:fade>
       <Header on:resetGame={resetCoreGame} />
