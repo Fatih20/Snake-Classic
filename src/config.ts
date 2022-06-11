@@ -1,3 +1,4 @@
+export const shootToProduction = true;
 export const gridSize = 20;
 export const refreshTime = 750;
 export const numberOfFruitSpawned = 3;
@@ -11,5 +12,5 @@ export const delayUntilGameStarts = 500 + mainMenuTransitionDuration;
 export const placeholderUsername = "snakeman69";
 export const placeholderPassword = "5n4k3m4n69";
 export const placeholderEmail = "snakeman69@420.com";
-export const baseAPIPath = "https://snake-classic-backend.herokuapp.com";
+export const baseAPIPath = (shootToProduction ? "https://snake-classic-backend.herokuapp.com" : "http://localhost:5000");
 export const recallingAPILimit = 5;
