@@ -1,4 +1,4 @@
-import { blankSavedGame, cellCoordinate, direction, directionVectorType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
+import { blankSavedGame, cellCoordinate, direction, directionVectorType, errorHandlingWrapperType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize } from "../config";
 import { directionsPropertyType,
     possibleDirectionKey,
@@ -74,7 +74,7 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
             isError : true,
             message : response.data?.message,
             error : null,
-            retrievedData : response.data
+            retrievedData : JSON.parse(response.data)
         } as IAPIReturn;
 
     } catch (error) {
@@ -83,6 +83,20 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
             isError : true,
             message : error.response.data?.message,
             error : error,
+            retrievedData : null
         } as IAPIReturn;
     }
 }
+
+export async function fetchDataRetry (functionToCall : () => Promise<IAPIReturn>, timesFunctionIsCalled : number, limitOfCalling : number) {
+    const response = await functionToCall();
+    if (response.statusCode < 500) {
+        return response;
+    }
+
+    if (timesFunctionIsCalled < limitOfCalling) {
+        return fetchDataRetry(functionToCall, timesFunctionIsCalled + 1, limitOfCalling)
+    }
+
+    return response;
+}   

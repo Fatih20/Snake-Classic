@@ -6,6 +6,7 @@ export const numberOfTailAddedAfterEating = 1;
 export const scoresAfterEveryFruit = 7;
 export const initialLength = 4;
 export const mainMenuTransitionDuration = 250;
+export const loadPageTransitionDuration = 500;
 export const delayUntilGameStarts = 500 + mainMenuTransitionDuration;
 export const placeholderUsername = "snakeman69";
 export const placeholderPassword = "5n4k3m4n69";

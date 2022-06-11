@@ -104,7 +104,8 @@ const possibleGameState = [
   "settings",
   "login",
   "signIn",
-  "loadingData"
+  "loadingData",
+  "serverErrorOnInitialLoad"
 ] as const;
 export type possibleGameStateType = typeof possibleGameState[number];
 
@@ -128,7 +129,8 @@ export interface IAPIReturn {
   statusCode : number,
   isError : boolean,
   message : string,
-  error : any
+  error : any,
+  retrievedData : any,
 }
 
 const possibleAPIMethodList = ["post", "put", "get", "patch", "delete"] as const;
@@ -138,3 +140,5 @@ export interface IGetServerDataReturn {
   success : boolean,
   errorDueToServer : boolean,
 }
+
+export type errorHandlingWrapperType = (url: string, bodyData: any, method: possibleAPIMethodType) => Promise<IAPIReturn>

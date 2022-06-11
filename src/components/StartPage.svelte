@@ -1,7 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
-  import { mainMenuTransitionDuration } from "../config";
+  import {
+    mainMenuTransitionDuration,
+    loadPageTransitionDuration,
+  } from "../config";
   import { firstStart, gameState, isLoggedIn } from "../stores";
 
   const dispatch = createEventDispatcher();
@@ -24,7 +27,10 @@
   />
 </head>
 
-<main transition:fade={{ duration: mainMenuTransitionDuration }}>
+<main
+  in:fade={{ duration: loadPageTransitionDuration }}
+  out:fade={{ duration: mainMenuTransitionDuration }}
+>
   <div id="content-container">
     <h1 id="title">Snake<br />Classic</h1>
     <div class="spacer" />

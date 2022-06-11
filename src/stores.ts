@@ -1,8 +1,8 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, numberOfFruitSpawned, recallingAPILimit } from "./config";
 import { getSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAPIReturn, IGetServerDataReturn, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
-import { allCoordinateList, errorHandlingWrapper, fetchItemFromLocalStorage } from "./utilities/utilities";
+import type {cellCoordinate, direction, IAPIReturn, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
+import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 function createHighScore () {
@@ -35,36 +35,28 @@ function createSavedGame () {
     //     switch ()
     // }
 
-    async function getServerDataRecursive (attemptsAtCallingAPI : number = 0) {
-        const response = await getSavedGame();
-        if (response.isError) {
-            if (response.statusCode >= 500){
-                if (attemptsAtCallingAPI <= recallingAPILimit){
-                    return await getServerDataRecursive(attemptsAtCallingAPI + 1)
-                } else {
-                    return response;
-                }
-            } else {
-                return response;
-            }
-        }
-        return response;
+    async function getServerData () : Promise<IAPIReturn> {
+        return fetchDataRetry(async () => await getSavedGame(), 0, recallingAPILimit);
     }
 
-    async function getServerData () : Promise<IGetServerDataReturn> {
-        const response = await getServerDataRecursive() as IAPIReturn;
-        if (!response.isError) {
-            // set()
-            return { success : true, errorDueToServer : false };
-        }
-
-        if (response.statusCode >= 500) {
-            return { success : false, errorDueToServer : true };
-        }
-
-        if (response.statusCode >= 400) {
-            return { success : false, errorDueToServer : false };
-        }
+    function createNewSavedGame () {
+        const direction = randomDirection()
+        const wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
+            randomCoordinate(),
+            direction,
+            initialLength
+          );
+        return {
+            "direction" : direction,
+            "wholeSnakeCoordinateList" : wholeSnakeCoordinateList,
+            "fruitPositionList" :  randomUniqueCoordinateGenerator(
+                wholeSnakeCoordinateList,
+                allCoordinateList,
+                numberOfFruitSpawned
+              ),
+            "fruitEaten" : 0,
+            "score" : 0,
+        } as ISavedGameInfo
     }
 
     function initializeSavedGame() {
@@ -133,8 +125,11 @@ function createSavedGame () {
         localStorage.removeItem("savedGame");
     }
 
+    
+
     return {
         subscribe,
+        set,
         updateScore,
         updateDirection,
         updateFruitEaten,
@@ -157,6 +152,6 @@ function createFirstStart () {
 }
 
 export const firstStart = createFirstStart();
-export const gameState = writable("startPage" as possibleGameStateType);
+export const gameState = writable("loadingData" as possibleGameStateType);
 
 export const isLoggedIn = writable(false);

@@ -3,18 +3,33 @@
   import Game from "./components/Game.svelte";
   import Footer from "./components/Footer.svelte";
   import StartPage from "./components/StartPage.svelte";
+  import InitialLoadPage from "./components/InitialLoadPage.svelte";
   import { fade } from "svelte/transition";
-  import { gameIsOver, savedGame, gameState, gameIsPaused } from "./stores";
+  import {
+    gameIsOver,
+    savedGame,
+    gameState,
+    gameIsPaused,
+    isLoggedIn,
+  } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
+  import type { ISavedGameInfo } from "./utilities/types";
 
   onMount(async () => {
-    const { success, errorDueToServer } = await savedGame.getServerData();
-    if (!success) {
-      if (!errorDueToServer) {
-        gameState.set("startPage");
-      }
+    console.log(new Date().getMilliseconds());
+    const { statusCode, retrievedData } = await savedGame.getServerData();
+    console.log(new Date().getMilliseconds());
+    if (statusCode >= 500) {
+      gameState.set("serverErrorOnInitialLoad");
+      return;
     }
+
+    if (statusCode < 400) {
+      savedGame.set(retrievedData as ISavedGameInfo);
+      isLoggedIn.set(true);
+    }
+
     gameState.set("startPage");
   });
   function resetCoreGame() {
@@ -25,10 +40,10 @@
 </script>
 
 <main>
-  <!-- {#if $gameState === "loadingData"}
-
-  {:else if $gameState === "startPage"} -->
-  {#if $gameState === "startPage"}
+  {#if $gameState === "loadingData"}
+    <InitialLoadPage />
+  {:else if $gameState === "startPage"}
+    <!-- {#if $gameState === "startPage"} -->
     <StartPage on:gameStarted={() => gameState.set("playing")} />
   {:else}
     <div class="main-app-container" transition:fade>
