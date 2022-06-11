@@ -74,10 +74,11 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
             isError : true,
             message : response.data?.message,
             error : null,
-            retrievedData : JSON.parse(response.data)
+            retrievedData : response.data
         } as IAPIReturn;
 
     } catch (error) {
+        console.log(error);
         return {
             statusCode : error.response.status,
             isError : true,
