@@ -89,7 +89,7 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
     }
 }
 
-export async function fetchDataRetry (functionToCall : () => Promise<IAPIReturn>, timesFunctionIsCalled : number, limitOfCalling : number) {
+export async function fetchDataRetry (functionToCall : () => Promise<IAPIReturn>, timesFunctionIsCalled : number, limitOfCalling : number) : Promise<IAPIReturn>{
     const response = await functionToCall();
     if (response.statusCode < 500) {
         return response;

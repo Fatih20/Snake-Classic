@@ -6,20 +6,19 @@
     recallingAPILimit,
   } from "../config";
 
-  import { gameState, isLoggedIn } from "../stores";
-  import { login, register } from "../utilities/api";
+  import { gameState, isLoggedIn, savedGame } from "../stores";
+  import { getSavedGame, login, register } from "../utilities/api";
+  import type { ISavedGameInfo } from "../utilities/types";
 
   let enteredEmail = "";
   let enteredPassword = "";
   let enteredUsername = "";
 
   let isLoading = false;
-  let loginTriedAttempt = 0;
   let errorOnPreviousAttempt = false;
   let errorMessage: string;
 
   async function handleSubmit(e) {
-    loginTriedAttempt += 1;
     e.preventDefault();
     isLoading = true;
     const response = await ($gameState === "login"
@@ -31,28 +30,21 @@
         }));
 
     if (response.statusCode >= 500) {
-      if (loginTriedAttempt <= recallingAPILimit) {
-        handleSubmit(e);
-      } else {
-        isLoading = false;
-        loginTriedAttempt = 0;
-        errorOnPreviousAttempt = true;
-        errorMessage = "Server error. Try again later.";
-      }
+      errorOnPreviousAttempt = true;
+      errorMessage = "Server error. Try again later.";
       return;
     }
 
     if (response.statusCode >= 400) {
-      loginTriedAttempt = 0;
       isLoading = false;
       errorOnPreviousAttempt = true;
       errorMessage = response.message;
       return;
     }
 
-    loginTriedAttempt = 0;
     isLoading = false;
     isLoggedIn.set(true);
+    const gameData = await getSavedGame();
     gameState.set("playing");
   }
 
