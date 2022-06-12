@@ -118,15 +118,7 @@ function createSavedGame () {
 
 export const savedGame = createSavedGame();
 
-function createFirstStart () {
-    const {subscribe, set} = writable(fetchItemFromLocalStorage("savedGame") === undefined);
-    return {
-        subscribe,
-        set
-    }
-}
-
-export const firstStart = createFirstStart();
+export const firstStart = writable(fetchItemFromLocalStorage("savedGame") === undefined);
 export const gameState = writable("loadingData" as possibleGameStateType);
 
 export const isLoggedIn = writable(false);
