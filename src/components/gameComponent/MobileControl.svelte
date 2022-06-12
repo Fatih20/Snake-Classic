@@ -53,6 +53,7 @@
     grid-template-rows: repeat(2, 1fr);
     row-gap: 10px;
     /* width: 100%; */
+    border: solid 1px black;
   }
 
   #up {
@@ -82,6 +83,7 @@
     border-radius: 10px;
     color: rgb(var(--text-on-primary-element-color));
     font-size: 1.25em;
+    margin: 0;
     width: 50px;
   }
 
