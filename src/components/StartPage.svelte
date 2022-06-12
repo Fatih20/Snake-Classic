@@ -42,7 +42,7 @@
         }}
       >
         <h3 class="start-button-title">Play as a Guest</h3>
-        <p>Your save file and high score will be saved on this device</p>
+        <p>Save your game and high score on this device</p>
       </button>
       {#if !$isLoggedIn}
         <button
@@ -53,8 +53,7 @@
         >
           <h3 class="start-button-title">Login</h3>
           <p>
-            Log to your account (or create a new one) to have your save file and
-            high score accessible to multiple devices and tied to your account
+            Save your game and high score to your account (or create new one!)
           </p>
         </button>
       {:else}

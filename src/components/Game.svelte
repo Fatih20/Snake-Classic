@@ -19,13 +19,14 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 1em;
     /* height: calc(
       100vh - var(--header-height) - var(--footer-height) -
         calc(2 * var(--gap-between-parts))
     ); */
     justify-content: center;
-    flex-grow: 1;
+    min-width: 300px;
     padding: 0 1.5em;
     /* width: 100%; */
 

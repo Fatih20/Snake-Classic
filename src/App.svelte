@@ -30,7 +30,7 @@
       isLoggedIn.set(true);
     }
 
-    gameState.set("startPage");
+    gameState.set("playing");
   });
   function resetCoreGame() {
     savedGame.reset();
