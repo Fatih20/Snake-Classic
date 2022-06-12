@@ -11,7 +11,7 @@
     gameState,
     gameIsPaused,
     isLoggedIn,
-    highScore,
+    achievement,
   } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
@@ -31,7 +31,10 @@
     if (statusCode < 400) {
       console.log(retrievedData);
       savedGame.setDataFromServer(retrievedData.savedGame as ISavedGameInfo);
-      highScore.setDataFromServer(retrievedData.highScore);
+      achievement.updatePartOfAchievement({
+        updatedValue: "highScore",
+        newValue: retrievedData.highScore,
+      });
       isLoggedIn.set(true);
     }
     gameState.set("startPage");
