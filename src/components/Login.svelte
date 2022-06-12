@@ -169,6 +169,7 @@
     transition: all 0.25s ease-in-out;
     /* font-size: 1em; */
     margin: 0;
+    width: 75px;
     padding: 7px;
   }
 
