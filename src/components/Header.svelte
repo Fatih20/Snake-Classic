@@ -10,16 +10,12 @@
     dispatch("resetGame");
   }
 
-  let attemptAtLogout = 0;
-
   async function handleLogout() {
-    attemptAtLogout += 1;
     const response = await logout();
-    if (response.statusCode >= 500) {
-      if (attemptAtLogout <= recallingAPILimit) {
-        await handleLogout();
-      }
-      return;
+
+    if (response.statusCode < 400) {
+      isLoggedIn.set(false);
+      gameState.set("startPage");
     }
     return;
   }
