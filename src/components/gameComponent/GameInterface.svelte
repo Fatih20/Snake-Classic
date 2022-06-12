@@ -63,7 +63,8 @@
 
 <style>
   main {
-    --bar-height: 20px;
+    --bar-height: 5px;
+    --bar-border-radius: 2px;
     align-items: center;
     display: flex;
     /* flex-direction: column; */
