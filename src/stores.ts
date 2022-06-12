@@ -19,9 +19,24 @@ function createHighScore () {
     }
 }
 
+function createLongestLength () {
+    const candidateLongestLength = fetchItemFromLocalStorage("longestLength");
+    const {subscribe, set} = writable(candidateLongestLength ?? 0);
+
+    function updateAndSave (newValue : number) {
+        set(newValue);
+        localStorage.setItem("longestLength", JSON.stringify(newValue))
+    }
+    return {
+        subscribe,
+        updateAndSave
+    }
+}
+
 export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 
 export const highScore = createHighScore();
+export const longestLength = createLongestLength();
 
 export const deviceWidth = readable(screen.width);
 

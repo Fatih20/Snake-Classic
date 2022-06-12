@@ -1,12 +1,22 @@
 <script lang="ts">
   import { initialLength } from "../../config";
-  import { highScore, savedGame } from "../../stores";
+  import { highScore, longestLength, savedGame } from "../../stores";
+
+  let length = $savedGame.wholeSnakeCoordinateList?.length ?? 0;
+  $: length = $savedGame.wholeSnakeCoordinateList?.length ?? 0;
 
   $: highScoreChecker($savedGame.score);
+  $: longestLengthChecker(length);
 
   function highScoreChecker(score: number) {
     if (score >= $highScore) {
       highScore.updateAndSave(score);
+    }
+  }
+
+  function longestLengthChecker(length: number) {
+    if ($savedGame.wholeSnakeCoordinateList?.length >= $longestLength) {
+      longestLength.updateAndSave(length);
     }
   }
 </script>
@@ -23,7 +33,7 @@
             : "attribute-title-value"
         }`}
       >
-        High Score
+        Hi-Score
       </h2>
     </div>
     <div class="attribute-bar-container">
@@ -44,6 +54,39 @@
         </h3>
         <div class="spacer" />
         <h3 class="attribute-title attribute-title-top">{$highScore}</h3>
+      {/if}
+    </div>
+    <div class="attribute-title-container">
+      <h2 class="attribute-title attribute-title-value">Length</h2>
+      <div class="spacer" />
+      <h2
+        class={`attribute-title ${
+          $savedGame.score !== $highScore
+            ? "attribute-title-top"
+            : "attribute-title-value"
+        }`}
+      >
+        Hi-Length
+      </h2>
+    </div>
+    <div class="attribute-bar-container">
+      <div class="title-top-bar" />
+      <div
+        class="title-bar"
+        style={`width : ${(length / $longestLength) * 100}%;`}
+      />
+    </div>
+    <div class="attribute-title-container">
+      {#if length === $longestLength}
+        <h3 class="attribute-title attribute-title-value">
+          {length}
+        </h3>
+      {:else}
+        <h3 class="attribute-title attribute-title-value">
+          {length}
+        </h3>
+        <div class="spacer" />
+        <h3 class="attribute-title attribute-title-top">{$longestLength}</h3>
       {/if}
     </div>
   </div>
