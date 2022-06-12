@@ -141,7 +141,7 @@ function createAchievement () {
         })
     }
 
-    function setDataFromServer (savedGameFromServer : ISavedGameInfo) {
+    function setDataFromServer (savedGameFromServer : IAchievementInfo) {
         set({...savedGameFromServer})
     }
 
