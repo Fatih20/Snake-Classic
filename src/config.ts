@@ -1,4 +1,4 @@
-export const shootToProduction = false;
+export const shootToProduction = true;
 export const isInProduction = false;
 export const gridSize = 20;
 export const initialRefreshTime = 750;
