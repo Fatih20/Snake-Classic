@@ -12,10 +12,11 @@
     gameIsPaused,
     isLoggedIn,
     achievement,
+    userData,
   } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
-  import type { ISavedGameInfo } from "./utilities/types";
+  import type { ISavedGameInfo, IUserData } from "./utilities/types";
 
   onMount(async () => {
     console.log(new Date().getMilliseconds());
@@ -35,6 +36,7 @@
         updatedValue: "highScore",
         newValue: retrievedData.highScore,
       });
+      userData.set(retrievedData.userData as IUserData);
       isLoggedIn.set(true);
     }
     gameState.set("startPage");

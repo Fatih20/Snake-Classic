@@ -128,9 +128,14 @@ export interface IGetServerDataReturn {
   errorDueToServer : boolean,
 }
 
-interface IUserData {
+export interface IUserData {
   username : string,
   id : number,
+}
+
+export interface IUserDataStore {
+  username : string | undefined,
+  id : number | undefined
 }
 
 export interface ILoginAndRegisterRetrievedData {

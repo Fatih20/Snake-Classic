@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
 import { getSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGameInfo, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
+import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -173,3 +173,5 @@ export const firstStart = writable(fetchItemFromLocalStorage("savedGame") === un
 export const gameState = writable("loadingData" as possibleGameStateType);
 
 export const isLoggedIn = writable(false);
+
+export const userData = writable({username : undefined, id : undefined} as (IUserDataStore | IUserData))
