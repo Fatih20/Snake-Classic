@@ -1,4 +1,4 @@
-import { blankSavedGame, cellCoordinate, direction, directionVectorType, errorHandlingWrapperType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
+import { cellCoordinate, direction, directionVectorType, errorHandlingWrapperType, IAPIReturn, ISavedGameInfo, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize, originSite } from "../config";
 import { directionsPropertyType,
     possibleDirectionKey,
@@ -58,10 +58,6 @@ export function fetchItemFromLocalStorage (key : string){
     } else {
         return undefined
     }
-}
-
-export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo) {
-    return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
 const argumentToGetCookies = {headers: { 
