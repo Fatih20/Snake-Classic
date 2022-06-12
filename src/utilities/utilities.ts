@@ -64,10 +64,14 @@ export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
-export async function errorHandlingWrapper (url : string, bodyData : any = {}, method : possibleAPIMethodType) {
+// const argumentToGetCookies = {headers: { 'Content-Type': 'application/json' }, withCredentials: true,}
 
+const argumentToGetCookies = {}
+
+
+export async function errorHandlingWrapper (url : string, bodyData : any = {}, method : possibleAPIMethodType) {
     try {
-        const response = await axios({method, url, data : bodyData });
+        const response = await axios({...{method, url, data : bodyData }, ...argumentToGetCookies ?? {}});
         console.log(response);
         return {
             statusCode : response.status,
