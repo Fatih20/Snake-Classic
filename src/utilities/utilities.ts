@@ -64,12 +64,12 @@ export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
-// const argumentToGetCookies = {headers: { 
-//     'Content-Type': 'application/json',
-//     "Access-Control-Allow-Origin": `${originSite}`,
-//  }, withCredentials: true,}
+const argumentToGetCookies = {headers: { 
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": `${originSite}`,
+ }, withCredentials: true,}
 
-const argumentToGetCookies = {}
+// const argumentToGetCookies = {}
 
 
 export async function errorHandlingWrapper (url : string, bodyData : any = {}, method : possibleAPIMethodType) {

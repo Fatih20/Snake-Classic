@@ -17,18 +17,18 @@
   import type { ISavedGameInfo } from "./utilities/types";
 
   onMount(async () => {
-    // console.log(new Date().getMilliseconds());
-    // const { statusCode, retrievedData } = await savedGame.getServerData();
-    // console.log(new Date().getMilliseconds());
-    // if (statusCode >= 500) {
-    //   gameState.set("serverErrorOnInitialLoad");
-    //   return;
-    // }
+    console.log(new Date().getMilliseconds());
+    const { statusCode, retrievedData } = await savedGame.getServerData();
+    console.log(new Date().getMilliseconds());
+    if (statusCode >= 500) {
+      gameState.set("serverErrorOnInitialLoad");
+      return;
+    }
 
-    // if (statusCode < 400) {
-    //   savedGame.set(retrievedData as ISavedGameInfo);
-    //   isLoggedIn.set(true);
-    // }
+    if (statusCode < 400) {
+      savedGame.set(retrievedData as ISavedGameInfo);
+      isLoggedIn.set(true);
+    }
 
     gameState.set("startPage");
   });
