@@ -19,7 +19,9 @@
 
   onMount(async () => {
     console.log(new Date().getMilliseconds());
-    const { statusCode, retrievedData } = await savedGame.getServerData();
+    const response = await savedGame.getServerData();
+    console.log(response);
+    const { statusCode, retrievedData } = response;
     console.log(new Date().getMilliseconds());
     if (statusCode >= 500) {
       gameState.set("serverErrorOnInitialLoad");

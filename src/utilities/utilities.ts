@@ -78,7 +78,7 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
         console.log(response);
         return {
             statusCode : response.status,
-            isError : true,
+            isError : false,
             message : response.data?.message,
             error : null,
             retrievedData : response.data
