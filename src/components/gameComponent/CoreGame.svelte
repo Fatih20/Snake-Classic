@@ -108,7 +108,7 @@
           newValue: $savedGame.fruitEaten + 1,
         });
         savedGame.updatePartOfSavedGame({
-          updatedValue: "fruitEaten",
+          updatedValue: "score",
           newValue: $savedGame.score + scoresAfterEveryFruit,
         });
         savedGame.updatePartOfSavedGame({
