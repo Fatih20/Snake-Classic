@@ -126,12 +126,12 @@ export interface IResponseData {
   error? : any,
 }
 
-export interface IAPIReturn {
+export type IAPIReturn<RetrievedDataType = any> = {
   statusCode : number,
   isError : boolean,
   message : string,
   error : any,
-  retrievedData : any,
+  retrievedData : RetrievedDataType
 }
 
 const possibleAPIMethodList = ["post", "put", "get", "patch", "delete"] as const;
@@ -140,6 +140,20 @@ export type possibleAPIMethodType = typeof possibleAPIMethodList[number];
 export interface IGetServerDataReturn {
   success : boolean,
   errorDueToServer : boolean,
+}
+
+interface IUserData {
+  username : string,
+  id : number,
+}
+
+export interface ILoginAndRegisterRetrievedData {
+  userData : IUserData
+}
+
+export interface IGetSavedGameRetrievedData extends ILoginAndRegisterRetrievedData{
+  savedGame : ISavedGameInfo,
+  highScore : number
 }
 
 export type errorHandlingWrapperType = (url: string, bodyData: any, method: possibleAPIMethodType) => Promise<IAPIReturn>

@@ -81,7 +81,7 @@ export async function errorHandlingWrapper (url : string, bodyData : any = {}, m
             isError : false,
             message : response.data?.message,
             error : null,
-            retrievedData : response.data
+            retrievedData : response.data?.sentData
         } as IAPIReturn;
 
     } catch (error) {

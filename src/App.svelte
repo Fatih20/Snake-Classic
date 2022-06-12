@@ -30,9 +30,7 @@
 
     if (statusCode < 400) {
       console.log(retrievedData);
-      savedGame.setDataFromServer(
-        JSON.parse(retrievedData.savedGame) as ISavedGameInfo
-      );
+      savedGame.setDataFromServer(retrievedData.savedGame as ISavedGameInfo);
       highScore.setDataFromServer(retrievedData.highScore);
       isLoggedIn.set(true);
     }

@@ -55,8 +55,8 @@ function createSavedGame () {
     //     switch ()
     // }
 
-    async function getServerData () : Promise<IAPIReturn> {
-        return fetchDataRetry(async () => await getSavedGame(), 0, recallingAPILimit);
+    async function getServerData () {
+        return getSavedGame();
     }
 
     function createNewSavedGame () {
