@@ -30,6 +30,7 @@
         }));
 
     if (response.statusCode >= 500) {
+      isLoading = false;
       errorOnPreviousAttempt = true;
       errorMessage = "Server error. Try again later.";
       return;
