@@ -24,17 +24,19 @@
 <main>
   <div class="attribute-container">
     <div class="attribute-title-container">
-      <h2 class="attribute-title attribute-title-value">Score</h2>
+      <h3 class="attribute-title attribute-title-value">
+        {$savedGame.score ?? 0}
+      </h3>
       <div class="spacer" />
-      <h2
+      <h3
         class={`attribute-title ${
           $savedGame.score !== $highScore
             ? "attribute-title-top"
             : "attribute-title-value"
         }`}
       >
-        Hi-Score
-      </h2>
+        {$highScore}
+      </h3>
     </div>
     <div class="attribute-bar-container">
       <div class="title-top-bar" />
@@ -46,39 +48,6 @@
     <div class="attribute-title-container">
       {#if $savedGame.score === $highScore}
         <h3 class="attribute-title attribute-title-value">
-          {$savedGame.score ?? 0}
-        </h3>
-      {:else}
-        <h3 class="attribute-title attribute-title-value">
-          {$savedGame.score ?? 0}
-        </h3>
-        <div class="spacer" />
-        <h3 class="attribute-title attribute-title-top">{$highScore}</h3>
-      {/if}
-    </div>
-    <div class="attribute-title-container">
-      <h2 class="attribute-title attribute-title-value">Length</h2>
-      <div class="spacer" />
-      <h2
-        class={`attribute-title ${
-          $savedGame.score !== $highScore
-            ? "attribute-title-top"
-            : "attribute-title-value"
-        }`}
-      >
-        Hi-Length
-      </h2>
-    </div>
-    <div class="attribute-bar-container">
-      <div class="title-top-bar" />
-      <div
-        class="title-bar"
-        style={`width : ${(length / $longestLength) * 100}%;`}
-      />
-    </div>
-    <div class="attribute-title-container">
-      {#if length === $longestLength}
-        <h3 class="attribute-title attribute-title-value">
           {length}
         </h3>
       {:else}
@@ -86,11 +55,12 @@
           {length}
         </h3>
         <div class="spacer" />
-        <h3 class="attribute-title attribute-title-top">{$longestLength}</h3>
+        <h3 class="attribute-title attribute-title-top">
+          {$longestLength}
+        </h3>
       {/if}
     </div>
-  </div>
-  <!-- <div class="attribute-box">
+    <!-- <div class="attribute-box">
     <h2>Score</h2>
     <h3>{$savedGame.score ?? 0}</h3>
   </div>
@@ -102,6 +72,7 @@
     <h2>Length</h2>
     <h3>{$savedGame.wholeSnakeCoordinateList?.length ?? initialLength}</h3>
   </div> -->
+  </div>
 </main>
 
 <style>
@@ -138,12 +109,13 @@
     flex-grow: 1;
   }
 
-  .attribute-title-value {
+  .attribute-title {
+    /* border: solid 1px black; */
     display: inline-block;
     max-width: 50%;
   }
 
-  .attribute-title {
+  .attribute-title-value {
     color: rgb(var(--primary-color));
   }
 
