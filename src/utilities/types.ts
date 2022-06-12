@@ -174,6 +174,13 @@ export interface IUpdateScorePayload {
   newValue : number
 }
 
+export type UpdateSavedGamePayload = IUpdateCurrentRefreshTimePayload | IUpdateDirectionPayload | IUpdateFruitEatenPayload | IUpdateFruitPositionListPayload | IUpdateScorePayload | IUpdateWholeSnakeCoordinateListPayload 
+
+export interface IAchievementInfo {
+  longestLength : number,
+  highScore : number
+}
+
 export interface IUpdateHighScorePayload {
   updatedValue : "highScore",
   newValue : number
@@ -184,4 +191,6 @@ export interface IUpdateLongestLengthPayload {
   newValue : number
 }
 
-export type UpdateSavedGamePayload = IUpdateCurrentRefreshTimePayload | IUpdateDirectionPayload | IUpdateFruitEatenPayload | IUpdateFruitPositionListPayload | IUpdateScorePayload | IUpdateWholeSnakeCoordinateListPayload 
+export type UpdateAchievementPayload = IUpdateHighScorePayload | IUpdateLongestLengthPayload
+
+

@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
 import { getSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAPIReturn, ISavedGameInfo, possibleGameStateType, UpdateSavedGamePayload } from "./utilities/types";
+import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGameInfo, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -40,9 +40,6 @@ function createLongestLength () {
 
 export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 
-export const highScore = createHighScore();
-export const longestLength = createLongestLength();
-
 export const deviceWidth = readable(screen.width);
 
 export const gameIsOver = writable(false);
@@ -73,8 +70,6 @@ function createSavedGame () {
             "fruitEaten" : 0,
             "score" : 0,
             "currentRefreshTime" : initialRefreshTime,
-            "longestLength" : wholeSnakeCoordinateList.length,
-            "highScore" : 0,
         } as ISavedGameInfo
     }
 
@@ -116,7 +111,63 @@ function createSavedGame () {
     }
 }
 
+function createAchievement () {
+    const candidateAchievement = fetchItemFromLocalStorage("achievement");
+    const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
+    const {subscribe, set, update} = writable((candidateAchievement ?? createNewAchievement(
+        (candidateAchievement === undefined ? 0 : (candidateSavedGame as ISavedGameInfo).wholeSnakeCoordinateList.length)
+    )) as IAchievementInfo);
+
+    async function getServerData () {
+        return getSavedGame();
+    }
+
+    function createNewAchievement (length = 0) {
+        return {
+            "highScore" : 0,
+            "longestLength" : length
+        } as IAchievementInfo
+    }
+
+    function updatePartOfAchievement (payload : UpdateAchievementPayload) {
+        update (previousSavedGame => {
+            const overriderObject = {[payload.updatedValue] : payload.newValue};
+            const newObject = {
+                ...previousSavedGame,
+                ...overriderObject
+            }
+            localStorage.setItem("achievement", JSON.stringify(newObject));
+            return newObject;
+        })
+    }
+
+    function setDataFromServer (savedGameFromServer : ISavedGameInfo) {
+        set({...savedGameFromServer})
+    }
+
+    function reset () {
+        localStorage.removeItem("achievement");
+        set(createNewAchievement());
+    }
+
+    function removeFromLocalStorage() {
+        localStorage.removeItem("achievement");
+    }
+
+    
+
+    return {
+        subscribe,
+        reset,
+        removeFromLocalStorage,
+        getServerData,
+        setDataFromServer,
+        updatePartOfAchievement
+    }
+}
+
 export const savedGame = createSavedGame();
+export const achievement = createAchievement();
 
 export const firstStart = writable(fetchItemFromLocalStorage("savedGame") === undefined);
 export const gameState = writable("loadingData" as possibleGameStateType);

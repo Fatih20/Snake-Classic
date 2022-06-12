@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { initialLength } from "../../config";
-  import { highScore, longestLength, savedGame } from "../../stores";
+  import { achievement, savedGame } from "../../stores";
 
   let length = $savedGame.wholeSnakeCoordinateList?.length ?? 0;
   $: length = $savedGame.wholeSnakeCoordinateList?.length ?? 0;
@@ -9,14 +8,20 @@
   $: longestLengthChecker(length);
 
   function highScoreChecker(score: number) {
-    if (score >= $highScore) {
-      highScore.updateAndSave(score);
+    if (score >= $achievement.highScore) {
+      achievement.updatePartOfAchievement({
+        updatedValue: "highScore",
+        newValue: score,
+      });
     }
   }
 
   function longestLengthChecker(length: number) {
-    if ($savedGame.wholeSnakeCoordinateList?.length >= $longestLength) {
-      longestLength.updateAndSave(length);
+    if (length >= $achievement.longestLength) {
+      achievement.updatePartOfAchievement({
+        updatedValue: "longestLength",
+        newValue: length,
+      });
     }
   }
 </script>
@@ -29,7 +34,7 @@
   </div>
   <div class="attribute-container">
     <div class="attribute-title-container">
-      {#if $savedGame.score === $highScore}
+      {#if $savedGame.score === $achievement.highScore}
         <h3 class="attribute-title attribute-title-value">
           {$savedGame.score ?? 0}
         </h3>
@@ -40,12 +45,12 @@
         <div class="spacer" />
         <h3
           class={`attribute-title ${
-            $savedGame.score !== $highScore
+            $savedGame.score !== $achievement.highScore
               ? "attribute-title-top"
               : "attribute-title-value"
           }`}
         >
-          {$highScore}
+          {$achievement.highScore}
         </h3>
       {/if}
     </div>
@@ -53,11 +58,11 @@
       <div class="title-top-bar" />
       <div
         class="title-bar"
-        style={`width : ${($savedGame.score / $highScore) * 100}%;`}
+        style={`width : ${($savedGame.score / $achievement.highScore) * 100}%;`}
       />
     </div>
     <div class="attribute-title-container">
-      {#if $savedGame.score === $highScore}
+      {#if $savedGame.score === $achievement.highScore}
         <h3 class="attribute-title attribute-title-value">
           {length}
         </h3>
@@ -67,7 +72,7 @@
         </h3>
         <div class="spacer" />
         <h3 class="attribute-title attribute-title-top">
-          {$longestLength}
+          {$achievement.longestLength}
         </h3>
       {/if}
     </div>
