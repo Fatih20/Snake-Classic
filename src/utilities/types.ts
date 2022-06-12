@@ -78,6 +78,7 @@ export interface ISavedGameInfo {
   "fruitPositionList" : cellCoordinate[],
   "fruitEaten" : number,
   "score" : number,
+  "currentRefreshTime" : number
 }
 
 export type ISavedGameProperty = keyof ISavedGameInfo;

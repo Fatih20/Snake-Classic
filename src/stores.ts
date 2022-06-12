@@ -1,5 +1,5 @@
 import { readable, writable } from "svelte/store";
-import { baseAPIPath, initialLength, numberOfFruitSpawned, recallingAPILimit } from "./config";
+import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
 import { getSavedGame } from "./utilities/api";
 import type {cellCoordinate, direction, IAPIReturn, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
@@ -71,6 +71,7 @@ function createSavedGame () {
               ),
             "fruitEaten" : 0,
             "score" : 0,
+            "currentRefreshTime" : initialRefreshTime 
         } as ISavedGameInfo
     }
 
@@ -91,6 +92,7 @@ function createSavedGame () {
               ),
             "fruitEaten" : 0,
             "score" : 0,
+            "currentRefreshTime" : initialRefreshTime
         } as ISavedGameInfo
     }
 
@@ -131,6 +133,21 @@ function createSavedGame () {
         })
     }
 
+    function decrementRefreshTime (decrementAmount : number) {
+        update (previousSavedGame => {
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, currentRefreshTime : previousSavedGame.currentRefreshTime - decrementAmount}));
+            return {...previousSavedGame, currentRefreshTime : previousSavedGame.currentRefreshTime - decrementAmount}
+        })
+    }
+
+    function multiplyRefreshTime (multiplierAmount : number) {
+        update (previousSavedGame => {
+            const newRefreshTime = previousSavedGame.currentRefreshTime > refreshTimeLowerBound ? previousSavedGame.currentRefreshTime * multiplierAmount : previousSavedGame.currentRefreshTime;
+            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, currentRefreshTime : newRefreshTime}));
+            return {...previousSavedGame, currentRefreshTime : newRefreshTime}
+        })
+    }
+
     function reset () {
         localStorage.removeItem("savedGame");
         set(initializeSavedGame());
@@ -150,6 +167,8 @@ function createSavedGame () {
         updateFruitEaten,
         updateFruitPosition,
         updateWholeSnakeCoordinate,
+        decrementRefreshTime,
+        multiplyRefreshTime,
         reset,
         removeFromLocalStorage,
         getServerData

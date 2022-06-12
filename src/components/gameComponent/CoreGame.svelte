@@ -4,7 +4,9 @@
     gridSize,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
-    refreshTime,
+    refreshTimeDecrementEveryTurn,
+    refreshTimeMultiplierEveryTurn,
+    // refreshTime,
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
@@ -21,7 +23,7 @@
     firstStart,
   } from "../../stores";
 
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   import {
     checkIfHeadBiteBody,
@@ -78,7 +80,13 @@
     }
   }
 
+  onMount(() => {
+    console.log($savedGame.currentRefreshTime, "Current refresh time");
+  });
+
   function toBeRunInMainEventLoop() {
+    savedGame.multiplyRefreshTime(refreshTimeMultiplierEveryTurn);
+    console.log($savedGame.currentRefreshTime);
     previousDirection = $savedGame.direction;
     let justAteFruit = false;
     $savedGame.fruitPositionList.forEach((fruitCoordinate, indexOuter) => {
@@ -114,14 +122,23 @@
       savedGame.removeFromLocalStorage();
     }
 
+    startTimeout();
+
     // console.log("Game is running");
+  }
+
+  function startTimeout() {
+    mainEventLoop = setTimeout(
+      toBeRunInMainEventLoop,
+      $savedGame.currentRefreshTime
+    );
   }
 
   function gameFlowControl(resumeOrStart: boolean) {
     if (resumeOrStart) {
-      mainEventLoop = setInterval(toBeRunInMainEventLoop, refreshTime);
+      startTimeout();
     } else {
-      clearInterval(mainEventLoop);
+      clearTimeout(mainEventLoop);
     }
   }
 
@@ -148,6 +165,12 @@
       );
       nthTurnReference = 0;
       allFruitEaten = false;
+    }
+  }
+
+  $: {
+    if ($savedGame.currentRefreshTime < 1) {
+      gameIsOver.set(true);
     }
   }
 

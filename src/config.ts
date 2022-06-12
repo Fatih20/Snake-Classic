@@ -1,7 +1,10 @@
 export const shootToProduction = false;
 export const isInProduction = false;
 export const gridSize = 20;
-export const refreshTime = 750;
+export const initialRefreshTime = 750;
+export const refreshTimeDecrementEveryTurn = 1;
+export const refreshTimeMultiplierEveryTurn = 0.995
+export const refreshTimeLowerBound = 300;
 export const numberOfFruitSpawned = 3;
 export const turnIntervalBetweenFruitSpawn = 4;
 export const numberOfTailAddedAfterEating = 1;
