@@ -22,21 +22,32 @@
 </script>
 
 <main>
+  <div class="attribute-name-container">
+    <h2 class="attribute-name">Score</h2>
+    <div class="attribute-bar-container" />
+    <h2 class="attribute-name">Length</h2>
+  </div>
   <div class="attribute-container">
     <div class="attribute-title-container">
-      <h3 class="attribute-title attribute-title-value">
-        {$savedGame.score ?? 0}
-      </h3>
-      <div class="spacer" />
-      <h3
-        class={`attribute-title ${
-          $savedGame.score !== $highScore
-            ? "attribute-title-top"
-            : "attribute-title-value"
-        }`}
-      >
-        {$highScore}
-      </h3>
+      {#if $savedGame.score === $highScore}
+        <h3 class="attribute-title attribute-title-value">
+          {$savedGame.score ?? 0}
+        </h3>
+      {:else}
+        <h3 class="attribute-title attribute-title-value">
+          {$savedGame.score ?? 0}
+        </h3>
+        <div class="spacer" />
+        <h3
+          class={`attribute-title ${
+            $savedGame.score !== $highScore
+              ? "attribute-title-top"
+              : "attribute-title-value"
+          }`}
+        >
+          {$highScore}
+        </h3>
+      {/if}
     </div>
     <div class="attribute-bar-container">
       <div class="title-top-bar" />
@@ -65,12 +76,24 @@
 
 <style>
   main {
-    --bar-height: 5px;
-    --bar-border-radius: 2px;
+    --bar-height: 10px;
+    --bar-border-radius: 6px;
     align-items: center;
     display: flex;
     justify-content: center;
+    gap: 0.5em;
     width: 100%;
+  }
+
+  .attribute-name-container {
+    align-items: flex-start;
+    border-right: solid 2px rgb(var(--primary-color));
+    color: rgb(var(--primary-color));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    padding-right: 0.5em;
   }
 
   .attribute-container {
@@ -85,7 +108,7 @@
   .attribute-title-container {
     align-items: center;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
 
     /* border: solid 1px black; */
@@ -110,6 +133,7 @@
   }
 
   .attribute-bar-container {
+    border-radius: var(--bar-border-radius);
     height: var(--bar-height);
     position: relative;
     width: 100%;
@@ -117,6 +141,7 @@
 
   .title-top-bar {
     background-color: rgb(var(--secondary-color));
+    border-radius: var(--bar-border-radius);
     bottom: 0;
     left: 0;
     position: absolute;
@@ -128,6 +153,7 @@
 
   .title-bar {
     background-color: rgb(var(--primary-color));
+    border-radius: var(--bar-border-radius);
     bottom: 0;
     left: 0;
     position: absolute;
