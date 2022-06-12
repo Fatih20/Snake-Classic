@@ -7,8 +7,8 @@
 </script>
 
 <main>
-  <GameInterface />
   <CoreGame on:resetGame={resetCoreGame} />
+  <GameInterface />
   <!-- <div class="spacer" /> -->
   <MobileControl />
 </main>
