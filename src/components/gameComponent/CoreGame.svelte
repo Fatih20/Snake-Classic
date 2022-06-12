@@ -140,7 +140,7 @@
 
     if ($gameIsOver) {
       gameIsPaused.set(true);
-      savedGame.removeFromLocalStorage();
+      // savedGame.removeFromLocalStorage();
     }
 
     startTimeout();
