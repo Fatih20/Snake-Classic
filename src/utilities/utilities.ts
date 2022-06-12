@@ -1,5 +1,5 @@
 import { blankSavedGame, cellCoordinate, direction, directionVectorType, errorHandlingWrapperType, IAPIReturn, ISavedGameInfo, ISavedGameNone, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
-import { gridSize } from "../config";
+import { gridSize, originSite } from "../config";
 import { directionsPropertyType,
     possibleDirectionKey,
     possibleDirectionVector, } from "./types";
@@ -64,7 +64,10 @@ export function isSavedGameUndefined(savedGame : ISavedGameNone | ISavedGameInfo
     return (JSON.stringify(savedGame) === JSON.stringify(blankSavedGame))
 }
 
-// const argumentToGetCookies = {headers: { 'Content-Type': 'application/json' }, withCredentials: true,}
+// const argumentToGetCookies = {headers: { 
+//     'Content-Type': 'application/json',
+//     "Access-Control-Allow-Origin": `${originSite}`,
+//  }, withCredentials: true,}
 
 const argumentToGetCookies = {}
 
