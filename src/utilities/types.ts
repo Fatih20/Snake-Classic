@@ -144,7 +144,7 @@ export interface ILoginAndRegisterRetrievedData {
 
 export interface IGetSavedGameRetrievedData extends ILoginAndRegisterRetrievedData{
   savedGame : ISavedGameInfo,
-  highScore : number
+  achievement : IAchievementInfo
 }
 
 export type errorHandlingWrapperType = (url: string, bodyData: any, method: possibleAPIMethodType) => Promise<IAPIReturn>

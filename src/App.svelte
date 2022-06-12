@@ -32,10 +32,7 @@
     if (statusCode < 400) {
       console.log(retrievedData);
       savedGame.setDataFromServer(retrievedData.savedGame as ISavedGameInfo);
-      achievement.updatePartOfAchievement({
-        updatedValue: "highScore",
-        newValue: retrievedData.highScore,
-      });
+      achievement.setDataFromServer(retrievedData.achievement);
       userData.set(retrievedData.userData as IUserData);
       isLoggedIn.set(true);
     }
