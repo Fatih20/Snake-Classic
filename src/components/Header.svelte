@@ -3,7 +3,6 @@
   import { recallingAPILimit } from "../config";
   import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
   import { logout } from "../utilities/api";
-  import Login from "./Login.svelte";
 
   const dispatch = createEventDispatcher();
   function sendResetGame() {
