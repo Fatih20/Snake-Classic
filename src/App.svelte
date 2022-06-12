@@ -11,6 +11,7 @@
     gameState,
     gameIsPaused,
     isLoggedIn,
+    highScore,
   } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
@@ -26,10 +27,13 @@
     }
 
     if (statusCode < 400) {
-      savedGame.set(retrievedData as ISavedGameInfo);
+      console.log(retrievedData);
+      savedGame.setDataFromServer(
+        JSON.parse(retrievedData.savedGame) as ISavedGameInfo
+      );
+      highScore.setDataFromServer(retrievedData.highScore);
       isLoggedIn.set(true);
     }
-
     gameState.set("startPage");
   });
   function resetCoreGame() {

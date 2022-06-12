@@ -13,9 +13,14 @@ function createHighScore () {
         set(newValue);
         localStorage.setItem("highScore", JSON.stringify(newValue))
     }
+
+    function setDataFromServer (dataFromServer : number) {
+        set(dataFromServer ?? 0);
+    }
     return {
         subscribe,
-        updateAndSave
+        updateAndSave,
+        setDataFromServer
     }
 }
 
@@ -148,6 +153,11 @@ function createSavedGame () {
         })
     }
 
+    function setDataFromServer (savedGameFromServer : ISavedGameInfo) {
+        set({...savedGameFromServer, currentRefreshTime : savedGameFromServer.currentRefreshTime ?? initialRefreshTime,
+        })
+    }
+
     function reset () {
         localStorage.removeItem("savedGame");
         set(initializeSavedGame());
@@ -171,7 +181,8 @@ function createSavedGame () {
         multiplyRefreshTime,
         reset,
         removeFromLocalStorage,
-        getServerData
+        getServerData,
+        setDataFromServer
     }
 }
 
