@@ -60,18 +60,6 @@
         </h3>
       {/if}
     </div>
-    <!-- <div class="attribute-box">
-    <h2>Score</h2>
-    <h3>{$savedGame.score ?? 0}</h3>
-  </div>
-  <div class="attribute-box">
-    <h2>High Score</h2>
-    <h3>{$highScore}</h3>
-  </div>
-  <div class="attribute-box">
-    <h2>Length</h2>
-    <h3>{$savedGame.wholeSnakeCoordinateList?.length ?? initialLength}</h3>
-  </div> -->
   </div>
 </main>
 
@@ -81,9 +69,7 @@
     --bar-border-radius: 2px;
     align-items: center;
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
-    /* gap: 1em; */
     width: 100%;
   }
 
