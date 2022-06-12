@@ -5,6 +5,7 @@
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
     refreshTimeDecrementEveryTurn,
+    refreshTimeLowerBound,
     refreshTimeMultiplierEveryTurn,
     // refreshTime,
     scoresAfterEveryFruit,
@@ -76,7 +77,10 @@
       }
     });
     if (candidateDirection !== oppositePreviousDirection) {
-      savedGame.updateDirection(candidateDirection);
+      savedGame.updatePartOfSavedGame({
+        updatedValue: "direction",
+        newValue: candidateDirection,
+      });
     }
   }
 
@@ -85,29 +89,46 @@
   });
 
   function toBeRunInMainEventLoop() {
-    savedGame.multiplyRefreshTime(refreshTimeMultiplierEveryTurn);
+    savedGame.updatePartOfSavedGame({
+      updatedValue: "currentRefreshTime",
+      newValue:
+        $savedGame.currentRefreshTime >= refreshTimeLowerBound
+          ? $savedGame.currentRefreshTime * refreshTimeMultiplierEveryTurn
+          : $savedGame.currentRefreshTime,
+    });
+    // savedGame.multiplyRefreshTime(refreshTimeMultiplierEveryTurn);
     console.log($savedGame.currentRefreshTime);
     previousDirection = $savedGame.direction;
     let justAteFruit = false;
     $savedGame.fruitPositionList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
         justAteFruit = true;
-        savedGame.updateFruitEaten($savedGame.fruitEaten + 1);
-        savedGame.updateScore($savedGame.score + scoresAfterEveryFruit);
-        savedGame.updateFruitPosition(
-          $savedGame.fruitPositionList.filter((fruitCoordinate, indexInner) => {
-            return indexInner !== indexOuter;
-          })
-        );
+        savedGame.updatePartOfSavedGame({
+          updatedValue: "fruitEaten",
+          newValue: $savedGame.fruitEaten + 1,
+        });
+        savedGame.updatePartOfSavedGame({
+          updatedValue: "fruitEaten",
+          newValue: $savedGame.score + scoresAfterEveryFruit,
+        });
+        savedGame.updatePartOfSavedGame({
+          updatedValue: "fruitPositionList",
+          newValue: $savedGame.fruitPositionList.filter(
+            (fruitCoordinate, indexInner) => {
+              return indexInner !== indexOuter;
+            }
+          ),
+        });
       }
     });
-    savedGame.updateWholeSnakeCoordinate(
-      wholeSnakeCoordinateListUpdater(
+    savedGame.updatePartOfSavedGame({
+      updatedValue: "wholeSnakeCoordinateList",
+      newValue: wholeSnakeCoordinateListUpdater(
         $savedGame.wholeSnakeCoordinateList,
         directionVector,
         justAteFruit ? numberOfTailAddedAfterEating : 0
-      )
-    );
+      ),
+    });
 
     if (allFruitEaten) {
       nthTurnReference += 1;
@@ -156,13 +177,14 @@
   $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
-      savedGame.updateFruitPosition(
-        randomUniqueCoordinateGenerator(
+      savedGame.updatePartOfSavedGame({
+        updatedValue: "fruitPositionList",
+        newValue: randomUniqueCoordinateGenerator(
           $savedGame.wholeSnakeCoordinateList,
           allCoordinateList,
           numberOfFruitSpawned
-        )
-      );
+        ),
+      });
       nthTurnReference = 0;
       allFruitEaten = false;
     }

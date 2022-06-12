@@ -78,26 +78,12 @@ export interface ISavedGameInfo {
   "fruitPositionList" : cellCoordinate[],
   "fruitEaten" : number,
   "score" : number,
-  "currentRefreshTime" : number
+  "currentRefreshTime" : number,
+  "highScore" : number,
+  "longestLength" : number
 }
 
 export type ISavedGameProperty = keyof ISavedGameInfo;
-
-export interface ISavedGameNone {
-  "direction" : undefined,
-  "wholeSnakeCoordinateList" : undefined,
-  "fruitPositionList" : undefined,
-  "fruitEaten" : undefined,
-  "score" : undefined,
-}
-
-export const blankSavedGame : ISavedGameNone = {
-  "direction" : undefined,
-  "fruitEaten" : undefined,
-  "fruitPositionList" : undefined,
-  "wholeSnakeCoordinateList" : undefined,
-  "score" : undefined,
-}
 
 const possibleGameState = [
   "startPage",
@@ -157,3 +143,45 @@ export interface IGetSavedGameRetrievedData extends ILoginAndRegisterRetrievedDa
 }
 
 export type errorHandlingWrapperType = (url: string, bodyData: any, method: possibleAPIMethodType) => Promise<IAPIReturn>
+
+export interface IUpdateCurrentRefreshTimePayload {
+  updatedValue : "currentRefreshTime",
+  newValue : number
+}
+
+export interface IUpdateWholeSnakeCoordinateListPayload {
+  updatedValue : "wholeSnakeCoordinateList",
+  newValue : cellCoordinate[]
+}
+
+export interface IUpdateDirectionPayload {
+  updatedValue : "direction",
+  newValue : direction
+}
+
+export interface IUpdateFruitPositionListPayload {
+  updatedValue : "fruitPositionList",
+  newValue : cellCoordinate[]
+}
+
+export interface IUpdateFruitEatenPayload {
+  updatedValue : "fruitEaten",
+  newValue : number
+}
+
+export interface IUpdateScorePayload {
+  updatedValue : "score",
+  newValue : number
+}
+
+export interface IUpdateHighScorePayload {
+  updatedValue : "highScore",
+  newValue : number
+}
+
+export interface IUpdateLongestLengthPayload {
+  updatedValue : "longestLength",
+  newValue : number
+}
+
+export type UpdateSavedGamePayload = IUpdateCurrentRefreshTimePayload | IUpdateDirectionPayload | IUpdateFruitEatenPayload | IUpdateFruitPositionListPayload | IUpdateScorePayload | IUpdateWholeSnakeCoordinateListPayload 

@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
 import { getSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAPIReturn, ISavedGameInfo, possibleGameStateType } from "./utilities/types";
+import type {cellCoordinate, direction, IAPIReturn, ISavedGameInfo, possibleGameStateType, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -49,11 +49,7 @@ export const gameIsOver = writable(false);
 
 function createSavedGame () {
     const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
-    const {subscribe, set, update} = writable((candidateSavedGame ?? initializeSavedGame()) as ISavedGameInfo);
-
-    // function updateAndSave (propertyName : ISavedGameProperty, newValue : cellCoordinate[]| direction | number) {
-    //     switch ()
-    // }
+    const {subscribe, set, update} = writable((candidateSavedGame ?? createNewSavedGame()) as ISavedGameInfo);
 
     async function getServerData () {
         return getSavedGame();
@@ -76,80 +72,21 @@ function createSavedGame () {
               ),
             "fruitEaten" : 0,
             "score" : 0,
-            "currentRefreshTime" : initialRefreshTime 
+            "currentRefreshTime" : initialRefreshTime,
+            "longestLength" : wholeSnakeCoordinateList.length,
+            "highScore" : 0,
         } as ISavedGameInfo
     }
 
-    function initializeSavedGame() {
-        const direction = randomDirection()
-        const wholeSnakeCoordinateList = wholeSnakeCoordinateListInitialGenerator(
-            randomCoordinate(),
-            direction,
-            initialLength
-          );
-        return {
-            "direction" : direction,
-            "wholeSnakeCoordinateList" : wholeSnakeCoordinateList,
-            "fruitPositionList" :  randomUniqueCoordinateGenerator(
-                wholeSnakeCoordinateList,
-                allCoordinateList,
-                numberOfFruitSpawned
-              ),
-            "fruitEaten" : 0,
-            "score" : 0,
-            "currentRefreshTime" : initialRefreshTime
-        } as ISavedGameInfo
-    }
-
-    function updateFruitPosition (newValue : cellCoordinate[]) {
-        update(previousSavedGame => {
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, fruitPositionList : newValue}));
-            return {...previousSavedGame, fruitPositionList : newValue};
-        })
-    }
-
-    function updateWholeSnakeCoordinate (newValue : cellCoordinate[]) {
-        update(previousSavedGame => {
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, wholeSnakeCoordinateList : newValue}));
-            return {...previousSavedGame, wholeSnakeCoordinateList : newValue};  
-    })}
-
-    function updateDirection (newValue : direction) {
-        update(previousSavedGame => {
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, direction : newValue}));
-            return {...previousSavedGame, direction : newValue};  
-        })
-    }
-
-    function updateScore (newValue : number) {
-        update(previousSavedGame => {
-            let newSavedGame = previousSavedGame;
-            newSavedGame.score = newValue;
-            localStorage.setItem("savedGame", JSON.stringify(newSavedGame));
-            return newSavedGame;
-        })
-    }
-
-    function updateFruitEaten (newValue : number) {
-        update(previousSavedGame => {
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, fruitEaten : newValue}));
-            return {...previousSavedGame, fruitEaten : newValue};  
-
-        })
-    }
-
-    function decrementRefreshTime (decrementAmount : number) {
+    function updatePartOfSavedGame (payload : UpdateSavedGamePayload) {
         update (previousSavedGame => {
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, currentRefreshTime : previousSavedGame.currentRefreshTime - decrementAmount}));
-            return {...previousSavedGame, currentRefreshTime : previousSavedGame.currentRefreshTime - decrementAmount}
-        })
-    }
-
-    function multiplyRefreshTime (multiplierAmount : number) {
-        update (previousSavedGame => {
-            const newRefreshTime = previousSavedGame.currentRefreshTime > refreshTimeLowerBound ? previousSavedGame.currentRefreshTime * multiplierAmount : previousSavedGame.currentRefreshTime;
-            localStorage.setItem("savedGame", JSON.stringify({...previousSavedGame, currentRefreshTime : newRefreshTime}));
-            return {...previousSavedGame, currentRefreshTime : newRefreshTime}
+            const overriderObject = {[payload.updatedValue] : payload.newValue};
+            const newObject = {
+                ...previousSavedGame,
+                ...overriderObject
+            }
+            localStorage.setItem("savedGame", JSON.stringify(newObject));
+            return newObject;
         })
     }
 
@@ -160,7 +97,7 @@ function createSavedGame () {
 
     function reset () {
         localStorage.removeItem("savedGame");
-        set(initializeSavedGame());
+        set(createNewSavedGame());
     }
 
     function removeFromLocalStorage() {
@@ -171,18 +108,11 @@ function createSavedGame () {
 
     return {
         subscribe,
-        set,
-        updateScore,
-        updateDirection,
-        updateFruitEaten,
-        updateFruitPosition,
-        updateWholeSnakeCoordinate,
-        decrementRefreshTime,
-        multiplyRefreshTime,
         reset,
         removeFromLocalStorage,
         getServerData,
-        setDataFromServer
+        setDataFromServer,
+        updatePartOfSavedGame
     }
 }
 
