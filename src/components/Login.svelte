@@ -115,7 +115,7 @@
   />
 </head>
 
-<main transition:fade={{ duration: loadPageTransitionDuration }}>
+<main>
   <h2 class="title">
     {$gameState === "login" ? "Log In" : "Sign In"}
   </h2>
