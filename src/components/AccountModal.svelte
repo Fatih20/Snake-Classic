@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { deviceWidth, gameState, isLoggedIn, userData } from "../stores";
+  import {
+    bindings,
+    deviceWidth,
+    gameState,
+    isLoggedIn,
+    userData,
+  } from "../stores";
 
   import { logout } from "../utilities/api";
 
@@ -28,7 +34,15 @@
     <div class="key-binding-container">
       <h3 class="section-title">Key Binding</h3>
       <div class="key-button-container">
-        <p />
+        {#each Object.keys($bindings) as direction (direction)}
+          <button
+            class={`control-button`}
+            id={direction.toLowerCase()}
+            on:click={() => {}}
+          >
+            {$bindings[direction][0].toUpperCase()}
+          </button>
+        {/each}
       </div>
     </div>
   {/if}
@@ -83,10 +97,37 @@
   }
 
   .key-button-container {
+    display: grid;
+    column-gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 10px;
+    /* width: 100%; */
+    /* border: solid 1px black; */
   }
 
   .section-title {
     align-self: flex-start;
     font-size: 1em;
+  }
+
+  #up {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+
+  #down {
+    grid-column: 2/3;
+    grid-row: 2/3;
+  }
+
+  #right {
+    grid-column: 3/4;
+    grid-row: 2/3;
+  }
+
+  #left {
+    grid-column: 1/2;
+    grid-row: 2/3;
   }
 </style>
