@@ -109,18 +109,31 @@
   }
 
   .absolute-container {
+    align-items: center;
     bottom: 0;
+    box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     left: 0;
+    opacity: 0;
     right: 0;
     position: absolute;
+    padding: 2em;
     top: 0;
+    transition: all 0.25s ease-in-out;
+    visibility: hidden;
     z-index: 1000;
   }
 
   .absolute-container-visible {
+    /* background-color: rgba(0, 0, 0, 0.5); */
     display: flex;
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
   }
 
   .spacer {
