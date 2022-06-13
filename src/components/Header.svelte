@@ -14,16 +14,6 @@
   function sendResetGame() {
     dispatch("resetGame");
   }
-
-  async function handleLogout() {
-    const response = await logout();
-
-    if (response.statusCode < 400) {
-      // isLoggedIn.set(false);
-      window.location.reload();
-    }
-    return;
-  }
 </script>
 
 <head>
@@ -85,25 +75,10 @@
       class:shown-button={$gameState === "playing"}
       on:click={() => modalOpen.set(true)}
     >
-      <!-- {#if $isLoggedIn}
-        <i class="fa-solid fa-right-to-bracket icon" />
-      {:else}
-        <i class="fa-solid fa-right-to-bracket icon fa-flip-horizontal" />
-      {/if} -->
       <i class="fa-solid fa-user" />
     </button>
   </div>
 </main>
-
-<!-- async () => {
-    gameIsPaused.set(true);
-    if ($isLoggedIn) {
-      await handleLogout();
-    } else {
-      // console.log("Bruh");
-      gameState.set("login");
-    }
-  }} -->
 
 <style>
   main {
