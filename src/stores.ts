@@ -5,43 +5,8 @@ import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGame
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
-function createHighScore () {
-    const candidateHighScore = fetchItemFromLocalStorage("highScore");
-    const {subscribe, set} = writable(candidateHighScore ?? 0);
-
-    function updateAndSave (newValue : number) {
-        set(newValue);
-        localStorage.setItem("highScore", JSON.stringify(newValue))
-    }
-
-    function setDataFromServer (dataFromServer : number) {
-        set(dataFromServer ?? 0);
-    }
-    return {
-        subscribe,
-        updateAndSave,
-        setDataFromServer
-    }
-}
-
-function createLongestLength () {
-    const candidateLongestLength = fetchItemFromLocalStorage("longestLength");
-    const {subscribe, set} = writable(candidateLongestLength ?? 0);
-
-    function updateAndSave (newValue : number) {
-        set(newValue);
-        localStorage.setItem("longestLength", JSON.stringify(newValue))
-    }
-    return {
-        subscribe,
-        updateAndSave
-    }
-}
-
 export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
-
 export const deviceWidth = readable(screen.width);
-
 export const gameIsOver = writable(false);
 
 function createSavedGame () {
