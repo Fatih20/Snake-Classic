@@ -17,6 +17,7 @@
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
   import type { ISavedGameInfo, IUserData } from "./utilities/types";
+  import ErrorOnInitialLoad from "./components/ErrorOnInitialLoad.svelte";
 
   onMount(async () => {
     console.log(new Date().getMilliseconds());
@@ -51,6 +52,8 @@
   {:else if $gameState === "startPage"}
     <!-- {#if $gameState === "startPage"} -->
     <StartPage />
+  {:else if $gameState === "serverErrorOnInitialLoad"}
+    <ErrorOnInitialLoad />
   {:else}
     <div class="main-app-container" transition:fade>
       <Header on:resetGame={resetCoreGame} />
