@@ -3,7 +3,6 @@
     placeholderEmail,
     placeholderPassword,
     placeholderUsername,
-    recallingAPILimit,
     usernameCharacterLimit,
   } from "../config";
 
@@ -14,13 +13,7 @@
     savedGame,
     userData,
   } from "../stores";
-  import {
-    getSavedGame,
-    login,
-    register,
-    updateSavedGame,
-  } from "../utilities/api";
-  import type { ISavedGameInfo } from "../utilities/types";
+  import { getSavedGame, login, register } from "../utilities/api";
 
   let enteredEmail = "";
   let enteredPassword = "";
@@ -83,10 +76,6 @@
       achievement.setDataFromServer(retrievedAchievement);
       userData.set(retrievedUserData);
     }
-    //  else if ($gameState === "signIn") {
-    //   await updateSavedGame($savedGame);
-    //   savedGame.removeFromLocalStorage();
-    // }
     isLoading = false;
     gameState.set("playing");
   }
