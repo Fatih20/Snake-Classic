@@ -90,7 +90,7 @@
   {:else if $gameState === "serverErrorOnInitialLoad"}
     <ErrorOnInitialLoad />
   {:else}
-    <div class="main-app-container" transition:fade>
+    <div class="main-app-container">
       {#if $modalOpen}
         <div
           class="absolute-container"
