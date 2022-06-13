@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Saving from "./Saving.svelte";
   import {
     delayUntilGameStarts,
     gridSize,
@@ -7,11 +8,12 @@
     refreshTimeDecrementEveryTurn,
     refreshTimeLowerBound,
     refreshTimeMultiplierEveryTurn,
+    saveInterval,
     // refreshTime,
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
-  import { possibleDirection } from "../../utilities/types";
+  import { possibleDirection, SavingText } from "../../utilities/types";
   import {
     directionsProperty,
     oppositeDirectionDictionary,
@@ -22,6 +24,10 @@
     gameIsOver,
     savedGame,
     firstStart,
+    savedGameStale,
+    achievementStale,
+    achievement,
+    isLoggedIn,
   } from "../../stores";
 
   import { createEventDispatcher, onMount } from "svelte";
@@ -32,6 +38,7 @@
     randomUniqueCoordinateGenerator,
     wholeSnakeCoordinateListUpdater,
   } from "../../utilities/utilitiesCoreGame";
+  import { updateAchievement, updateSavedGame } from "../../utilities/api";
 
   let mainEventLoop: NodeJS.Timer;
   let dispatch = createEventDispatcher();
@@ -61,6 +68,9 @@
   );
 
   let nthTurnReference = 0;
+
+  let isSaving = false;
+  let savingText: SavingText = "Game is saved";
 
   function sendResetGame() {
     dispatch("resetGame");
@@ -130,6 +140,8 @@
       ),
     });
 
+    savedGameStale.set(true);
+
     if (allFruitEaten) {
       nthTurnReference += 1;
     }
@@ -161,6 +173,37 @@
     } else {
       clearTimeout(mainEventLoop);
     }
+  }
+
+  if ($isLoggedIn) {
+    setInterval(savingToTheServer, saveInterval);
+  }
+
+  async function savingToTheServer() {
+    if ($savedGameStale) {
+      isSaving = true;
+      savingText = "Saving";
+      savedGameStale.set(false);
+      const response = await updateSavedGame($savedGame);
+      if (response.statusCode >= 400) {
+        savedGameStale.set(true);
+      }
+    }
+
+    if ($achievementStale) {
+      isSaving = true;
+      savingText = "Saving";
+      achievementStale.set(false);
+      const response = await updateAchievement($achievement);
+      if (response.statusCode >= 400) {
+        achievementStale.set(true);
+      }
+    }
+
+    savingText = "Game is saved";
+    setTimeout(() => {
+      isSaving = false;
+    }, 500);
   }
 
   $: {
@@ -216,6 +259,9 @@
 
 <main>
   <div class="spacer" />
+  {#if isSaving}
+    <Saving text={isSaving ? "Saving" : "Game is saved"} />
+  {/if}
   <div
     class="grid-container"
     class:grid-container-bordered={!$gameIsOver && !$gameIsPaused}

@@ -5,9 +5,7 @@ import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGame
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
-export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 export const deviceWidth = readable(screen.width);
-export const gameIsOver = writable(false);
 
 function createSavedGame () {
     const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
@@ -136,7 +134,11 @@ export const achievement = createAchievement();
 
 export const firstStart = writable(fetchItemFromLocalStorage("savedGame") === undefined);
 export const gameState = writable("loadingData" as possibleGameStateType);
-
 export const isLoggedIn = writable(false);
+export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
+export const gameIsOver = writable(false);
 
 export const userData = writable({username : undefined, id : undefined} as (IUserDataStore | IUserData))
+
+export const savedGameStale = writable(false);
+export const achievementStale = writable(false);

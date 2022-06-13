@@ -20,3 +20,5 @@ export const baseAPIPath = (shootToProduction ? "https://snake-classic-backend.h
 export const recallingAPILimit = 5;
 export const originSite = isInProduction ? "http://localhost:8080" : "https://imaginative-axolotl-a6f771.netlify.app/"
 export const usernameCharacterLimit = 20;
+export const durationOfSavingConfirmationMessage = 500;
+export const saveInterval = 5000;

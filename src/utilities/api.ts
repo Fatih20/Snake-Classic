@@ -1,5 +1,5 @@
 import { baseAPIPath, recallingAPILimit } from "../config";
-import type { IAPIReturn, IGetSavedGameRetrievedData, ILoginAndRegisterRetrievedData, ILoginInput, IRegisterInput } from "./types";
+import type { IAchievementInfo, IAPIReturn, IGetSavedGameRetrievedData, ILoginAndRegisterRetrievedData, ILoginInput, IRegisterInput, ISavedGameInfo } from "./types";
 import { errorHandlingWrapper, fetchDataRetry } from "./utilities";
 
 export async function logout () {
@@ -20,4 +20,18 @@ export async function register (registerInfo : IRegisterInput) {
 export async function getSavedGame () {
     console.log("Trying to get saved game");
     return await fetchDataRetry(async () => await errorHandlingWrapper(`${baseAPIPath}/gameData/mine`, {}, "get"), 0, recallingAPILimit) as IAPIReturn<IGetSavedGameRetrievedData>;
+}
+
+export async function updateSavedGame (savedGame : ISavedGameInfo) {
+    console.log("Trying to update saved game");
+    return await fetchDataRetry(async () => await errorHandlingWrapper(`${baseAPIPath}/gameData/mine/savedGame`, {
+        "newSavedGame" : savedGame
+    } as {"newSavedGame" : ISavedGameInfo}, "put"), 0, recallingAPILimit) as IAPIReturn<null>;
+}
+
+export async function updateAchievement (savedAchievement : IAchievementInfo) {
+    console.log("Trying to update saved game");
+    return await fetchDataRetry(async () => await errorHandlingWrapper(`${baseAPIPath}/gameData/mine/achievement`, {
+        "newAchievement" : savedAchievement
+    } as {"newAchievement" : IAchievementInfo}, "put"), 0, recallingAPILimit) as IAPIReturn<null>;
 }
