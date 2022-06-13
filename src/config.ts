@@ -1,7 +1,7 @@
 import type { IBindingsInfo } from "./utilities/types";
 
 export const shootToProduction = true;
-export const isInProduction = false;
+export const isInProduction = true;
 export const gridSize = 20;
 export const initialRefreshTime = 750;
 export const refreshTimeDecrementEveryTurn = 1;
