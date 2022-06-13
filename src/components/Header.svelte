@@ -13,7 +13,7 @@
     const response = await logout();
 
     if (response.statusCode < 400) {
-      isLoggedIn.set(false);
+      // isLoggedIn.set(false);
       window.location.reload();
     }
     return;

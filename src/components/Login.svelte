@@ -54,9 +54,9 @@
       return;
     }
 
-    isLoading = false;
     isLoggedIn.set(true);
     const gameData = await getSavedGame();
+    isLoading = false;
     gameState.set("playing");
   }
 
