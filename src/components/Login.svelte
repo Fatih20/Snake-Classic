@@ -7,7 +7,13 @@
     usernameCharacterLimit,
   } from "../config";
 
-  import { gameState, isLoggedIn, savedGame } from "../stores";
+  import {
+    achievement,
+    gameState,
+    isLoggedIn,
+    savedGame,
+    userData,
+  } from "../stores";
   import { getSavedGame, login, register } from "../utilities/api";
   import type { ISavedGameInfo } from "../utilities/types";
 
@@ -55,7 +61,16 @@
     }
 
     isLoggedIn.set(true);
-    const gameData = await getSavedGame();
+    const {
+      retrievedData: {
+        achievement: retrievedAchievement,
+        savedGame: retrievedSavedGame,
+        userData: retrievedUserData,
+      },
+    } = await getSavedGame();
+    savedGame.setDataFromServer(retrievedSavedGame);
+    achievement.setDataFromServer(retrievedAchievement);
+    userData.set(retrievedUserData);
     isLoading = false;
     gameState.set("playing");
   }
