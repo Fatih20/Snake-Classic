@@ -13,11 +13,13 @@
     isLoggedIn,
     achievement,
     userData,
+    modalOpen,
   } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
   import type { ISavedGameInfo, IUserData } from "./utilities/types";
   import ErrorOnInitialLoad from "./components/ErrorOnInitialLoad.svelte";
+  import AccountModal from "./components/AccountModal.svelte";
 
   onMount(async () => {
     console.log(new Date().getMilliseconds());
@@ -56,6 +58,13 @@
     <ErrorOnInitialLoad />
   {:else}
     <div class="main-app-container" transition:fade>
+      <div
+        class="absolute-container"
+        class:absolute-container-visible={$modalOpen}
+        on:click={() => modalOpen.set(false)}
+      >
+        <AccountModal />
+      </div>
       <Header on:resetGame={resetCoreGame} />
       {#if $gameState === "playing"}
         <Game {resetCoreGame} />
@@ -97,6 +106,21 @@
     height: 100%;
     width: 100%;
     position: relative;
+  }
+
+  .absolute-container {
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .absolute-container-visible {
+    display: flex;
   }
 
   .spacer {

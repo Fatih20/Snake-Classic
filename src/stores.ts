@@ -187,6 +187,7 @@ export const gameState = writable("loadingData" as possibleGameStateType);
 export const isLoggedIn = writable(false);
 export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 export const gameIsOver = writable(false);
+export const modalOpen = writable(false);
 
 export const userData = writable({username : undefined, id : undefined} as (IUserDataStore | IUserData))
 export const bindings = createBindings();

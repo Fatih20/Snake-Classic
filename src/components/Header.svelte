@@ -1,7 +1,13 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { recallingAPILimit } from "../config";
-  import { gameIsPaused, gameIsOver, isLoggedIn, gameState } from "../stores";
+  import {
+    gameIsPaused,
+    gameIsOver,
+    isLoggedIn,
+    gameState,
+    modalOpen,
+  } from "../stores";
   import { logout } from "../utilities/api";
 
   const dispatch = createEventDispatcher();
@@ -77,24 +83,27 @@
       class="header-button right-button"
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
-      on:click={async () => {
-        gameIsPaused.set(true);
-        if ($isLoggedIn) {
-          await handleLogout();
-        } else {
-          // console.log("Bruh");
-          gameState.set("login");
-        }
-      }}
+      on:click={() => modalOpen.set(true)}
     >
-      {#if $isLoggedIn}
+      <!-- {#if $isLoggedIn}
         <i class="fa-solid fa-right-to-bracket icon" />
       {:else}
         <i class="fa-solid fa-right-to-bracket icon fa-flip-horizontal" />
-      {/if}
+      {/if} -->
+      <i class="fa-solid fa-user" />
     </button>
   </div>
 </main>
+
+<!-- async () => {
+    gameIsPaused.set(true);
+    if ($isLoggedIn) {
+      await handleLogout();
+    } else {
+      // console.log("Bruh");
+      gameState.set("login");
+    }
+  }} -->
 
 <style>
   main {
