@@ -6,6 +6,7 @@
     loadPageTransitionDuration,
   } from "../config";
   import { firstStart, gameState, isLoggedIn, userData } from "../stores";
+  import { logout } from "../utilities/api";
 
   const dispatch = createEventDispatcher();
 
@@ -37,7 +38,9 @@
     <div id="button-container">
       <button
         class="option-container"
-        on:click={() => {
+        on:click={async () => {
+          logout();
+          isLoggedIn.set(false);
           gameState.set("playing");
         }}
       >
