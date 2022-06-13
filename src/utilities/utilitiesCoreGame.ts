@@ -1,4 +1,4 @@
-import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection, makePossibleVectorValue } from "./types";
+import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection, makePossibleVectorValue, IBindingsInfo } from "./types";
 import { directionsProperty, oppositeDirectionDictionary, randomizeFrom0ToNMinus1, randomizeFrom1ToN } from "./utilities";
 import { gridSize } from "../config";
 
@@ -141,4 +141,15 @@ export function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) 
   const { x: headX, y: headY } = wholeSnakeCoordinateList[0];
     return wholeSnakeCoordinateList.slice(1).some(({x : bodyX, y : bodyY}) => (headX === bodyX && headY === bodyY)
     );
+}
+
+export function keyToDirectionConverter (key : string, directionToKeyList : IBindingsInfo) {
+  console.log(key);
+  return (Object.keys(directionToKeyList).filter((direction : direction) => {
+    console.log(directionToKeyList);
+    if (directionToKeyList[direction].includes(key)) {
+      return true;
+    } 
+    return false;
+  })[0] ?? null) as direction | null;
 }

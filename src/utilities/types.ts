@@ -63,6 +63,26 @@ interface directionPropertyType {
 
 export type directionsPropertyType = Record<direction, directionPropertyType>
 
+export type IBindingsInfo = Record<direction, string[]>
+
+const possibleBindingListOperation = ["remove", "add"] as const;
+
+export type BindingListOperation = typeof possibleBindingListOperation[number];
+
+export interface IChangeBindingsPayload {
+  action : "remove" | "add",
+  payload : string
+}
+
+// export interface IChangeBindingsPayloadWhole {
+//   action : "overwrite",
+//   payload : string[]
+// }
+
+export interface UpdateBindingsPayload extends IChangeBindingsPayload {
+  updatedDirection : direction;
+}
+
 const edgeCoordinateCornerList = ["above-radius", "bottom-radius", "left-radius", "right-radius"] as const;
 
 export type edgeCoordinateCornerType = typeof edgeCoordinateCornerList[number];

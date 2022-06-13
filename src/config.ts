@@ -1,3 +1,5 @@
+import type { IBindingsInfo } from "./utilities/types";
+
 export const shootToProduction = false;
 export const isInProduction = false;
 export const gridSize = 20;
@@ -22,3 +24,4 @@ export const originSite = isInProduction ? "http://localhost:8080" : "https://im
 export const usernameCharacterLimit = 20;
 export const durationOfSavingConfirmationMessage = 500;
 export const saveInterval = 5000;
+export const defaultBinding : IBindingsInfo = {Up : ["w", "ArrowUp"], Down : ["s", "ArrowDown"], Left : ["a", "ArrowLeft"], Right : ["d", "ArrowRight"]}

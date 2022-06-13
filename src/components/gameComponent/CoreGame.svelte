@@ -28,6 +28,7 @@
     achievementStale,
     achievement,
     isLoggedIn,
+    bindings,
   } from "../../stores";
 
   import { createEventDispatcher, onMount } from "svelte";
@@ -35,6 +36,7 @@
   import {
     checkIfHeadBiteBody,
     cornerOfSnakeBodyGenerator,
+    keyToDirectionConverter,
     randomUniqueCoordinateGenerator,
     wholeSnakeCoordinateListUpdater,
   } from "../../utilities/utilitiesCoreGame";
@@ -79,14 +81,11 @@
 
   function handleKeydown(e) {
     const { key: keyPressed } = e;
-    // console.log(key);
-    // console.log(keyPressed);
-    Object.values(directionsProperty).forEach(({ keyList }, index) => {
-      const keySet = new Set(keyList.map((key) => key.toLowerCase()));
-      if (keySet.has(keyPressed.toLowerCase())) {
-        candidateDirection = possibleDirection[index];
-      }
-    });
+    const candidateDirection = keyToDirectionConverter(keyPressed, $bindings);
+    if (candidateDirection === null) {
+      return;
+    }
+
     if (candidateDirection !== oppositePreviousDirection) {
       savedGame.updatePartOfSavedGame(
         {

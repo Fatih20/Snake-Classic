@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
-import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
+import { baseAPIPath, defaultBinding, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
 import { getSavedGame, updateSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
+import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateBindingsPayload, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -69,8 +69,6 @@ function createSavedGame () {
         localStorage.removeItem("savedGame");
     }
 
-    
-
     return {
         subscribe,
         reset,
@@ -126,8 +124,6 @@ function createAchievement () {
         localStorage.removeItem("achievement");
     }
 
-    
-
     return {
         subscribe,
         reset,
@@ -135,6 +131,51 @@ function createAchievement () {
         getServerData,
         setDataFromServer,
         updatePartOfAchievement
+    }
+}
+
+function createBindings () {
+    const candidateBindings = fetchItemFromLocalStorage("bindings");
+    const {subscribe, set, update} = writable((candidateBindings ?? defaultBinding) as IBindingsInfo);
+
+    async function getServerData () {
+        return getSavedGame();
+    }
+
+    function updatePartOfBindings (payload : UpdateBindingsPayload, isLoggedIn : boolean) {
+        update (previousBinding => {
+            const overriderObject = {[payload.updatedDirection] : [...previousBinding[payload.updatedDirection], payload.payload]};
+            const newObject = {
+                ...previousBinding,
+                ...overriderObject
+            }
+            if (!isLoggedIn) {
+                localStorage.setItem("bindings", JSON.stringify(newObject));
+            }
+            return newObject;
+        })
+    }
+
+    function setDataFromServer (savedGameFromServer : IBindingsInfo) {
+        set({...savedGameFromServer})
+    }
+
+    function reset () {
+        localStorage.removeItem("bindings");
+        set(defaultBinding);
+    }
+
+    function removeFromLocalStorage() {
+        localStorage.removeItem("bindings");
+    }
+
+    return {
+        subscribe,
+        reset,
+        removeFromLocalStorage,
+        getServerData,
+        setDataFromServer,
+        updatePartOfBindings
     }
 }
 
@@ -148,6 +189,7 @@ export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== 
 export const gameIsOver = writable(false);
 
 export const userData = writable({username : undefined, id : undefined} as (IUserDataStore | IUserData))
+export const bindings = createBindings();
 
 export const savedGameStale = writable(false);
 export const achievementStale = writable(false);
