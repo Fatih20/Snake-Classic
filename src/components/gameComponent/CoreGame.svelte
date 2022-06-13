@@ -12,11 +12,10 @@
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
-  import { possibleDirection } from "../../utilities/types";
   import {
-    directionsProperty,
     oppositeDirectionDictionary,
     allCoordinateList,
+    directionToVectorDict,
   } from "../../utilities/utilities";
   import {
     gameIsPaused,
@@ -48,15 +47,13 @@
   let candidateDirection = $savedGame.direction;
   let previousDirection = $savedGame.direction;
   let oppositeDirection = oppositeDirectionDictionary[$savedGame.direction];
-  let directionVector = directionsProperty[$savedGame.direction].vectorValue;
-  let oppositeDirectionVector =
-    directionsProperty[oppositeDirection].vectorValue;
+  let directionVector = directionToVectorDict[$savedGame.direction];
+  let oppositeDirectionVector = directionToVectorDict[oppositeDirection];
 
   $: oppositeDirection = oppositeDirectionDictionary[$savedGame.direction];
   $: oppositePreviousDirection = oppositeDirectionDictionary[previousDirection];
-  $: directionVector = directionsProperty[$savedGame.direction].vectorValue;
-  $: oppositeDirectionVector =
-    directionsProperty[oppositeDirection].vectorValue;
+  $: directionVector = directionToVectorDict[$savedGame.direction];
+  $: oppositeDirectionVector = directionToVectorDict[oppositeDirection];
 
   let headCoordinate = $savedGame.wholeSnakeCoordinateList[0];
   $: headCoordinate = $savedGame.wholeSnakeCoordinateList[0];

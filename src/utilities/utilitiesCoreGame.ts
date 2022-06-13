@@ -1,5 +1,5 @@
 import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection, makePossibleVectorValue, IBindingsInfo } from "./types";
-import { directionsProperty, oppositeDirectionDictionary, randomizeFrom0ToNMinus1, randomizeFrom1ToN } from "./utilities";
+import { directionToVectorDict, oppositeDirectionDictionary, randomizeFrom0ToNMinus1, randomizeFrom1ToN } from "./utilities";
 import { gridSize } from "../config";
 
 export function mover(
@@ -29,7 +29,7 @@ export function mover(
     direction: direction,
     length : number
   ) {
-    const oppositeDirectionVector = directionsProperty[oppositeDirectionDictionary[direction]].vectorValue;
+    const oppositeDirectionVector = directionToVectorDict[oppositeDirectionDictionary[direction]];
     return [headCoordinate, ...Array.from({length : length - 1}, (_, i) => mover(headCoordinate, oppositeDirectionVector, i + 1))]
   }
 
@@ -84,8 +84,8 @@ export function positionRelativeTo ({x : xFrom, y : yFrom} : cellCoordinate, {x 
     } else {
     directionVectorOneToTwo = {x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)}}
 
-    return Object.keys(directionsProperty).filter((directionName : direction) =>
-        JSON.stringify(directionsProperty[directionName].vectorValue) === JSON.stringify(directionVectorOneToTwo))[0] as direction;
+    return Object.keys(directionToVectorDict).filter((directionName : direction) =>
+        JSON.stringify(directionToVectorDict[directionName]) === JSON.stringify(directionVectorOneToTwo))[0] as direction;
 }
 
 export function wholeSnakeCoordinateListUpdater(
@@ -101,7 +101,7 @@ export function wholeSnakeCoordinateListUpdater(
       wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1]
     );
     const directionVectorFromLastTail =
-      directionsProperty[tailDirection].vectorValue;
+      directionToVectorDict[tailDirection];
     const newTailCoordinateList = Array.from({length : howManyTail}, (_, i) => {
       return mover(wholeSnakeCoordinateList[wholeSnakeCoordinateList.length - 1], directionVectorFromLastTail, i + 1)
     })
@@ -144,9 +144,7 @@ export function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) 
 }
 
 export function keyToDirectionConverter (key : string, directionToKeyList : IBindingsInfo) {
-  console.log(key);
   return (Object.keys(directionToKeyList).filter((direction : direction) => {
-    console.log(directionToKeyList);
     if (directionToKeyList[direction].includes(key)) {
       return true;
     } 

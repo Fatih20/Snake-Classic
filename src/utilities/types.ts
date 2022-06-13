@@ -30,11 +30,6 @@ export function makePossibleVectorValue (candidateVectorValue : number) : direct
 
 export type directionVectorValue = number & {_type_ : "directionVectorValue"}
 
-export type directionVectorTemplateType = {
-  x : directionVectorValue,
-  y : directionVectorValue
-}
-
 export const possibleDirectionVector = [
   {
     x : makePossibleVectorValue(0),
@@ -56,13 +51,7 @@ export const possibleDirectionVector = [
 
 export type directionVectorType = typeof possibleDirectionVector[number];
 
-interface directionPropertyType {
-  keyList: directionKey,
-  vectorValue : directionVectorType
-}
-
-export type directionsPropertyType = Record<direction, directionPropertyType>
-
+export type IDirectionToVector = Record<direction, directionVectorType>
 export type IBindingsInfo = Record<direction, string[]>
 
 const possibleBindingListOperation = ["remove", "add"] as const;
