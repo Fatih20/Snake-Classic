@@ -27,6 +27,7 @@
       : enteredUsername.length <= usernameCharacterLimit;
 
   let isLoading = false;
+  let showPassword = false;
   let errorOnPreviousAttempt = false;
   let errorMessage: string;
 
@@ -78,6 +79,19 @@
   $: console.log(isLoading);
 </script>
 
+<head>
+  <script
+    src="https://kit.fontawesome.com/31a5898fa1.js"
+    crossorigin="anonymous"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+
 <main>
   <h2 class="title">
     {$gameState === "login" ? "Log In" : "Sign In"}
@@ -123,17 +137,46 @@
           bind:value={enteredPassword}
         />
       </div>
-    {:else}
-      <div class="input-element">
-        <label for="password-input">Password</label>
-        <input
-          type="password"
-          id="password-input"
-          name="password"
-          placeholder={placeholderPassword}
-          bind:value={enteredPassword}
-        />
-      </div>
+    {:else if $gameState === "login"}
+      {#if showPassword}
+        <div class="input-element">
+          <label for="password-input">Password</label>
+          <div class="password-input-container">
+            <input
+              type="text"
+              id="password-input"
+              name="password"
+              placeholder={placeholderPassword}
+              bind:value={enteredPassword}
+            />
+            <button
+              class="toggle-show-password"
+              on:click={() => (showPassword = !showPassword)}
+            >
+              <i class="fa-solid fa-eye" />
+            </button>
+          </div>
+        </div>
+      {:else}
+        <div class="input-element">
+          <label for="password-input">Password</label>
+          <div class="password-input-container">
+            <input
+              type="password"
+              id="password-input"
+              name="password"
+              placeholder={placeholderPassword}
+              bind:value={enteredPassword}
+            />
+            <button
+              class="toggle-show-password"
+              on:click={() => (showPassword = !showPassword)}
+            >
+              <i class="fa-solid fa-eye-slash" />
+            </button>
+          </div>
+        </div>
+      {/if}
     {/if}
     {#if errorOnPreviousAttempt}
       <div class="error-message-container">
@@ -199,6 +242,11 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.25em;
+    width: 100%;
+  }
+
+  .username-input-container input {
+    width: 100%;
   }
 
   .username-warning {
@@ -207,6 +255,28 @@
 
   .username-not-valid-warning {
     color: rgb(var(--warning-color-fg));
+  }
+
+  .password-input-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    width: 100%;
+    /* position: relative; */
+  }
+
+  .toggle-show-password {
+    align-items: center;
+    background-color: rgba(var(--primary-color) 0);
+    border: none;
+    color: white;
+    color: rgb(var(--primary-color));
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 30px;
   }
 
   input {
