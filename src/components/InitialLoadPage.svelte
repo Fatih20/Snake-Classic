@@ -17,7 +17,7 @@
 </head>
 
 <!-- <main> -->
-<main transition:fade={{ duration: loadPageTransitionDuration }}>
+<main>
   <div class="spinner-container">
     <!-- <i class="fa-solid fa-spinner-third" /> -->
     <i class="fa-solid fa-spinner spinner" />

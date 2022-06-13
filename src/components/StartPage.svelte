@@ -36,10 +36,7 @@
   />
 </head>
 
-<main
-  in:fade={{ duration: loadPageTransitionDuration }}
-  out:fade={{ duration: mainMenuTransitionDuration }}
->
+<main>
   <div id="content-container">
     <h1 id="title">Snake<br />Classic</h1>
     <!-- <div class="spacer" /> -->

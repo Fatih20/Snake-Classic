@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    loadPageTransitionDuration,
     placeholderEmail,
     placeholderPassword,
     placeholderUsername,
@@ -114,7 +115,7 @@
   />
 </head>
 
-<main transition:fade>
+<main transition:fade={{ duration: loadPageTransitionDuration }}>
   <h2 class="title">
     {$gameState === "login" ? "Log In" : "Sign In"}
   </h2>

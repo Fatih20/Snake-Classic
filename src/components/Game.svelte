@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { loadPageTransitionDuration } from "../config";
+
   import CoreGame from "./gameComponent/CoreGame.svelte";
   import GameInterface from "./gameComponent/GameInterface.svelte";
   import MobileControl from "./gameComponent/MobileControl.svelte";
+  import { fade } from "svelte/transition";
 
   export let resetCoreGame: () => void;
 </script>

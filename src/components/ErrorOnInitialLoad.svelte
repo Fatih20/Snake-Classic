@@ -16,7 +16,7 @@
   />
 </head>
 
-<main transition:fade={{ delay: loadPageTransitionDuration }}>
+<main>
   <i class="fa-solid fa-snooze snooze-icon" />
   <h2>The snake refused to wake up</h2>
   <p>Try reloading to wake him up again</p>
