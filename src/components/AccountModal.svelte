@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gameState, isLoggedIn } from "../stores";
+  import { deviceWidth, gameState, isLoggedIn, userData } from "../stores";
 
   import { logout } from "../utilities/api";
 
@@ -23,7 +23,16 @@
 </script>
 
 <main on:click={(e) => e.stopPropagation()}>
-  <button on:click={handleLogButton}
+  <h2 class="title">Enjoy the game, {$userData.username}!</h2>
+  {#if $deviceWidth >= 1000}
+    <div class="key-binding-container">
+      <h3 class="section-title">Key Binding</h3>
+      <div class="key-button-container">
+        <p />
+      </div>
+    </div>
+  {/if}
+  <button class="log-button" on:click={handleLogButton}
     >{$isLoggedIn ? "Log Out" : "Log In"}</button
   >
 </main>
@@ -38,8 +47,46 @@
     color: rgb(var(--text-on-primary-element-color));
     display: flex;
     flex-direction: column;
+    gap: 0.5em;
     justify-content: flex-start;
     padding: 0.5em;
     width: 100%;
+    max-width: 300px;
+  }
+
+  .title {
+    display: inline-block;
+    padding-bottom: 0.25em;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: solid 2px rgb(var(--text-on-primary-element-color));
+  }
+
+  .log-button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: rgb(var(--text-on-primary-element-color));
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+  }
+
+  .key-binding-container {
+    padding-bottom: 0.25em;
+    border-bottom: solid 2px rgb(var(--text-on-primary-element-color));
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .key-button-container {
+  }
+
+  .section-title {
+    align-self: flex-start;
+    font-size: 1em;
   }
 </style>

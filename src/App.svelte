@@ -70,6 +70,10 @@
         on:click={() => modalOpen.set(false)}
       >
         <AccountModal />
+        <div class="spacer" />
+        <p class="modal-closing-text">
+          Click anywhere but the modal to close it
+        </p>
       </div>
       <Header on:resetGame={resetCoreGame} />
       {#if $gameState === "playing"}
@@ -140,6 +144,15 @@
     opacity: 1;
     pointer-events: all;
     visibility: visible;
+  }
+
+  .modal-closing-text {
+    background-color: rgb(var(--primary-color));
+    border-radius: var(--button-radius);
+    color: rgb(var(--text-on-primary-element-color));
+    display: inline-block;
+    user-select: none;
+    padding: 0.25em 0.5em;
   }
 
   .spacer {
