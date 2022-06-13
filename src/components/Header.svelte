@@ -10,7 +10,6 @@
     initialBindingModalJustOpened,
     bindings,
   } from "../stores";
-  import { logout } from "../utilities/api";
 
   const dispatch = createEventDispatcher();
   function sendResetGame() {
@@ -76,6 +75,7 @@
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
       on:click={() => {
+        gameIsPaused.set(true);
         modalOpen.set(true);
         initialBindingModalJustOpened.set($bindings);
       }}
