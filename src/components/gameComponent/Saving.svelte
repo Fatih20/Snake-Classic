@@ -19,7 +19,7 @@
   />
 </head>
 
-<main>
+<main class:gapless-main={!isSaving}>
   {#if isSaving}
     {#if text === "Saving"}
       <i class="fa-solid fa-spinner spinner" />
@@ -28,7 +28,7 @@
       <p out:fade>{text}</p>
     {/if}
   {:else}
-    <p />
+    <p in:fade />
   {/if}
 </main>
 
@@ -40,6 +40,15 @@
     height: 20px;
     justify-content: center;
     padding: 0.5em;
+  }
+
+  .gapless-main {
+    gap: 0;
+  }
+
+  p {
+    padding: 0;
+    margin: 0;
   }
 
   @keyframes spinnerRotation {
