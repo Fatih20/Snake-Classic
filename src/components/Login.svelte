@@ -129,6 +129,7 @@
       class="submit-button"
       type="submit"
       class:submit-button-disabled={!usernameValid}
+      disabled={!usernameValid}
     >
       {#if isLoading}
         <i class="fa-solid fa-spinner spinner-button" />
@@ -185,6 +186,10 @@
     gap: 0.25em;
   }
 
+  .username-warning {
+    color: rgb(var(--text-on-white-unintrusive-color));
+  }
+
   .username-not-valid-warning {
     color: rgb(var(--warning-color-fg));
   }
@@ -210,7 +215,6 @@
 
   .submit-button {
     background-color: rgb(var(--primary-color));
-    border: solid 2px rgba(var(--primary-color), 0);
     border-radius: var(--button-smaller-radius);
     color: rgb(var(--text-on-primary-element-color));
     cursor: pointer;
@@ -223,12 +227,17 @@
   }
 
   .submit-button:hover {
-    background-color: rgb(var(--text-on-primary-element-color));
-    border: solid 2px rgba(var(--primary-color), 1);
-    color: rgb(var(--primary-color));
+    background-color: rgb(var(--secondary-color));
+    color: rgb(var(--text-on-secondary-element-color));
   }
 
   .submit-button-disabled {
+    --border-color: var(--disabled-color);
+    background-color: rgb(var(--disabled-color));
+    color: rgb(var(--text-on-disabled-element-color));
+  }
+
+  .submit-button-disabled:hover {
     background-color: rgb(var(--disabled-color));
     color: rgb(var(--text-on-disabled-element-color));
   }

@@ -42,6 +42,10 @@
     padding: 0.5em;
   }
 
+  main * {
+    color: rgb(var(--text-on-white-unintrusive-color));
+  }
+
   .gapless-main {
     gap: 0;
   }
