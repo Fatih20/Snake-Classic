@@ -13,7 +13,7 @@
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
-  import { possibleDirection, SavingText } from "../../utilities/types";
+  import { possibleDirection } from "../../utilities/types";
   import {
     directionsProperty,
     oppositeDirectionDictionary,
