@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
+  import { loadPageTransitionDuration } from "../config";
 </script>
 
 <head>
@@ -14,7 +16,7 @@
   />
 </head>
 
-<main>
+<main transition:fade={{ delay: loadPageTransitionDuration }}>
   <i class="fa-solid fa-snooze snooze-icon" />
   <h2>The snake refused to wake up</h2>
   <p>Try reloading to wake him up again</p>
