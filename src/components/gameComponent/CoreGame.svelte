@@ -2,6 +2,7 @@
   import Saving from "./Saving.svelte";
   import {
     delayUntilGameStarts,
+    durationOfSavingConfirmationMessage,
     gridSize,
     numberOfFruitSpawned,
     numberOfTailAddedAfterEating,
@@ -201,10 +202,10 @@
     attemptToSaveCompleted = false;
     errorWhenSaving = false;
 
-    function revertIsSaving() {
+    async function revertIsSaving() {
       setTimeout(() => {
         isSaving = false;
-      }, 500);
+      }, durationOfSavingConfirmationMessage);
     }
 
     if ($savedGameStale) {
@@ -212,10 +213,11 @@
       savedGameStale.set(false);
       const response = await updateSavedGame($savedGame);
       attemptToSaveCompleted = true;
-      revertIsSaving();
       if (response.statusCode >= 400) {
+        console.log("Sending Saved Game Should Be Error");
         savedGameStale.set(true);
         errorWhenSaving = true;
+        revertIsSaving();
         return;
       }
     }
@@ -225,13 +227,15 @@
       achievementStale.set(false);
       const response = await updateAchievement($achievement);
       attemptToSaveCompleted = true;
-      revertIsSaving();
       if (response.statusCode >= 400) {
+        console.log("Sending Saved Game Should Be Error");
         achievementStale.set(true);
         errorWhenSaving = true;
+        revertIsSaving();
         return;
       }
     }
+    revertIsSaving();
   }
 
   $: {
