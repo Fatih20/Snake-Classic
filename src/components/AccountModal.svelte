@@ -8,6 +8,27 @@
   } from "../stores";
 
   import { logout } from "../utilities/api";
+  import type {
+    Direction,
+    DirectionBeingChangedType,
+  } from "../utilities/types";
+
+  let directionBeingChanged = "" as DirectionBeingChangedType;
+
+  function handleKeydown(e) {
+    if (directionBeingChanged === "") {
+      return;
+    }
+
+    const { key: keyPressed } = e;
+    console.log(keyPressed);
+
+    directionBeingChanged = "";
+  }
+
+  function typecastToDirection(direction: string) {
+    return direction as Direction;
+  }
 
   async function handleLogout() {
     const response = await logout();
@@ -38,9 +59,15 @@
           <button
             class={`control-button`}
             id={direction.toLowerCase()}
-            on:click={() => {}}
+            class:changed-binding={typecastToDirection(direction) ===
+              directionBeingChanged}
+            on:click={() => {
+              directionBeingChanged = typecastToDirection(direction);
+            }}
           >
-            {$bindings[direction][0].toUpperCase()}
+            {directionBeingChanged === typecastToDirection(direction)
+              ? ""
+              : $bindings[direction][0].toUpperCase()}
           </button>
         {/each}
       </div>
@@ -50,6 +77,8 @@
     >{$isLoggedIn ? "Log Out" : "Log In"}</button
   >
 </main>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <style>
   main {
