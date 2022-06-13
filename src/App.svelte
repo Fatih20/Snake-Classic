@@ -46,6 +46,12 @@
     gameIsOver.set(false);
     gameIsPaused.set(false);
   }
+
+  $: {
+    if ($gameState !== "playing") {
+      modalOpen.set(false);
+    }
+  }
 </script>
 
 <main>
