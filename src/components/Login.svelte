@@ -15,6 +15,7 @@
     userData,
   } from "../stores";
   import { getSavedGame, login, register } from "../utilities/api";
+  import { fade } from "svelte/transition";
 
   let enteredEmail = "";
   let enteredPassword = "";
@@ -113,7 +114,7 @@
   />
 </head>
 
-<main>
+<main transition:fade>
   <h2 class="title">
     {$gameState === "login" ? "Log In" : "Sign In"}
   </h2>
