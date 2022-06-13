@@ -75,7 +75,7 @@
           }}
         >
           <h3 class="start-button-title">Play as {$userData.username}</h3>
-          <p>Your save game and high score will be saved to this account</p>
+          <!-- <p>Your save game and high score will be saved to this account</p> -->
         </button>
       {/if}
     </div>
