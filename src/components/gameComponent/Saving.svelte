@@ -4,6 +4,7 @@
 
   export let isSaving: boolean;
   export let text: SavingText = "Saving";
+  export let errorWhenSaving: boolean;
 </script>
 
 <head>
@@ -19,13 +20,13 @@
   />
 </head>
 
-<main class:gapless-main={!isSaving}>
+<main class:gapless-main={!isSaving} class:error={errorWhenSaving}>
   {#if isSaving}
     {#if text === "Saving"}
       <i class="fa-solid fa-spinner spinner" />
       <p in:fade>{text}</p>
     {:else}
-      <p out:fade>{text}</p>
+      <p out:fade>{errorWhenSaving ? "Failed to save" : text}</p>
     {/if}
   {:else}
     <p in:fade />
@@ -44,6 +45,10 @@
 
   main * {
     color: rgb(var(--text-on-white-unintrusive-color));
+  }
+
+  .error * {
+    color: rgb(var(--warning-color-fg));
   }
 
   .gapless-main {

@@ -71,6 +71,7 @@
 
   let isSaving = false;
   let savingText: SavingText = "Game is saved";
+  let errorWhenSaving = false;
 
   function sendResetGame() {
     dispatch("resetGame");
@@ -198,13 +199,24 @@
   }
 
   async function savingToTheServer() {
+    if (isSaving) {
+      return;
+    }
+
+    errorWhenSaving = false;
     if ($savedGameStale) {
       isSaving = true;
       savingText = "Saving";
       savedGameStale.set(false);
       const response = await updateSavedGame($savedGame);
       if (response.statusCode >= 400) {
+        savingText = "Game is saved";
         savedGameStale.set(true);
+        errorWhenSaving = true;
+        setTimeout(() => {
+          isSaving = false;
+        }, 500);
+        return;
       }
     }
 
@@ -214,10 +226,17 @@
       achievementStale.set(false);
       const response = await updateAchievement($achievement);
       if (response.statusCode >= 400) {
+        savingText = "Game is saved";
         achievementStale.set(true);
+        errorWhenSaving = true;
+        setTimeout(() => {
+          isSaving = false;
+        }, 500);
+        return;
       }
     }
 
+    errorWhenSaving = false;
     savingText = "Game is saved";
     setTimeout(() => {
       isSaving = false;
@@ -327,7 +346,7 @@
       />
     {/each}
   </div>
-  <Saving text={savingText} {isSaving} />
+  <Saving text={savingText} {isSaving} {errorWhenSaving} />
   <div class="spacer" />
 </main>
 
