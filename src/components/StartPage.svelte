@@ -5,7 +5,15 @@
     mainMenuTransitionDuration,
     loadPageTransitionDuration,
   } from "../config";
-  import { firstStart, gameState, isLoggedIn, userData } from "../stores";
+  import {
+    achievement,
+    bindings,
+    firstStart,
+    gameState,
+    isLoggedIn,
+    savedGame,
+    userData,
+  } from "../stores";
   import { logout } from "../utilities/api";
 
   const dispatch = createEventDispatcher();
@@ -41,6 +49,9 @@
         on:click={async () => {
           logout();
           isLoggedIn.set(false);
+          savedGame.set(savedGame.fetchSavedGameFromLocalStorage());
+          achievement.set(achievement.fetchAchievementFromLocalStorage());
+          bindings.set(bindings.fetchBindingsFromLocalStorage());
           gameState.set("playing");
         }}
       >

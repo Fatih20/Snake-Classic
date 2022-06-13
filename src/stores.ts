@@ -8,11 +8,15 @@ import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, who
 export const deviceWidth = readable(screen.width);
 
 function createSavedGame () {
-    const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
-    const {subscribe, set, update} = writable((candidateSavedGame ?? createNewSavedGame()) as ISavedGameInfo);
+    const {subscribe, set, update} = writable(fetchSavedGameFromLocalStorage());
 
     async function getServerData () {
         return getSavedGame();
+    }
+
+    function fetchSavedGameFromLocalStorage() {
+    const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
+    return (candidateSavedGame ?? createNewSavedGame()) as ISavedGameInfo;
     }
 
     function createNewSavedGame () {
@@ -72,19 +76,25 @@ function createSavedGame () {
     return {
         subscribe,
         reset,
+        set,
         removeFromLocalStorage,
         getServerData,
         setDataFromServer,
-        updatePartOfSavedGame
+        updatePartOfSavedGame,
+        fetchSavedGameFromLocalStorage
     }
 }
 
 function createAchievement () {
-    const candidateAchievement = fetchItemFromLocalStorage("achievement");
-    const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
-    const {subscribe, set, update} = writable((candidateAchievement ?? createNewAchievement(
-        (candidateAchievement === undefined ? 0 : (candidateSavedGame as ISavedGameInfo).wholeSnakeCoordinateList.length)
-    )) as IAchievementInfo);
+    const {subscribe, set, update} = writable(fetchAchievementFromLocalStorage());
+
+    function fetchAchievementFromLocalStorage() {
+        const candidateAchievement = fetchItemFromLocalStorage("achievement");
+        const candidateSavedGame = fetchItemFromLocalStorage("savedGame");
+        return (candidateAchievement ?? createNewAchievement(
+            (candidateAchievement === undefined ? 0 : (candidateSavedGame as ISavedGameInfo).wholeSnakeCoordinateList.length)
+        )) as IAchievementInfo
+    }
 
     async function getServerData () {
         return getSavedGame();
@@ -127,6 +137,8 @@ function createAchievement () {
     return {
         subscribe,
         reset,
+        set,
+        fetchAchievementFromLocalStorage,
         removeFromLocalStorage,
         getServerData,
         setDataFromServer,
@@ -135,8 +147,12 @@ function createAchievement () {
 }
 
 function createBindings () {
-    const candidateBindings = fetchItemFromLocalStorage("bindings");
-    const {subscribe, set, update} = writable((candidateBindings ?? defaultBinding) as IBindingsInfo);
+    const {subscribe, set, update} = writable(fetchBindingsFromLocalStorage());
+
+    function fetchBindingsFromLocalStorage() {
+        const candidateBindings = fetchItemFromLocalStorage("bindings");
+        return (candidateBindings ?? defaultBinding) as IBindingsInfo
+    }
 
     async function getServerData () {
         return getSavedGame();
@@ -168,6 +184,8 @@ function createBindings () {
     return {
         subscribe,
         reset,
+        set,
+        fetchBindingsFromLocalStorage,
         removeFromLocalStorage,
         getServerData,
         setDataFromServer,
