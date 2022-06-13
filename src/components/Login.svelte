@@ -14,7 +14,12 @@
     savedGame,
     userData,
   } from "../stores";
-  import { getSavedGame, login, register } from "../utilities/api";
+  import {
+    getSavedGame,
+    login,
+    register,
+    updateSavedGame,
+  } from "../utilities/api";
   import type { ISavedGameInfo } from "../utilities/types";
 
   let enteredEmail = "";
@@ -45,6 +50,8 @@
           name: enteredUsername,
           email: enteredEmail,
           password: enteredPassword,
+          achievement: $achievement,
+          savedGameInfo: $savedGame,
         }));
 
     if (response.statusCode >= 500) {
@@ -62,16 +69,24 @@
     }
 
     isLoggedIn.set(true);
-    const {
-      retrievedData: {
-        achievement: retrievedAchievement,
-        savedGame: retrievedSavedGame,
-        userData: retrievedUserData,
-      },
-    } = await getSavedGame();
-    savedGame.setDataFromServer(retrievedSavedGame);
-    achievement.setDataFromServer(retrievedAchievement);
-    userData.set(retrievedUserData);
+
+    // Need error handling in fetching data here
+    if ($gameState === "login") {
+      const {
+        retrievedData: {
+          achievement: retrievedAchievement,
+          savedGame: retrievedSavedGame,
+          userData: retrievedUserData,
+        },
+      } = await getSavedGame();
+      savedGame.setDataFromServer(retrievedSavedGame);
+      achievement.setDataFromServer(retrievedAchievement);
+      userData.set(retrievedUserData);
+    }
+    //  else if ($gameState === "signIn") {
+    //   await updateSavedGame($savedGame);
+    //   savedGame.removeFromLocalStorage();
+    // }
     isLoading = false;
     gameState.set("playing");
   }

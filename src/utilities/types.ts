@@ -105,6 +105,8 @@ export interface IRegisterInput {
   name : string,
   email : string,
   password : string,
+  savedGameInfo : ISavedGameInfo,
+  achievement : IAchievementInfo
 }
 
 export interface IResponseData {
