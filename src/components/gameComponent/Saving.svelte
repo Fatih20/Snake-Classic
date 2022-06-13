@@ -23,14 +23,14 @@
   {#if isSaving}
     {#if !attemptToSaveCompleted}
       <i class="fa-solid fa-spinner spinner" />
-      <p in:fade>Saving</p>
+      <p>Saving</p>
     {:else}
-      <p out:fade>
+      <p>
         {errorWhenSaving ? "Failed to save" : "Game saved successfully"}
       </p>
     {/if}
   {:else}
-    <p in:fade />
+    <p />
   {/if}
 </main>
 
