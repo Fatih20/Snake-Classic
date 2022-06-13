@@ -1,4 +1,4 @@
-import { cellCoordinate, IAPIReturn, IDirectionToVector, makePossibleCoordinate, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
+import { CellCoordinate, IAPIReturn, IDirectionToVector, makePossibleCoordinate, OppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize, originSite } from "../config";
 import {
     possibleDirectionVector, } from "./types";
@@ -19,7 +19,7 @@ export const directionToVectorDict : IDirectionToVector = {
     Left : possibleDirectionVector[3],
 }
 
-export const oppositeDirectionDictionary : oppositeDirectionDictionaryType = {
+export const oppositeDirectionDictionary : OppositeDirectionDictionaryType = {
     "Up" : "Down",
     "Down" : "Up",
     "Left" : "Right",
@@ -27,7 +27,7 @@ export const oppositeDirectionDictionary : oppositeDirectionDictionaryType = {
 }
 
 export function allCoordinateMaker (gridSize : number) {
-    let allCoordinateList = [] as cellCoordinate[];
+    let allCoordinateList = [] as CellCoordinate[];
     for (let i = 1; i <= gridSize; i++) {
         for (let j = 1; j <= gridSize; j++) {
             allCoordinateList.push({x : makePossibleCoordinate(i), y : makePossibleCoordinate(j)})

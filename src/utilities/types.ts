@@ -2,32 +2,32 @@ import { gridSize } from "../config";
 
 export function makePossibleCoordinate(
     candidateCoordinate: number
-  ): possibleCoordinateType {
+  ): PossibleCoordinateType {
     if (candidateCoordinate >= 1 && candidateCoordinate <= gridSize) {
-      return candidateCoordinate as possibleCoordinateType;
+      return candidateCoordinate as PossibleCoordinateType;
     } else {
       throw new Error("The coordinate is not a valid coordinate");
     }
   }
-export type possibleCoordinateType = number & { _type_: "possibleCoordinateType" };
-export type cellCoordinate = {
-    x: possibleCoordinateType,
-    y : possibleCoordinateType
+export type PossibleCoordinateType = number & { _type_: "possibleCoordinateType" };
+export type CellCoordinate = {
+    x: PossibleCoordinateType,
+    y : PossibleCoordinateType
 };
 
 export const possibleDirection = ["Up", "Down", "Right", "Left"] as const;
 
-export type direction = typeof possibleDirection[number];
+export type Direction = typeof possibleDirection[number];
 
-export function makePossibleVectorValue (candidateVectorValue : number) : directionVectorValue{
+export function makePossibleVectorValue (candidateVectorValue : number) : DirectionVectorValue{
   if (candidateVectorValue >= -1 && candidateVectorValue <= 1) {
-    return candidateVectorValue as directionVectorValue
+    return candidateVectorValue as DirectionVectorValue
   } else {
     throw new Error("This is not a valid direction vector value");
   }
 }
 
-export type directionVectorValue = number & {_type_ : "directionVectorValue"}
+export type DirectionVectorValue = number & {_type_ : "directionVectorValue"}
 
 export const possibleDirectionVector = [
   {
@@ -48,10 +48,10 @@ export const possibleDirectionVector = [
   },
  ] as const
 
-export type directionVectorType = typeof possibleDirectionVector[number];
+export type DirectionVectorType = typeof possibleDirectionVector[number];
 
-export type IDirectionToVector = Record<direction, directionVectorType>
-export type IBindingsInfo = Record<direction, string[]>
+export type IDirectionToVector = Record<Direction, DirectionVectorType>
+export type IBindingsInfo = Record<Direction, string[]>
 
 const possibleBindingListOperation = ["remove", "add"] as const;
 
@@ -68,22 +68,22 @@ export interface IChangeBindingsPayload {
 // }
 
 export interface UpdateBindingsPayload extends IChangeBindingsPayload {
-  updatedDirection : direction;
+  updatedDirection : Direction;
 }
 
 const edgeCoordinateCornerList = ["above-radius", "bottom-radius", "left-radius", "right-radius"] as const;
 
-export type edgeCoordinateCornerType = typeof edgeCoordinateCornerList[number];
+export type EdgeCoordinateCornerType = typeof edgeCoordinateCornerList[number];
 // Direction is Up, Down, Right, Left
 // DirectionVector is the element in possibleDirectionVector
 // Direction key is "W", "S", "D", "A"
 
-export type oppositeDirectionDictionaryType = Record<direction, direction>
+export type OppositeDirectionDictionaryType = Record<Direction, Direction>
 
 export interface ISavedGameInfo {
-  "direction" : direction,
-  "wholeSnakeCoordinateList" : cellCoordinate[],
-  "fruitPositionList" : cellCoordinate[],
+  "direction" : Direction,
+  "wholeSnakeCoordinateList" : CellCoordinate[],
+  "fruitPositionList" : CellCoordinate[],
   "fruitEaten" : number,
   "score" : number,
   "currentRefreshTime" : number,
@@ -166,17 +166,17 @@ export interface IUpdateCurrentRefreshTimePayload {
 
 export interface IUpdateWholeSnakeCoordinateListPayload {
   updatedValue : "wholeSnakeCoordinateList",
-  newValue : cellCoordinate[]
+  newValue : CellCoordinate[]
 }
 
 export interface IUpdateDirectionPayload {
   updatedValue : "direction",
-  newValue : direction
+  newValue : Direction
 }
 
 export interface IUpdateFruitPositionListPayload {
   updatedValue : "fruitPositionList",
-  newValue : cellCoordinate[]
+  newValue : CellCoordinate[]
 }
 
 export interface IUpdateFruitEatenPayload {

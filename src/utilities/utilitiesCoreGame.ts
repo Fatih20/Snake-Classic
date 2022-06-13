@@ -1,12 +1,12 @@
-import { cellCoordinate, directionVectorType, makePossibleCoordinate, direction, possibleDirection, makePossibleVectorValue, IBindingsInfo } from "./types";
+import { CellCoordinate, DirectionVectorType, makePossibleCoordinate, Direction, possibleDirection, makePossibleVectorValue, IBindingsInfo } from "./types";
 import { directionToVectorDict, oppositeDirectionDictionary, randomizeFrom0ToNMinus1, randomizeFrom1ToN } from "./utilities";
 import { gridSize } from "../config";
 
 export function mover(
-    movedCoordinate: cellCoordinate,
-    { x: incrementX, y: incrementY }: directionVectorType,
+    movedCoordinate: CellCoordinate,
+    { x: incrementX, y: incrementY }: DirectionVectorType,
     multiplier : number = 1
-  ): cellCoordinate {
+  ): CellCoordinate {
     let newX = movedCoordinate.x + incrementX * multiplier;
     let newY = movedCoordinate.y + incrementY * multiplier;
     if (newX > gridSize) {
@@ -25,8 +25,8 @@ export function mover(
   }
 
   export function wholeSnakeCoordinateListInitialGenerator(
-    headCoordinate: cellCoordinate,
-    direction: direction,
+    headCoordinate: CellCoordinate,
+    direction: Direction,
     length : number
   ) {
     const oppositeDirectionVector = directionToVectorDict[oppositeDirectionDictionary[direction]];
@@ -34,18 +34,18 @@ export function mover(
   }
 
 export function randomCoordinate () {
-    return {x : makePossibleCoordinate(randomizeFrom1ToN(gridSize)), y : makePossibleCoordinate(randomizeFrom1ToN(gridSize))} as cellCoordinate;
+    return {x : makePossibleCoordinate(randomizeFrom1ToN(gridSize)), y : makePossibleCoordinate(randomizeFrom1ToN(gridSize))} as CellCoordinate;
 }
 
 export function randomDirection () {
     return possibleDirection[(randomizeFrom1ToN(4)-1)];
 }
 
-export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoordinate[], allCoordinateList : cellCoordinate[], numberOfCoordinate : number) {
+export function randomUniqueCoordinateGenerator (filledCoordinateList : CellCoordinate[], allCoordinateList : CellCoordinate[], numberOfCoordinate : number) {
     const filledCoordinateStringifiedSet = new Set(filledCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
     const allCoordinateStringifiedSet = new Set(allCoordinateList.map((coordinate) => JSON.stringify(coordinate)));
 
-    let emptyCoordinateSet = new Set<cellCoordinate>();
+    let emptyCoordinateSet = new Set<CellCoordinate>();
 
     allCoordinateStringifiedSet.forEach((coordinate) => {
         if (!filledCoordinateStringifiedSet.has(coordinate)) {
@@ -56,9 +56,9 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
     let emptyCoordinateList = Array.from(emptyCoordinateSet);
 
     if (numberOfCoordinate >= emptyCoordinateList.length) {
-        return [] as cellCoordinate[]
+        return [] as CellCoordinate[]
     } else {
-        let randomUniqueCoordinateList = [] as cellCoordinate[];
+        let randomUniqueCoordinateList = [] as CellCoordinate[];
         for (let i = 0; i < numberOfCoordinate; i++) {
             const randomIndex = randomizeFrom0ToNMinus1(emptyCoordinateList.length);
             randomUniqueCoordinateList.push(emptyCoordinateList[randomIndex])
@@ -68,10 +68,10 @@ export function randomUniqueCoordinateGenerator (filledCoordinateList : cellCoor
     }
 }
 
-export function positionRelativeTo ({x : xFrom, y : yFrom} : cellCoordinate, {x : xTo, y : yTo} : cellCoordinate) {
+export function positionRelativeTo ({x : xFrom, y : yFrom} : CellCoordinate, {x : xTo, y : yTo} : CellCoordinate) {
     const incrementX = xTo - xFrom;
     const incrementY = yTo - yFrom;
-    let directionVectorOneToTwo : directionVectorType;
+    let directionVectorOneToTwo : DirectionVectorType;
     
     if (incrementX < -1) {
         directionVectorOneToTwo = {x : makePossibleVectorValue(1), y : makePossibleVectorValue(0)}    
@@ -84,13 +84,13 @@ export function positionRelativeTo ({x : xFrom, y : yFrom} : cellCoordinate, {x 
     } else {
     directionVectorOneToTwo = {x : makePossibleVectorValue(incrementX), y : makePossibleVectorValue(incrementY)}}
 
-    return Object.keys(directionToVectorDict).filter((directionName : direction) =>
-        JSON.stringify(directionToVectorDict[directionName]) === JSON.stringify(directionVectorOneToTwo))[0] as direction;
+    return Object.keys(directionToVectorDict).filter((directionName : Direction) =>
+        JSON.stringify(directionToVectorDict[directionName]) === JSON.stringify(directionVectorOneToTwo))[0] as Direction;
 }
 
 export function wholeSnakeCoordinateListUpdater(
-    wholeSnakeCoordinateList: cellCoordinate[],
-    directionVector : directionVectorType,
+    wholeSnakeCoordinateList: CellCoordinate[],
+    directionVector : DirectionVectorType,
     howManyTail: number = 0
   ) {
     wholeSnakeCoordinateList.unshift(mover(wholeSnakeCoordinateList[0], directionVector))
@@ -111,7 +111,7 @@ export function wholeSnakeCoordinateListUpdater(
     ];
 }
 
-export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordinate[]) {
+export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: CellCoordinate[]) {
     return wholeSnakeCoordinateList.map((snakeCoordinate, index) => {
       if (index === 0 || index === wholeSnakeCoordinateList.length - 1) {
         const directionFromNextCoordinate = positionRelativeTo(
@@ -137,17 +137,17 @@ export function cornerOfSnakeBodyGenerator(wholeSnakeCoordinateList: cellCoordin
     });
 }
 
-export function checkIfHeadBiteBody(wholeSnakeCoordinateList: cellCoordinate[]) {
+export function checkIfHeadBiteBody(wholeSnakeCoordinateList: CellCoordinate[]) {
   const { x: headX, y: headY } = wholeSnakeCoordinateList[0];
     return wholeSnakeCoordinateList.slice(1).some(({x : bodyX, y : bodyY}) => (headX === bodyX && headY === bodyY)
     );
 }
 
 export function keyToDirectionConverter (key : string, directionToKeyList : IBindingsInfo) {
-  return (Object.keys(directionToKeyList).filter((direction : direction) => {
+  return (Object.keys(directionToKeyList).filter((direction : Direction) => {
     if (directionToKeyList[direction].includes(key)) {
       return true;
     } 
     return false;
-  })[0] ?? null) as direction | null;
+  })[0] ?? null) as Direction | null;
 }
