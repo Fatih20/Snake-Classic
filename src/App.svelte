@@ -14,12 +14,15 @@
     achievement,
     userData,
     modalOpen,
+    initialBindingModalJustOpened,
+    bindings,
   } from "./stores";
   import Login from "./components/Login.svelte";
   import { onMount } from "svelte";
   import type { ISavedGameInfo, IUserData } from "./utilities/types";
   import ErrorOnInitialLoad from "./components/ErrorOnInitialLoad.svelte";
   import AccountModal from "./components/AccountModal.svelte";
+  import { updateBindings } from "./utilities/api";
 
   onMount(async () => {
     console.log(new Date().getMilliseconds());
@@ -41,6 +44,26 @@
     }
     gameState.set("startPage");
   });
+
+  onMount(() => {
+    initialBindingModalJustOpened.set($bindings);
+  });
+
+  async function handleCloseModal() {
+    if (
+      JSON.stringify($initialBindingModalJustOpened) !==
+      JSON.stringify($bindings)
+    ) {
+      const response = await updateBindings($bindings);
+      if (response.statusCode < 400) {
+        modalOpen.set(false);
+        return;
+      }
+    } else {
+      modalOpen.set(false);
+    }
+  }
+
   async function resetCoreGame() {
     await savedGame.reset($isLoggedIn);
     gameIsOver.set(false);
@@ -67,7 +90,7 @@
       <div
         class="absolute-container"
         class:absolute-container-visible={$modalOpen}
-        on:click={() => modalOpen.set(false)}
+        on:click={handleCloseModal}
       >
         <AccountModal />
         <div class="spacer" />

@@ -16,12 +16,7 @@
   import { fly } from "svelte/transition";
   import { onDestroy } from "svelte";
 
-  let initialBindings = $bindings;
   let directionBeingChanged = "" as DirectionBeingChangedType;
-
-  onDestroy(async () => {
-    await updateBindings($bindings);
-  });
 
   function handleKeydown(e) {
     e.preventDefault();

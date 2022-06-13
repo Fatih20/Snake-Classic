@@ -7,6 +7,8 @@
     isLoggedIn,
     gameState,
     modalOpen,
+    initialBindingModalJustOpened,
+    bindings,
   } from "../stores";
   import { logout } from "../utilities/api";
 
@@ -73,7 +75,10 @@
       class="header-button right-button"
       style="width: 26px;"
       class:shown-button={$gameState === "playing"}
-      on:click={() => modalOpen.set(true)}
+      on:click={() => {
+        modalOpen.set(true);
+        initialBindingModalJustOpened.set($bindings);
+      }}
     >
       <i class="fa-solid fa-user" />
     </button>

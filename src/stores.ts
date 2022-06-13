@@ -1,7 +1,7 @@
 import { readable, writable } from "svelte/store";
 import {defaultBinding, initialLength, initialRefreshTime, numberOfFruitSpawned } from "./config";
 import { getSavedGame, updateSavedGame } from "./utilities/api";
-import type { Direction, IAchievementInfo, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
+import type { Direction, IAchievementInfo, IBindingsInfo, InitialBindingType, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchItemFromLocalStorage, updateBindingFirstElement } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
@@ -184,6 +184,7 @@ export const isLoggedIn = writable(false);
 export const gameIsPaused = writable(fetchItemFromLocalStorage("savedGame") !== undefined);
 export const gameIsOver = writable(false);
 export const modalOpen = writable(false);
+export const initialBindingModalJustOpened = writable(null as InitialBindingType);
 
 export const userData = writable({username : "Anonymous", id : undefined} as (IUserDataStore | IUserData))
 export const bindings = createBindings();
