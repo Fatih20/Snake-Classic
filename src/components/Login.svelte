@@ -254,7 +254,7 @@
   }
 
   .username-not-valid-warning {
-    color: rgb(var(--warning-color-fg));
+    color: rgb(var(--warning-color-bg));
   }
 
   .password-input-container {
@@ -368,8 +368,10 @@
 
   .error-message-container {
     background-color: rgb(var(--warning-color-bg));
+    box-sizing: border-box;
+    border-radius: var(--button-radius);
     color: rgb(var(--warning-color-fg));
-    padding: 0.5em;
+    padding: 0.25em;
     text-align: center;
     width: 100%;
   }

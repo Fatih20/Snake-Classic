@@ -23,8 +23,8 @@ body {
   --head-border-radius: 4px;
   --tail-border-radius: 7px;
   --fruit-border-radius: 5px;
-  --warning-color-bg: 255 140 130;
-  --warning-color-fg: 198 38 46;
+  --warning-color-bg: 237 83 83;
+  --warning-color-fg: 255 255 255;
   --disabled-color: 126 128 135;
   --text-on-disabled-element-color: 255, 255, 255;
   --text-on-white-unintrusive-color: 102 102 102;
