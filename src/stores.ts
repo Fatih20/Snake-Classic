@@ -57,7 +57,7 @@ function createSavedGame () {
 
     async function reset (isLoggedIn : boolean) {
         const newSavedGame = createNewSavedGame();
-        if (isLoggedIn) {
+        if (!isLoggedIn) {
             localStorage.removeItem("savedGame");
         } else {
             updateSavedGame(newSavedGame);
