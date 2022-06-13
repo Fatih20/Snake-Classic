@@ -2,6 +2,7 @@
   import type { SavingText } from "../../utilities/types";
   import { fade } from "svelte/transition";
 
+  export let isSaving: boolean;
   export let text: SavingText = "Saving";
 </script>
 
@@ -18,12 +19,16 @@
   />
 </head>
 
-<main transition:fade>
-  {#if text === "Saving"}
-    <i class="fa-solid fa-spinner spinner" />
-    <p>{text}</p>
+<main>
+  {#if isSaving}
+    {#if text === "Saving"}
+      <i class="fa-solid fa-spinner spinner" />
+      <p in:fade>{text}</p>
+    {:else}
+      <p out:fade>{text}</p>
+    {/if}
   {:else}
-    <p>{text}</p>
+    <p />
   {/if}
 </main>
 
@@ -31,8 +36,10 @@
   main {
     align-items: center;
     display: flex;
+    gap: 0.5em;
+    height: 20px;
     justify-content: center;
-    height: 10px;
+    padding: 0.5em;
   }
 
   @keyframes spinnerRotation {

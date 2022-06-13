@@ -282,9 +282,6 @@
 
 <main>
   <div class="spacer" />
-  {#if isSaving}
-    <Saving text={isSaving ? "Saving" : "Game is saved"} />
-  {/if}
   <div
     class="grid-container"
     class:grid-container-bordered={!$gameIsOver && !$gameIsPaused}
@@ -332,6 +329,7 @@
       />
     {/each}
   </div>
+  <Saving text={savingText} {isSaving} />
   <div class="spacer" />
 </main>
 
