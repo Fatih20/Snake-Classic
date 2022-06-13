@@ -89,7 +89,8 @@
   }
 
   .key-binding-container {
-    padding-bottom: 0.25em;
+    align-items: center;
+    padding-bottom: 0.5em;
     border-bottom: solid 2px rgb(var(--text-on-primary-element-color));
     display: flex;
     flex-direction: column;
@@ -109,6 +110,19 @@
   .section-title {
     align-self: flex-start;
     font-size: 1em;
+  }
+
+  .control-button {
+    aspect-ratio: 1/1;
+    background-color: rgb(var(--text-on-primary-element-color));
+    border: none;
+    border-radius: 10px;
+    color: rgb(var(--primary-color));
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0;
+    padding: 0.25em;
+    width: 40px;
   }
 
   #up {
