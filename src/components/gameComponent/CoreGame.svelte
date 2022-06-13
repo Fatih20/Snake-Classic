@@ -9,7 +9,6 @@
     refreshTimeLowerBound,
     refreshTimeMultiplierEveryTurn,
     saveInterval,
-    // refreshTime,
     scoresAfterEveryFruit,
     turnIntervalBetweenFruitSpawn,
   } from "../../config";
