@@ -14,7 +14,7 @@
 
     if (response.statusCode < 400) {
       isLoggedIn.set(false);
-      gameState.set("startPage");
+      window.location.reload();
     }
     return;
   }
