@@ -24,6 +24,7 @@
   import AccountModal from "./components/AccountModal.svelte";
   import { updateBindings } from "./utilities/api";
 
+  let modalJustError = false;
   onMount(async () => {
     console.log(new Date().getMilliseconds());
     const response = await savedGame.getServerData();
@@ -56,10 +57,13 @@
     ) {
       const response = await updateBindings($bindings);
       if (response.statusCode < 400) {
+        modalJustError = false;
         modalOpen.set(false);
         return;
       }
+      modalJustError = true;
     } else {
+      modalJustError = false;
       modalOpen.set(false);
     }
   }
@@ -87,17 +91,25 @@
     <ErrorOnInitialLoad />
   {:else}
     <div class="main-app-container" transition:fade>
-      <div
-        class="absolute-container"
-        class:absolute-container-visible={$modalOpen}
-        on:click={handleCloseModal}
-      >
-        <AccountModal />
-        <div class="spacer" />
-        <p class="modal-closing-text">
-          Click anywhere but the modal to close it
-        </p>
-      </div>
+      {#if $modalOpen}
+        <div
+          class="absolute-container"
+          class:absolute-container-visible={$modalOpen}
+          on:click={handleCloseModal}
+        >
+          <AccountModal />
+          <div class="spacer" />
+          {#if modalJustError}
+            <p class="in-overlay-text modal-error-text">
+              Error sending your new binding to the server. Please try closing
+              the modal again.
+            </p>
+          {/if}
+          <p class="in-overlay-text modal-closing-text">
+            Click anywhere but the modal to close it
+          </p>
+        </div>
+      {/if}
       <Header on:resetGame={resetCoreGame} />
       {#if $gameState === "playing"}
         <Game {resetCoreGame} />
@@ -169,14 +181,22 @@
     visibility: visible;
   }
 
-  .modal-closing-text {
-    background-color: rgb(var(--primary-color));
+  .in-overlay-text {
     border-radius: var(--button-radius);
-    color: rgb(var(--text-on-primary-element-color));
     display: inline-block;
     user-select: none;
     padding: 0.25em 0.5em;
     text-align: center;
+  }
+
+  .modal-closing-text {
+    background-color: rgb(var(--primary-color));
+    color: rgb(var(--text-on-primary-element-color));
+  }
+
+  .modal-error-text {
+    background-color: rgb(var(--warning-color-bg));
+    color: rgb(var(--text-on-primary-element-color));
   }
 
   .spacer {

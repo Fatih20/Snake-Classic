@@ -4,14 +4,14 @@
     deviceWidth,
     gameState,
     isLoggedIn,
+    modalOpen,
     userData,
   } from "../stores";
 
-  import { logout, updateBindings } from "../utilities/api";
+  import { logout } from "../utilities/api";
   import type {
     Direction,
     DirectionBeingChangedType,
-    IBindingsInfo,
   } from "../utilities/types";
   import { fly } from "svelte/transition";
   import { onDestroy } from "svelte";
