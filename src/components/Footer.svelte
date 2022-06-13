@@ -3,7 +3,8 @@
 
 <main>
   <p>Copyright &copy; Fatih Nararya R. I.</p>
-  <p>All Rights Reserved</p>
+  <p>Created with ExpressJS and Svelte</p>
+  <p>Some Rights Reserved</p>
 </main>
 
 <style>
