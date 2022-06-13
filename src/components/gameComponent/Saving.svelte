@@ -3,7 +3,7 @@
   import { fade } from "svelte/transition";
 
   export let isSaving: boolean;
-  export let text: SavingText = "Saving";
+  export let attemptToSaveCompleted: boolean;
   export let errorWhenSaving: boolean;
 </script>
 
@@ -22,11 +22,13 @@
 
 <main class:gapless-main={!isSaving} class:error={errorWhenSaving}>
   {#if isSaving}
-    {#if text === "Saving"}
+    {#if !attemptToSaveCompleted}
       <i class="fa-solid fa-spinner spinner" />
-      <p in:fade>{text}</p>
+      <p in:fade>Saving</p>
     {:else}
-      <p out:fade>{errorWhenSaving ? "Failed to save" : text}</p>
+      <p out:fade>
+        {errorWhenSaving ? "Failed to save" : "Game saved successfully"}
+      </p>
     {/if}
   {:else}
     <p in:fade />

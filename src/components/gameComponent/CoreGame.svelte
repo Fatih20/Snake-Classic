@@ -70,7 +70,7 @@
   let nthTurnReference = 0;
 
   let isSaving = false;
-  let savingText: SavingText = "Game is saved";
+  let attemptToSaveCompleted = true;
   let errorWhenSaving = false;
 
   function sendResetGame() {
@@ -203,44 +203,40 @@
       return;
     }
 
+    attemptToSaveCompleted = false;
     errorWhenSaving = false;
+
+    function revertIsSaving() {
+      setTimeout(() => {
+        isSaving = false;
+      }, 500);
+    }
+
     if ($savedGameStale) {
       isSaving = true;
-      savingText = "Saving";
       savedGameStale.set(false);
       const response = await updateSavedGame($savedGame);
+      attemptToSaveCompleted = true;
+      revertIsSaving();
       if (response.statusCode >= 400) {
-        savingText = "Game is saved";
         savedGameStale.set(true);
         errorWhenSaving = true;
-        setTimeout(() => {
-          isSaving = false;
-        }, 500);
         return;
       }
     }
 
     if ($achievementStale) {
       isSaving = true;
-      savingText = "Saving";
       achievementStale.set(false);
       const response = await updateAchievement($achievement);
+      attemptToSaveCompleted = true;
+      revertIsSaving();
       if (response.statusCode >= 400) {
-        savingText = "Game is saved";
         achievementStale.set(true);
         errorWhenSaving = true;
-        setTimeout(() => {
-          isSaving = false;
-        }, 500);
         return;
       }
     }
-
-    errorWhenSaving = false;
-    savingText = "Game is saved";
-    setTimeout(() => {
-      isSaving = false;
-    }, 500);
   }
 
   $: {
@@ -346,7 +342,7 @@
       />
     {/each}
   </div>
-  <Saving text={savingText} {isSaving} {errorWhenSaving} />
+  <Saving {attemptToSaveCompleted} {isSaving} {errorWhenSaving} />
   <div class="spacer" />
 </main>
 
