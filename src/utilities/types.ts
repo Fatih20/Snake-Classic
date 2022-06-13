@@ -114,7 +114,8 @@ export interface IRegisterInput {
   email : string,
   password : string,
   savedGameInfo : ISavedGameInfo,
-  achievement : IAchievementInfo
+  achievement : IAchievementInfo,
+  bindings : IBindingsInfo,
 }
 
 export interface IResponseData {
@@ -154,7 +155,8 @@ export interface ILoginAndRegisterRetrievedData {
 
 export interface IGetSavedGameRetrievedData extends ILoginAndRegisterRetrievedData{
   savedGame : ISavedGameInfo,
-  achievement : IAchievementInfo
+  achievement : IAchievementInfo,
+  bindings : IBindingsInfo,
 }
 
 export type errorHandlingWrapperType = (url: string, bodyData: any, method: possibleAPIMethodType) => Promise<IAPIReturn>

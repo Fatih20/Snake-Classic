@@ -8,6 +8,7 @@
 
   import {
     achievement,
+    bindings,
     gameState,
     isLoggedIn,
     savedGame,
@@ -45,6 +46,7 @@
           password: enteredPassword,
           achievement: $achievement,
           savedGameInfo: $savedGame,
+          bindings: $bindings,
         }));
 
     if (response.statusCode >= 500) {
@@ -69,6 +71,7 @@
           achievement: retrievedAchievement,
           savedGame: retrievedSavedGame,
           userData: retrievedUserData,
+          bindings: retrievedBindings,
         },
       } = await getSavedGame();
 
@@ -77,6 +80,7 @@
         savedGame.setDataFromServer(retrievedSavedGame);
         achievement.setDataFromServer(retrievedAchievement);
         userData.set(retrievedUserData);
+        bindings.setDataFromServer(retrievedBindings);
       } else if (statusCode >= 500) {
         errorOnPreviousAttempt = true;
         errorMessage = "Server error. Try again later.";
