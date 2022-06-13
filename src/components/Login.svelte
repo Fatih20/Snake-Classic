@@ -61,22 +61,35 @@
       return;
     }
 
-    isLoggedIn.set(true);
-
-    // Need error handling in fetching data here
     if ($gameState === "login") {
       const {
+        statusCode,
+        message,
         retrievedData: {
           achievement: retrievedAchievement,
           savedGame: retrievedSavedGame,
           userData: retrievedUserData,
         },
       } = await getSavedGame();
-      savedGame.setDataFromServer(retrievedSavedGame);
-      achievement.setDataFromServer(retrievedAchievement);
-      userData.set(retrievedUserData);
+
+      isLoading = false;
+      if (statusCode < 400) {
+        savedGame.setDataFromServer(retrievedSavedGame);
+        achievement.setDataFromServer(retrievedAchievement);
+        userData.set(retrievedUserData);
+      } else if (statusCode >= 500) {
+        errorOnPreviousAttempt = true;
+        errorMessage = "Server error. Try again later.";
+        return;
+      } else if (statusCode >= 400) {
+        errorOnPreviousAttempt = true;
+        errorMessage = message;
+        return;
+      }
     }
+
     isLoading = false;
+    isLoggedIn.set(true);
     gameState.set("playing");
   }
 
