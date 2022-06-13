@@ -1,4 +1,4 @@
-import { CellCoordinate, IAPIReturn, IDirectionToVector, makePossibleCoordinate, OppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
+import { CellCoordinate, Direction, IAPIReturn, IBindingsInfo, IDirectionToVector, makePossibleCoordinate, OppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize, originSite } from "../config";
 import {
     possibleDirectionVector, } from "./types";
@@ -91,3 +91,20 @@ export async function fetchDataRetry (functionToCall : () => Promise<IAPIReturn>
 
     return response;
 }   
+
+export function updateBindingFirstElement(newKey : string, changedDirection : Direction, previousBinding : IBindingsInfo){
+    Object.keys(previousBinding).forEach((direction : Direction) => {
+        if (direction === changedDirection) {
+            return;
+        }
+
+        if (previousBinding[direction][0] === newKey) {
+            previousBinding[direction][0] = "";
+        }
+    })
+
+    previousBinding[changedDirection][0] = newKey;
+
+    return previousBinding;
+
+}

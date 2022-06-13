@@ -153,6 +153,7 @@
     display: inline-block;
     user-select: none;
     padding: 0.25em 0.5em;
+    text-align: center;
   }
 
   .spacer {

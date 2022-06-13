@@ -7,22 +7,43 @@
     userData,
   } from "../stores";
 
-  import { logout } from "../utilities/api";
+  import { logout, updateBindings } from "../utilities/api";
   import type {
     Direction,
     DirectionBeingChangedType,
+    IBindingsInfo,
   } from "../utilities/types";
+  import { fly } from "svelte/transition";
+  import { onDestroy } from "svelte";
 
+  let initialBindings = $bindings;
   let directionBeingChanged = "" as DirectionBeingChangedType;
 
+  onDestroy(async () => {
+    await updateBindings($bindings);
+  });
+
   function handleKeydown(e) {
+    e.preventDefault();
+    console.log("Entering handle keydown");
     if (directionBeingChanged === "") {
       return;
     }
 
-    const { key: keyPressed } = e;
-    console.log(keyPressed);
+    console.log(e);
 
+    const { key: keyPressed } = e;
+
+    if (keyPressed === "Escape") {
+      directionBeingChanged = "";
+      return;
+    }
+
+    bindings.changeFirstElementPartOfBindings(
+      keyPressed,
+      directionBeingChanged,
+      $isLoggedIn
+    );
     directionBeingChanged = "";
   }
 
@@ -71,6 +92,12 @@
           </button>
         {/each}
       </div>
+      {#if directionBeingChanged !== ""}
+        <p in:fly class="rebinding-instruction">
+          Bind to new key by pressing a key of your choice. Press escape to
+          cancel.
+        </p>
+      {/if}
     </div>
   {/if}
   <button class="log-button" on:click={handleLogButton}
@@ -92,7 +119,7 @@
     flex-direction: column;
     gap: 0.5em;
     justify-content: flex-start;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     width: 100%;
     max-width: 300px;
   }
@@ -123,6 +150,7 @@
     border-bottom: solid 2px rgb(var(--text-on-primary-element-color));
     display: flex;
     flex-direction: column;
+    gap: 0.25em;
     width: 100%;
   }
 
@@ -172,5 +200,9 @@
   #left {
     grid-column: 1/2;
     grid-row: 2/3;
+  }
+
+  .rebinding-instruction {
+    font-weight: 500;
   }
 </style>

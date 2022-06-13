@@ -210,4 +210,4 @@ export interface IUpdateLongestLengthPayload {
 
 export type UpdateAchievementPayload = IUpdateHighScorePayload | IUpdateLongestLengthPayload
 
-
+export type DirectionBeingChangedType = Direction | "";

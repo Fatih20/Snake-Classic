@@ -1,8 +1,8 @@
 import { readable, writable } from "svelte/store";
 import {defaultBinding, initialLength, initialRefreshTime, numberOfFruitSpawned } from "./config";
 import { getSavedGame, updateSavedGame } from "./utilities/api";
-import type { IAchievementInfo, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateBindingsPayload, UpdateSavedGamePayload } from "./utilities/types";
-import { allCoordinateList, fetchItemFromLocalStorage } from "./utilities/utilities";
+import type { Direction, IAchievementInfo, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
+import { allCoordinateList, fetchItemFromLocalStorage, updateBindingFirstElement } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 export const deviceWidth = readable(screen.width);
@@ -142,17 +142,13 @@ function createBindings () {
         return getSavedGame();
     }
 
-    function updatePartOfBindings (payload : UpdateBindingsPayload, isLoggedIn : boolean) {
+    function changeFirstElementPartOfBindings (newKey : string, changedDirection : Direction, isLoggedIn : boolean) {
         update (previousBinding => {
-            const overriderObject = {[payload.updatedDirection] : [...previousBinding[payload.updatedDirection], payload.payload]};
-            const newObject = {
-                ...previousBinding,
-                ...overriderObject
-            }
+            const newBinding =  updateBindingFirstElement(newKey, changedDirection, previousBinding); 
             if (!isLoggedIn) {
-                localStorage.setItem("bindings", JSON.stringify(newObject));
+                localStorage.setItem("bindings", JSON.stringify(newBinding));
             }
-            return newObject;
+            return newBinding;
         })
     }
 
@@ -175,7 +171,7 @@ function createBindings () {
         removeFromLocalStorage,
         getServerData,
         setDataFromServer,
-        updatePartOfBindings
+        changeFirstElementPartOfBindings
     }
 }
 
