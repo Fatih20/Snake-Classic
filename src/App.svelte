@@ -38,8 +38,8 @@
     }
     gameState.set("startPage");
   });
-  function resetCoreGame() {
-    savedGame.reset();
+  async function resetCoreGame() {
+    await savedGame.reset($isLoggedIn);
     gameIsOver.set(false);
     gameIsPaused.set(false);
   }

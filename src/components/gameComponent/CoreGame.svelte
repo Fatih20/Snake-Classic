@@ -87,10 +87,13 @@
       }
     });
     if (candidateDirection !== oppositePreviousDirection) {
-      savedGame.updatePartOfSavedGame({
-        updatedValue: "direction",
-        newValue: candidateDirection,
-      });
+      savedGame.updatePartOfSavedGame(
+        {
+          updatedValue: "direction",
+          newValue: candidateDirection,
+        },
+        $isLoggedIn
+      );
     }
   }
 
@@ -99,13 +102,16 @@
   });
 
   function toBeRunInMainEventLoop() {
-    savedGame.updatePartOfSavedGame({
-      updatedValue: "currentRefreshTime",
-      newValue:
-        $savedGame.currentRefreshTime >= refreshTimeLowerBound
-          ? $savedGame.currentRefreshTime * refreshTimeMultiplierEveryTurn
-          : $savedGame.currentRefreshTime,
-    });
+    savedGame.updatePartOfSavedGame(
+      {
+        updatedValue: "currentRefreshTime",
+        newValue:
+          $savedGame.currentRefreshTime >= refreshTimeLowerBound
+            ? $savedGame.currentRefreshTime * refreshTimeMultiplierEveryTurn
+            : $savedGame.currentRefreshTime,
+      },
+      $isLoggedIn
+    );
     // savedGame.multiplyRefreshTime(refreshTimeMultiplierEveryTurn);
     console.log($savedGame.currentRefreshTime);
     previousDirection = $savedGame.direction;
@@ -113,32 +119,44 @@
     $savedGame.fruitPositionList.forEach((fruitCoordinate, indexOuter) => {
       if (JSON.stringify(fruitCoordinate) === JSON.stringify(headCoordinate)) {
         justAteFruit = true;
-        savedGame.updatePartOfSavedGame({
-          updatedValue: "fruitEaten",
-          newValue: $savedGame.fruitEaten + 1,
-        });
-        savedGame.updatePartOfSavedGame({
-          updatedValue: "score",
-          newValue: $savedGame.score + scoresAfterEveryFruit,
-        });
-        savedGame.updatePartOfSavedGame({
-          updatedValue: "fruitPositionList",
-          newValue: $savedGame.fruitPositionList.filter(
-            (fruitCoordinate, indexInner) => {
-              return indexInner !== indexOuter;
-            }
-          ),
-        });
+        savedGame.updatePartOfSavedGame(
+          {
+            updatedValue: "fruitEaten",
+            newValue: $savedGame.fruitEaten + 1,
+          },
+          $isLoggedIn
+        );
+        savedGame.updatePartOfSavedGame(
+          {
+            updatedValue: "score",
+            newValue: $savedGame.score + scoresAfterEveryFruit,
+          },
+          $isLoggedIn
+        );
+        savedGame.updatePartOfSavedGame(
+          {
+            updatedValue: "fruitPositionList",
+            newValue: $savedGame.fruitPositionList.filter(
+              (fruitCoordinate, indexInner) => {
+                return indexInner !== indexOuter;
+              }
+            ),
+          },
+          $isLoggedIn
+        );
       }
     });
-    savedGame.updatePartOfSavedGame({
-      updatedValue: "wholeSnakeCoordinateList",
-      newValue: wholeSnakeCoordinateListUpdater(
-        $savedGame.wholeSnakeCoordinateList,
-        directionVector,
-        justAteFruit ? numberOfTailAddedAfterEating : 0
-      ),
-    });
+    savedGame.updatePartOfSavedGame(
+      {
+        updatedValue: "wholeSnakeCoordinateList",
+        newValue: wholeSnakeCoordinateListUpdater(
+          $savedGame.wholeSnakeCoordinateList,
+          directionVector,
+          justAteFruit ? numberOfTailAddedAfterEating : 0
+        ),
+      },
+      $isLoggedIn
+    );
 
     savedGameStale.set(true);
 
@@ -152,7 +170,9 @@
 
     if ($gameIsOver) {
       gameIsPaused.set(true);
-      // savedGame.removeFromLocalStorage();
+      if (!$isLoggedIn) {
+        savedGame.removeFromLocalStorage();
+      }
     }
 
     startTimeout();
@@ -220,14 +240,17 @@
   $: allFruitEaten = $savedGame.fruitPositionList.length === 0;
   $: {
     if (allFruitEaten && nthTurnReference === turnIntervalBetweenFruitSpawn) {
-      savedGame.updatePartOfSavedGame({
-        updatedValue: "fruitPositionList",
-        newValue: randomUniqueCoordinateGenerator(
-          $savedGame.wholeSnakeCoordinateList,
-          allCoordinateList,
-          numberOfFruitSpawned
-        ),
-      });
+      savedGame.updatePartOfSavedGame(
+        {
+          updatedValue: "fruitPositionList",
+          newValue: randomUniqueCoordinateGenerator(
+            $savedGame.wholeSnakeCoordinateList,
+            allCoordinateList,
+            numberOfFruitSpawned
+          ),
+        },
+        $isLoggedIn
+      );
       nthTurnReference = 0;
       allFruitEaten = false;
     }

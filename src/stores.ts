@@ -1,6 +1,6 @@
 import { readable, writable } from "svelte/store";
 import { baseAPIPath, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
-import { getSavedGame } from "./utilities/api";
+import { getSavedGame, updateSavedGame } from "./utilities/api";
 import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateSavedGamePayload } from "./utilities/types";
 import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
@@ -36,14 +36,16 @@ function createSavedGame () {
         } as ISavedGameInfo
     }
 
-    function updatePartOfSavedGame (payload : UpdateSavedGamePayload) {
+    function updatePartOfSavedGame (payload : UpdateSavedGamePayload, isLoggedIn : boolean) {
         update (previousSavedGame => {
             const overriderObject = {[payload.updatedValue] : payload.newValue};
             const newObject = {
                 ...previousSavedGame,
                 ...overriderObject
             }
-            localStorage.setItem("savedGame", JSON.stringify(newObject));
+            if (!isLoggedIn) {
+                localStorage.setItem("savedGame", JSON.stringify(newObject));
+            }
             return newObject;
         })
     }
@@ -53,9 +55,14 @@ function createSavedGame () {
         })
     }
 
-    function reset () {
-        localStorage.removeItem("savedGame");
-        set(createNewSavedGame());
+    async function reset (isLoggedIn : boolean) {
+        const newSavedGame = createNewSavedGame();
+        if (isLoggedIn) {
+            localStorage.removeItem("savedGame");
+        } else {
+            updateSavedGame(newSavedGame);
+        }
+        set(newSavedGame);
     }
 
     function removeFromLocalStorage() {
@@ -92,14 +99,16 @@ function createAchievement () {
         } as IAchievementInfo
     }
 
-    function updatePartOfAchievement (payload : UpdateAchievementPayload) {
+    function updatePartOfAchievement (payload : UpdateAchievementPayload, isLoggedIn : boolean) {
         update (previousSavedGame => {
             const overriderObject = {[payload.updatedValue] : payload.newValue};
             const newObject = {
                 ...previousSavedGame,
                 ...overriderObject
             }
-            localStorage.setItem("achievement", JSON.stringify(newObject));
+            if (!isLoggedIn) {
+                localStorage.setItem("achievement", JSON.stringify(newObject));
+            }
             return newObject;
         })
     }
