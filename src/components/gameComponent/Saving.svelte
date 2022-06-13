@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { SavingText } from "../../utilities/types";
   import { fade } from "svelte/transition";
 
   export let isSaving: boolean;

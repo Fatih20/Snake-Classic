@@ -200,6 +200,4 @@ export interface IUpdateLongestLengthPayload {
 
 export type UpdateAchievementPayload = IUpdateHighScorePayload | IUpdateLongestLengthPayload
 
-export type SavingText = "Saving" | "Game is saved"
-
 
