@@ -112,8 +112,6 @@
       },
       $isLoggedIn
     );
-    // savedGame.multiplyRefreshTime(refreshTimeMultiplierEveryTurn);
-    console.log($savedGame.currentRefreshTime);
     previousDirection = $savedGame.direction;
     let justAteFruit = false;
     $savedGame.fruitPositionList.forEach((fruitCoordinate, indexOuter) => {
