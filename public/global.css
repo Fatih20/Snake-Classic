@@ -22,6 +22,10 @@ body {
   --head-border-radius: 4px;
   --tail-border-radius: 7px;
   --fruit-border-radius: 5px;
+  --warning-color-bg: 255 140 130;
+  --warning-color-fg: 198 38 46;
+  --disabled-color: 126 128 135;
+  --text-on-disabled-element-color: 255, 255, 255;
   color: #333;
   margin: 0;
   padding: 0;

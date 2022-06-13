@@ -4,6 +4,7 @@
     placeholderPassword,
     placeholderUsername,
     recallingAPILimit,
+    usernameCharacterLimit,
   } from "../config";
 
   import { gameState, isLoggedIn, savedGame } from "../stores";
@@ -14,12 +15,22 @@
   let enteredPassword = "";
   let enteredUsername = "";
 
+  $: usernameValid =
+    $gameState === "login"
+      ? true
+      : enteredUsername.length <= usernameCharacterLimit;
+
   let isLoading = false;
   let errorOnPreviousAttempt = false;
   let errorMessage: string;
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if ($gameState === "signIn" && !usernameValid) {
+      return;
+    }
+
     isLoading = true;
     const response = await ($gameState === "login"
       ? login({ name: enteredUsername, password: enteredPassword })
@@ -59,12 +70,22 @@
   <form on:submit={handleSubmit}>
     <div class="input-element">
       <label for="username-input">Username</label>
-      <input
-        id="username-input"
-        name="username"
-        placeholder={placeholderUsername}
-        bind:value={enteredUsername}
-      />
+      <div class="username-input-container">
+        <input
+          id="username-input"
+          name="username"
+          placeholder={placeholderUsername}
+          bind:value={enteredUsername}
+        />
+        {#if $gameState === "signIn"}
+          <p
+            class="username-warning"
+            class:username-not-valid-warning={!usernameValid}
+          >
+            {enteredUsername.length} / {usernameCharacterLimit}
+          </p>
+        {/if}
+      </div>
     </div>
     {#if $gameState === "signIn"}
       <div class="input-element">
@@ -77,23 +98,38 @@
           bind:value={enteredEmail}
         />
       </div>
+      <div class="input-element">
+        <label for="password-input">Password</label>
+        <input
+          type="text"
+          id="password-input"
+          name="password"
+          placeholder={placeholderPassword}
+          bind:value={enteredPassword}
+        />
+      </div>
+    {:else}
+      <div class="input-element">
+        <label for="password-input">Password</label>
+        <input
+          type="password"
+          id="password-input"
+          name="password"
+          placeholder={placeholderPassword}
+          bind:value={enteredPassword}
+        />
+      </div>
     {/if}
-    <div class="input-element">
-      <label for="password-input">Password</label>
-      <input
-        type="password"
-        id="password-input"
-        name="password"
-        placeholder={placeholderPassword}
-        bind:value={enteredPassword}
-      />
-    </div>
     {#if errorOnPreviousAttempt}
       <div class="error-message-container">
         {errorMessage}
       </div>
     {/if}
-    <button class="submit-button" type="submit">
+    <button
+      class="submit-button"
+      type="submit"
+      class:submit-button-disabled={!usernameValid}
+    >
       {#if isLoading}
         <i class="fa-solid fa-spinner spinner-button" />
       {:else}
@@ -141,12 +177,25 @@
     font-weight: 500;
   }
 
+  .username-input-container {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25em;
+  }
+
+  .username-not-valid-warning {
+    color: rgb(var(--warning-color-fg));
+  }
+
   input {
     box-sizing: border-box;
     background-color: rgb(var(--primary-color));
     border: solid 2px rgba(var(--primary-color), 0);
     border-radius: var(--button-radius);
     color: rgb(var(--text-on-primary-element-color));
+    margin: 0;
     outline: none;
     width: 100%;
   }
@@ -177,6 +226,11 @@
     background-color: rgb(var(--text-on-primary-element-color));
     border: solid 2px rgba(var(--primary-color), 1);
     color: rgb(var(--primary-color));
+  }
+
+  .submit-button-disabled {
+    background-color: rgb(var(--disabled-color));
+    color: rgb(var(--text-on-disabled-element-color));
   }
 
   .input-element {
@@ -219,8 +273,8 @@
   }
 
   .error-message-container {
-    background-color: #ff8c82;
-    color: #c6262e;
+    background-color: rgb(var(--warning-color-bg));
+    color: rgb(var(--warning-color-fg));
     padding: 0.5em;
     text-align: center;
     width: 100%;

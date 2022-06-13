@@ -19,3 +19,4 @@ export const placeholderEmail = "snakeman69@420.com";
 export const baseAPIPath = (shootToProduction ? "https://snake-classic-backend.herokuapp.com" : "http://localhost:5000");
 export const recallingAPILimit = 5;
 export const originSite = isInProduction ? "http://localhost:8080" : "https://imaginative-axolotl-a6f771.netlify.app/"
+export const usernameCharacterLimit = 20;
