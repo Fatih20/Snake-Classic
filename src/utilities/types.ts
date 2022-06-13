@@ -16,9 +16,8 @@ export type cellCoordinate = {
 };
 
 export const possibleDirection = ["Up", "Down", "Right", "Left"] as const;
-export const possibleDirectionKey = [["W", "ArrowUp"], ["S", "ArrowDown"], ["D", "ArrowRight"], ["A", "ArrowLeft"]] as const;
+
 export type direction = typeof possibleDirection[number];
-export type directionKey = typeof possibleDirectionKey[number];
 
 export function makePossibleVectorValue (candidateVectorValue : number) : directionVectorValue{
   if (candidateVectorValue >= -1 && candidateVectorValue <= 1) {

@@ -1,8 +1,8 @@
 import { readable, writable } from "svelte/store";
-import { baseAPIPath, defaultBinding, initialLength, initialRefreshTime, numberOfFruitSpawned, recallingAPILimit, refreshTimeLowerBound } from "./config";
+import {defaultBinding, initialLength, initialRefreshTime, numberOfFruitSpawned } from "./config";
 import { getSavedGame, updateSavedGame } from "./utilities/api";
-import type {cellCoordinate, direction, IAchievementInfo, IAPIReturn, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateBindingsPayload, UpdateSavedGamePayload } from "./utilities/types";
-import { allCoordinateList, fetchDataRetry, fetchItemFromLocalStorage } from "./utilities/utilities";
+import type { IAchievementInfo, IBindingsInfo, ISavedGameInfo, IUserData, IUserDataStore, possibleGameStateType, UpdateAchievementPayload, UpdateBindingsPayload, UpdateSavedGamePayload } from "./utilities/types";
+import { allCoordinateList, fetchItemFromLocalStorage } from "./utilities/utilities";
 import { randomCoordinate, randomDirection, randomUniqueCoordinateGenerator, wholeSnakeCoordinateListInitialGenerator } from "./utilities/utilitiesCoreGame";
 
 export const deviceWidth = readable(screen.width);

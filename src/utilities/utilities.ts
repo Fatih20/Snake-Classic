@@ -1,7 +1,6 @@
-import { cellCoordinate, direction, directionVectorType, errorHandlingWrapperType, IAPIReturn, IDirectionToVector, ISavedGameInfo, ISavedGameProperty, makePossibleCoordinate, makePossibleVectorValue, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
+import { cellCoordinate, IAPIReturn, IDirectionToVector, makePossibleCoordinate, oppositeDirectionDictionaryType, possibleAPIMethodType } from "./types";
 import { gridSize, originSite } from "../config";
 import {
-    possibleDirectionKey,
     possibleDirectionVector, } from "./types";
 import axios from "axios";
 
